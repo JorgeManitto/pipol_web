@@ -2,8 +2,157 @@
 
 @section('title', 'Pipol - Conectando experiencia con talento')  
 @section('main_content')
+    <!-- Hero Section -->
+    <section class="hero-section relative pt-32 pb-20 px-4 overflow-hidden min-h-screen flex items-center">
+        <!-- Network dots pattern con animación -->
+<svg class="network-dots" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" >
+    <defs>
+        <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#9315ff;stop-opacity:0.6" />
+            <stop offset="50%" style="stop-color:#4b61fd;stop-opacity:0.6" />
+            <stop offset="100%" style="stop-color:#00efcf;stop-opacity:0.6" />
+        </linearGradient>
+
+        <!-- Estilo animado para las líneas -->
+        <style>
+            .network-line {
+                stroke: url(#lineGradient);
+                stroke-width: 2;
+                stroke-dasharray: 8 8;
+                animation: flow 3s linear infinite;
+            }
+
+            @keyframes flow {
+                from {
+                    stroke-dashoffset: 0;
+                }
+                to {
+                    stroke-dashoffset: -16;
+                }
+            }
+
+            /* Opcional: efecto de pulso en los nodos */
+            .network-node {
+                transform-origin: center;
+                animation: pulse 2s ease-in-out infinite;
+            }
+
+            @keyframes pulse {
+                0%, 100% {
+                    transform: scale(1);
+                    opacity: 1;
+                }
+                50% {
+                    transform: scale(1.2);
+                    opacity: 0.8;
+                }
+            }
+        </style>
+    </defs>
+
+    <!-- Network connections -->
+    <line x1="100" y1="100" x2="200" y2="150" class="network-line" />
+    <line x1="200" y1="150" x2="300" y2="120" class="network-line" />
+    <line x1="300" y1="120" x2="350" y2="200" class="network-line" />
+    <line x1="200" y1="150" x2="250" y2="250" class="network-line" />
+    <line x1="250" y1="250" x2="320" y2="280" class="network-line" />
+    <line x1="150" y1="300" x2="250" y2="250" class="network-line" />
+
+    <!-- Network nodes -->
+    <circle cx="100" cy="100" r="8" fill="#9315ff" class="network-node" style="animation-delay: 0s;"/>
+    <circle cx="200" cy="150" r="10" fill="#4b61fd" class="network-node" style="animation-delay: 0.3s;"/>
+    <circle cx="300" cy="120" r="8" fill="#00efcf" class="network-node" style="animation-delay: 0.6s;"/>
+    <circle cx="350" cy="200" r="8" fill="#9315ff" class="network-node" style="animation-delay: 0.9s;"/>
+    <circle cx="250" cy="250" r="10" fill="#4b61fd" class="network-node" style="animation-delay: 1.2s;"/>
+    <circle cx="320" cy="280" r="8" fill="#00efcf" class="network-node" style="animation-delay: 1.5s;"/>
+    <circle cx="150" cy="300" r="8" fill="#9315ff" class="network-node" style="animation-delay: 1.8s;"/>
+</svg>
+
+        
+        <div class="max-w-7xl mx-auto relative z-10 w-full">
+            <div class="flex justify-between gap-12 items-center">
+                <!-- Left Column - Text Content -->
+                <div>
+                    <!-- Tagline with lightbulb icon -->
+                    <div class="flex items-center gap-2 mb-8">
+                        <div class="w-6 h-6 rounded-full bg-yellow-400 flex items-center justify-center">
+                            <svg class="w-4 h-4 text-gray-900" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M11 3a1 1 0 10-2 0v1a1 1 0 102 0V3zM15.657 5.757a1 1 0 00-1.414-1.414l-.707.707a1 1 0 001.414 1.414l.707-.707zM18 10a1 1 0 01-1 1h-1a1 1 0 110-2h1a1 1 0 011 1zM5.05 6.464A1 1 0 106.464 5.05l-.707-.707a1 1 0 00-1.414 1.414l.707.707zM5 10a1 1 0 01-1 1H3a1 1 0 110-2h1a1 1 0 011 1zM8 16v-1h4v1a2 2 0 11-4 0zM12 14c.015-.34.208-.646.477-.859a4 4 0 10-4.954 0c.27.213.462.519.476.859h4.002z"/>
+                            </svg>
+                        </div>
+                        <p class="text-gray-300 text-lg">El conocimiento se aprende. La experiencia se vive.</p>
+                    </div>
+
+                    <!-- Main Heading -->
+                    <h1 class="text-5xl md:text-6xl lg:text-7xl font-black mb-6 leading-tight">
+                        <span class="gradient-text-hero">Pipol:</span> <span class="text-white">Rompemos el monopolio de la experiencia.</span>
+                    </h1>
+
+                    <!-- Description -->
+                    <p class="text-xl text-gray-300 mb-10 leading-relaxed">
+                        Conectamos a personas que ya vivieron con quienes recién empiezan, para que la experiencia no se pierda: se comparta. Porque nadie llega solo. Todos tuvimos un mentor.
+                    </p>
+                    
+                    <!-- CTA Buttons -->
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <a href="#registro" class="btn-primary text-white px-8 py-4 rounded-full text-lg font-semibold inline-flex items-center justify-center gap-2 w-full sm:w-auto">
+                            Encontrá tu mentor
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                            </svg>
+                        </a>
+                        <a href="#soy-mentor" class="btn-secondary px-8 py-4 rounded-full text-lg font-semibold inline-flex items-center justify-center gap-2 w-full sm:w-auto">
+                            Quiero ser mentor
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Right Column - Illustration -->
+                <div class="relative hidden lg:block w-10/12">
+                    <div class="relative">
+                        <!-- Computer screen with mentor -->
+                        <div class="bg-gradient-to-br from-blue-500 to-blue-600 rounded-3xl p-8 shadow-2xl relative">
+                            <!-- Mentor illustration -->
+                            <div class="bg-white rounded-2xl p-6 mb-4 relative">
+                                <div class="flex items-start gap-4">
+                                    <!-- Lightbulb speech bubble -->
+                                    <div class="absolute -top-6 -left-6 bg-white rounded-full p-4 shadow-lg">
+                                        <div class="w-8 h-8 rounded-full bg-yellow-400 flex items-center justify-center">
+                                            <svg class="w-5 h-5 text-gray-900" fill="currentColor" viewBox="0 0 20 20">
+                                                <path d="M11 3a1 1 0 10-2 0v1a1 1 0 102 0V3zM15.657 5.757a1 1 0 00-1.414-1.414l-.707.707a1 1 0 001.414 1.414l.707-.707zM18 10a1 1 0 01-1 1h-1a1 1 0 110-2h1a1 1 0 011 1zM5.05 6.464A1 1 0 106.464 5.05l-.707-.707a1 1 0 00-1.414 1.414l.707.707zM5 10a1 1 0 01-1 1H3a1 1 0 110-2h1a1 1 0 011 1zM8 16v-1h4v1a2 2 0 11-4 0zM12 14c.015-.34.208-.646.477-.859a4 4 0 10-4.954 0c.27.213.462.519.476.859h4.002z"/>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Mentor avatar -->
+                                    <div class="flex-1 text-center">
+                                        <div class="w-32 h-32 mx-auto mb-4 rounded-full bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center text-6xl">
+                                            👨‍💼
+                                        </div>
+                                        <div class="w-24 h-2 bg-gray-200 rounded mx-auto"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Computer base -->
+                            <div class="bg-gray-300 h-3 rounded-b-lg"></div>
+                            <div class="bg-gray-400 h-8 w-32 mx-auto rounded-b-xl"></div>
+                        </div>
+
+                        <!-- Young person looking at screen -->
+                        <div class="absolute -bottom-8 -left-8 bg-gradient-to-br from-pink-500 to-pink-600 rounded-full w-32 h-32 flex items-center justify-center text-5xl shadow-xl">
+                            👩
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
   <!-- Hero Section -->
-  <section id="home" class="hero-gradient pt-24 pb-20 px-4 sm:px-6 lg:px-8">
+  {{-- <section id="home" class="hero-gradient pt-24 pb-20 px-4 sm:px-6 lg:px-8">
     <div class="max-w-7xl mx-auto">
       <div class="grid lg:grid-cols-2 gap-12 items-center min-h-[600px]">
         <div class="text-white space-y-8">
@@ -12,7 +161,6 @@
           </div>
           <h1 class="text-4xl sm:text-5xl lg:text-5xl font-bold leading-tight text-balance">
             <span class="text-[#d4af6a]">Pipol:</span> Construir un puente entre generaciones y democratizar el valor de la experiencia.
-            {{-- La experiencia es el conocimiento más valioso --}}
           </h1>
           <p class="text-xl text-white/90 leading-relaxed">
             Conectamos a profesionales con experiencia real con quienes están empezando su camino. Porque los mejores líderes tuvieron grandes mentores.
@@ -39,320 +187,318 @@
         </div>
       </div>
     </div>
-  </section>
+  </section> --}}
 
-  <!-- Qué es Pipol -->
-  <section id="que-es" class="py-20 px-4 sm:px-6 lg:px-8 bg-white">
-    <div class="max-w-7xl mx-auto">
-      <div class="text-center max-w-3xl mx-auto mb-16">
-        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 text-balance">
-          ¿Qué es Pipol?
-        </h2>
-        <p class="text-xl text-gray-600 leading-relaxed">
-          Somos una plataforma que democratiza el valor de la experiencia, creando un espacio donde el conocimiento real se comparte y todos crecemos juntos.
-        </p>
-      </div>
-
-      <div class="grid md:grid-cols-3 gap-8 mb-16">
-        <div class="bg-secondary/30 rounded-2xl p-8 hover:shadow-lg transition-shadow">
-          <div class="w-14 h-14 bg-primary rounded-xl flex items-center justify-center mb-6">
-            <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
-            </svg>
-          </div>
-          <h3 class="text-xl font-bold mb-3">Conectamos generaciones</h3>
-          <p class="text-gray-600 leading-relaxed">
-            Construimos puentes entre quienes tienen experiencia valiosa y quienes están comenzando su camino profesional.
-          </p>
-        </div>
-
-        <div class="bg-secondary/30 rounded-2xl p-8 hover:shadow-lg transition-shadow">
-          <div class="w-14 h-14 bg-primary rounded-xl flex items-center justify-center mb-6">
-            <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
-            </svg>
-          </div>
-          <h3 class="text-xl font-bold mb-3">Experiencia real</h3>
-          <p class="text-gray-600 leading-relaxed">
-            No teorías vacías. Aquí se comparten historias reales, aprendizajes vividos y conocimiento que solo da la experiencia.
-          </p>
-        </div>
-
-        <div class="bg-secondary/30 rounded-2xl p-8 hover:shadow-lg transition-shadow">
-          <div class="w-14 h-14 bg-primary rounded-xl flex items-center justify-center mb-6">
-            <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-            </svg>
-          </div>
-          <h3 class="text-xl font-bold mb-3">Valor compartido</h3>
-          <p class="text-gray-600 leading-relaxed">
-            Damos visibilidad a profesionales que tienen mucho por enseñar, más allá de seguidores o influencia digital.
-          </p>
-        </div>
-      </div>
-
-      <div class="bg-primary/5 rounded-3xl p-8 md:p-12">
-        <div class="grid md:grid-cols-2 gap-8 items-center">
-          <div>
-            <h3 class="text-2xl font-bold mb-4">Nuestra misión</h3>
-            <p class="text-gray-700 leading-relaxed mb-4">
-              Creemos que quienes hoy quedan fuera del mercado laboral —por edad, contexto o cambio de etapa— tienen un tesoro invaluable: su experiencia.
-            </p>
-            <p class="text-gray-700 leading-relaxed">
-              En Pipol, esas personas encuentran un lugar para compartir su conocimiento y seguir aportando valor, mientras ayudan a otros a crecer con propósito.
-            </p>
-          </div>
-          <div class="bg-white rounded-2xl p-8 shadow-lg">
-            <blockquote class="text-lg italic text-gray-700 mb-4">
-              "Cuando la experiencia se comparte, todos crecemos."
-            </blockquote>
-            <p class="text-primary font-semibold">— Filosofía Pipol</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Cómo funciona -->
-  <section id="como-funciona" class="py-20 px-4 sm:px-6 lg:px-8 bg-light">
-    <div class="max-w-7xl mx-auto">
-      <div class="text-center max-w-3xl mx-auto mb-16">
-        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 text-balance">
-          ¿Cómo funciona?
-        </h2>
-        <p class="text-xl text-gray-600 leading-relaxed">
-          Conectar con tu mentor ideal es simple. Tres pasos para comenzar tu camino de crecimiento profesional.
-        </p>
-      </div>
-
-      <div class="grid md:grid-cols-3 gap-8 relative">
-        <!-- Connecting lines for desktop -->
-        <div class="hidden md:block absolute top-24 left-0 right-0 h-1 bg-accent/30" style="width: 66%; margin-left: 16.5%;"></div>
-        
-        <div class="relative">
-          <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow relative z-10">
-            <div class="w-16 h-16 bg-primary text-white rounded-full flex items-center justify-center text-2xl font-bold mb-6 mx-auto">
-              1
+ <!-- Qué es Pipol -->
+    <!--  Updated section background to match hero style -->
+    <section id="que-es" class="section-dark py-24 px-4">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-20">
+                <h2 class="text-5xl md:text-6xl font-black mb-6">
+                    ¿Qué es <span class="gradient-text">Pipol</span>?
+                </h2>
+                <p class="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+                    En Pipol creemos que la experiencia es el conocimiento más valioso que existe —y que solo tiene sentido cuando se comparte.
+                </p>
             </div>
-            <h3 class="text-xl font-bold mb-3 text-center">Creá tu perfil</h3>
-            <p class="text-gray-600 leading-relaxed text-center">
-              Contanos sobre tus objetivos, intereses y qué tipo de experiencia estás buscando para tu desarrollo profesional.
-            </p>
-          </div>
-        </div>
 
-        <div class="relative">
-          <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow relative z-10">
-            <div class="w-16 h-16 bg-primary text-white rounded-full flex items-center justify-center text-2xl font-bold mb-6 mx-auto">
-              2
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Card 1 -->
+                <div class="card p-10 rounded-3xl">
+                    <div class="w-20 h-20 gradient-bg rounded-2xl flex items-center justify-center mb-8">
+                        <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Conectamos generaciones</h3>
+                    <p class="text-gray-300 leading-relaxed text-lg">
+                        Creamos un espacio donde las personas pueden desarrollarse a través de la experiencia de otros, aprendiendo de historias reales, no de teorías vacías.
+                    </p>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="card p-10 rounded-3xl">
+                    <div class="w-20 h-20 gradient-bg rounded-2xl flex items-center justify-center mb-8">
+                        <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Damos valor a la experiencia</h3>
+                    <p class="text-gray-300 leading-relaxed text-lg">
+                        Quienes hoy quedan fuera del mercado laboral por edad, contexto o cambio de etapa, encuentran aquí un lugar para compartir su experiencia y seguir aportando valor.
+                    </p>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="card p-10 rounded-3xl">
+                    <div class="w-20 h-20 gradient-bg rounded-2xl flex items-center justify-center mb-8">
+                        <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Visibilidad real</h3>
+                    <p class="text-gray-300 leading-relaxed text-lg">
+                        Damos visibilidad a profesionales que no son influencers ni tienen miles de seguidores, pero que tienen muchísimo por enseñar.
+                    </p>
+                </div>
             </div>
-            <h3 class="text-xl font-bold mb-3 text-center">Encontrá tu mentor</h3>
-            <p class="text-gray-600 leading-relaxed text-center">
-              Explorá perfiles de profesionales con experiencia real en tu área de interés y elegí quien mejor se adapte a tus necesidades.
-            </p>
-          </div>
         </div>
+    </section>
 
-        <div class="relative">
-          <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow relative z-10">
-            <div class="w-16 h-16 bg-primary text-white rounded-full flex items-center justify-center text-2xl font-bold mb-6 mx-auto">
-              3
+    <!-- Cómo funciona -->
+    <!--  Updated section background and improved visual hierarchy -->
+    <section id="como-funciona" class="section-darker py-24 px-4">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-20">
+                <h2 class="text-5xl md:text-6xl font-black mb-6">
+                    ¿Cómo <span class="gradient-text">funciona</span>?
+                </h2>
+                <p class="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+                    Tres pasos simples para comenzar tu camino de crecimiento profesional
+                </p>
             </div>
-            <h3 class="text-xl font-bold mb-3 text-center">Crecé con propósito</h3>
-            <p class="text-gray-600 leading-relaxed text-center">
-              Comenzá tu proceso de mentoría, aprendé de historias reales y definí tu camino con la guía de quien ya lo recorrió.
-            </p>
-          </div>
-        </div>
-      </div>
 
-      <div class="mt-16 text-center">
-        <a href="#registro" class="inline-flex items-center px-8 py-4 bg-primary text-white rounded-full font-semibold hover:bg-primary/90 transition-all text-lg shadow-lg">
-          Comenzar ahora
-          <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
-          </svg>
-        </a>
-      </div>
-    </div>
-  </section>
+            <div class="grid md:grid-cols-3 gap-16 relative">
+                <!--  Added connector lines between steps -->
+                <div class="hidden md:block absolute top-10 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-purple-500 to-transparent opacity-30"></div>
+                
+                <!-- Step 1 -->
+                <div class="text-center relative">
+                    <div class="w-24 h-24 gradient-bg rounded-full flex items-center justify-center mx-auto mb-8 text-4xl font-black text-white shadow-2xl relative z-10">
+                        1
+                    </div>
+                    <h3 class="text-3xl font-bold mb-4">Registrate</h3>
+                    <p class="text-gray-300 leading-relaxed text-lg">
+                        Creá tu perfil y contanos qué estás buscando: orientación profesional, cambio de carrera, o desarrollar una idea.
+                    </p>
+                </div>
 
-  <!-- CTA Section - Soy Mentor -->
-  <section id="soy-mentor" class="py-20 px-4 sm:px-6 lg:px-8 bg-primary text-white">
-    <div class="max-w-5xl mx-auto text-center">
-      <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 text-balance">
-        ¿Tenés experiencia para compartir?
-      </h2>
-      <p class="text-xl text-white/90 leading-relaxed mb-8 max-w-3xl mx-auto">
-        No necesitás miles de seguidores para ser un gran mentor. Si tenés experiencia real, historias vividas y ganas de ayudar a otros a crecer, este es tu lugar.
-      </p>
-      <div class="grid sm:grid-cols-3 gap-6 mb-10 max-w-3xl mx-auto">
-        <div class="bg-white/10 backdrop-blur-sm rounded-xl p-6">
-          <div class="text-3xl font-bold mb-2">+</div>
-          <p class="text-sm">Compartí tu conocimiento</p>
-        </div>
-        <div class="bg-white/10 backdrop-blur-sm rounded-xl p-6">
-          <div class="text-3xl font-bold mb-2">+</div>
-          <p class="text-sm">Seguí aportando valor</p>
-        </div>
-        <div class="bg-white/10 backdrop-blur-sm rounded-xl p-6">
-          <div class="text-3xl font-bold mb-2">+</div>
-          <p class="text-sm">Impactá vidas</p>
-        </div>
-      </div>
-      <a href="#registro-mentor" class="inline-flex items-center px-8 py-4 bg-white text-primary rounded-full font-semibold hover:bg-secondary transition-all text-lg shadow-lg">
-        Registrate como mentor
-        <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
-        </svg>
-      </a>
-    </div>
-  </section>
+                <!-- Step 2 -->
+                <div class="text-center relative">
+                    <div class="w-24 h-24 gradient-bg rounded-full flex items-center justify-center mx-auto mb-8 text-4xl font-black text-white shadow-2xl relative z-10">
+                        2
+                    </div>
+                    <h3 class="text-3xl font-bold mb-4">Encontrá tu mentor</h3>
+                    <p class="text-gray-300 leading-relaxed text-lg">
+                        Explorá perfiles de profesionales con experiencia real en tu área de interés y elegí quien mejor se adapte a tus necesidades.
+                    </p>
+                </div>
 
-  <!-- FAQ Section -->
-  <section id="faq" class="py-20 px-4 sm:px-6 lg:px-8 bg-white">
-    <div class="max-w-4xl mx-auto">
-      <div class="text-center mb-16">
-        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6">
-          Preguntas frecuentes
-        </h2>
-        <p class="text-xl text-gray-600">
-          Todo lo que necesitás saber sobre Pipol
-        </p>
-      </div>
-
-      <div class="space-y-4">
-        <div class="bg-light rounded-xl overflow-hidden">
-          <button onclick="toggleFaq(1)" class="w-full px-6 py-5 text-left flex items-center justify-between hover:bg-secondary/20 transition-colors">
-            <span class="font-semibold text-lg">¿Qué es exactamente Pipol?</span>
-            <svg class="w-6 h-6 transform transition-transform" id="faq-icon-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-            </svg>
-          </button>
-          <div id="faq-content-1" class="hidden px-6 pb-5">
-            <p class="text-gray-600 leading-relaxed">
-              Pipol es una plataforma que conecta a profesionales con experiencia real con personas que están comenzando o desarrollando su carrera. Creemos que la experiencia es el conocimiento más valioso, y creamos un espacio donde se puede compartir de manera significativa.
-            </p>
-          </div>
-        </div>
-
-        <div class="bg-light rounded-xl overflow-hidden">
-          <button onclick="toggleFaq(2)" class="w-full px-6 py-5 text-left flex items-center justify-between hover:bg-secondary/20 transition-colors">
-            <span class="font-semibold text-lg">¿Quién puede ser mentor en Pipol?</span>
-            <svg class="w-6 h-6 transform transition-transform" id="faq-icon-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-            </svg>
-          </button>
-          <div id="faq-content-2" class="hidden px-6 pb-5">
-            <p class="text-gray-600 leading-relaxed">
-              Cualquier profesional con experiencia real en su campo puede ser mentor. No necesitás ser influencer ni tener miles de seguidores. Si tenés conocimientos vividos, historias para compartir y ganas de ayudar a otros a crecer, sos bienvenido en Pipol.
-            </p>
-          </div>
-        </div>
-
-        <div class="bg-light rounded-xl overflow-hidden">
-          <button onclick="toggleFaq(3)" class="w-full px-6 py-5 text-left flex items-center justify-between hover:bg-secondary/20 transition-colors">
-            <span class="font-semibold text-lg">¿Cómo funciona el proceso de mentoría?</span>
-            <svg class="w-6 h-6 transform transition-transform" id="faq-icon-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-            </svg>
-          </button>
-          <div id="faq-content-3" class="hidden px-6 pb-5">
-            <p class="text-gray-600 leading-relaxed">
-              Una vez que te registrás, podés explorar perfiles de mentores según tu área de interés. Cuando encontrás el mentor ideal, podés conectar con él o ella para comenzar tu proceso de mentoría personalizado, donde recibirás guía basada en experiencia real.
-            </p>
-          </div>
-        </div>
-
-        <div class="bg-light rounded-xl overflow-hidden">
-          <button onclick="toggleFaq(4)" class="w-full px-6 py-5 text-left flex items-center justify-between hover:bg-secondary/20 transition-colors">
-            <span class="font-semibold text-lg">¿Tiene algún costo usar Pipol?</span>
-            <svg class="w-6 h-6 transform transition-transform" id="faq-icon-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-            </svg>
-          </button>
-          <div id="faq-content-4" class="hidden px-6 pb-5">
-            <p class="text-gray-600 leading-relaxed">
-              Estamos trabajando en diferentes modelos para hacer la plataforma accesible para todos. Nuestro objetivo es democratizar el acceso a la experiencia, por lo que estamos diseñando opciones que se adapten a diferentes necesidades y posibilidades.
-            </p>
-          </div>
-        </div>
-
-        <div class="bg-light rounded-xl overflow-hidden">
-          <button onclick="toggleFaq(5)" class="w-full px-6 py-5 text-left flex items-center justify-between hover:bg-secondary/20 transition-colors">
-            <span class="font-semibold text-lg">¿Qué áreas profesionales cubre Pipol?</span>
-            <svg class="w-6 h-6 transform transition-transform" id="faq-icon-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-            </svg>
-          </button>
-          <div id="faq-content-5" class="hidden px-6 pb-5">
-            <p class="text-gray-600 leading-relaxed">
-              Pipol está abierto a profesionales de todas las áreas: tecnología, negocios, diseño, marketing, educación, salud, y más. Creemos que cada industria tiene profesionales con experiencia valiosa para compartir.
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Contact Section -->
-  <section id="contacto" class="py-20 px-4 sm:px-6 lg:px-8 bg-light">
-    <div class="max-w-5xl mx-auto">
-      <div class="grid md:grid-cols-2 gap-12 items-center">
-        <div>
-          <h2 class="text-3xl sm:text-4xl font-bold mb-6">
-            ¿Tenés alguna pregunta?
-          </h2>
-          <p class="text-xl text-gray-600 leading-relaxed mb-8">
-            Estamos aquí para ayudarte. Escribinos y te responderemos a la brevedad.
-          </p>
-          <div class="space-y-4">
-            <div class="flex items-start gap-4">
-              <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
-                <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
-                </svg>
-              </div>
-              <div>
-                <h3 class="font-semibold mb-1">Email</h3>
-                <p class="text-gray-600">contacto@pipol.com</p>
-              </div>
+                <!-- Step 3 -->
+                <div class="text-center relative">
+                    <div class="w-24 h-24 gradient-bg rounded-full flex items-center justify-center mx-auto mb-8 text-4xl font-black text-white shadow-2xl relative z-10">
+                        3
+                    </div>
+                    <h3 class="text-3xl font-bold mb-4">Crecé con propósito</h3>
+                    <p class="text-gray-300 leading-relaxed text-lg">
+                        Conectá con tu mentor, aprendé de su experiencia y definí tu camino profesional con claridad y confianza.
+                    </p>
+                </div>
             </div>
-            <div class="flex items-start gap-4">
-              <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
-                <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                </svg>
-              </div>
-              <div>
-                <h3 class="font-semibold mb-1">Ubicación</h3>
-                <p class="text-gray-600">Buenos Aires, Argentina</p>
-              </div>
-            </div>
-          </div>
         </div>
+    </section>
 
-        <div class="bg-white rounded-2xl shadow-lg p-8">
-          <form class="space-y-5">
-            <div>
-              <label for="name" class="block text-sm font-medium text-gray-700 mb-2">Nombre</label>
-              <input type="text" id="name" name="name" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all" placeholder="Tu nombre">
+    <!-- Soy Mentor CTA -->
+    <!--  Enhanced CTA section with better visual hierarchy -->
+    <section id="soy-mentor" class="section-dark py-24 px-4">
+        <div class="max-w-5xl mx-auto">
+            <div class="gradient-border rounded-3xl p-16 text-center">
+                <h2 class="text-5xl md:text-6xl font-black mb-8">
+                    ¿Tenés experiencia para <span class="gradient-text">compartir</span>?
+                </h2>
+                <p class="text-xl text-gray-300 mb-10 leading-relaxed max-w-3xl mx-auto">
+                    Si sentís que tu experiencia puede ayudar a otros a crecer, este es tu lugar. No necesitás ser influencer ni tener miles de seguidores. Solo necesitas ganas de compartir lo que aprendiste.
+                </p>
+                <a href="#registro-mentor" class="btn-primary inline-flex items-center gap-2 text-white px-10 py-5 rounded-full text-xl font-bold">
+                    Quiero ser mentor
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                    </svg>
+                </a>
             </div>
-            <div>
-              <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email</label>
-              <input type="email" id="email" name="email" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all" placeholder="tu@email.com">
-            </div>
-            <div>
-              <label for="message" class="block text-sm font-medium text-gray-700 mb-2">Mensaje</label>
-              <textarea id="message" name="message" rows="4" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all resize-none" placeholder="Contanos en qué podemos ayudarte..."></textarea>
-            </div>
-            <button type="submit" class="w-full px-6 py-3 bg-primary text-white rounded-lg font-semibold hover:bg-primary/90 transition-all">
-              Enviar mensaje
-            </button>
-          </form>
         </div>
-      </div>
-    </div>
-  </section>
+    </section>
+
+    <!-- FAQ -->
+    <!--  Updated FAQ section styling for consistency -->
+    <section id="faq" class="section-darker py-24 px-4">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-20">
+                <h2 class="text-5xl md:text-6xl font-black mb-6">
+                    Preguntas <span class="gradient-text">frecuentes</span>
+                </h2>
+            </div>
+
+            <div class="space-y-6">
+                <!-- FAQ Item 1 -->
+                <div class="card rounded-2xl overflow-hidden">
+                    <button class="faq-question w-full text-left p-8 flex justify-between items-center hover:bg-opacity-80 transition-all">
+                        <span class="text-xl font-bold pr-8">¿Qué es Pipol exactamente?</span>
+                        <svg class="faq-icon w-6 h-6 flex-shrink-0 transition-transform" style="color: var(--color-accent);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div class="faq-answer hidden px-8 pb-8">
+                        <p class="text-gray-300 leading-relaxed text-lg">
+                            Pipol es una plataforma que conecta a profesionales con experiencia con personas que están comenzando o buscando orientación en su carrera. Creemos que la experiencia real es el mejor maestro, y facilitamos ese intercambio de conocimiento.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 2 -->
+                <div class="card rounded-2xl overflow-hidden">
+                    <button class="faq-question w-full text-left p-8 flex justify-between items-center hover:bg-opacity-80 transition-all">
+                        <span class="text-xl font-bold pr-8">¿Cómo puedo convertirme en mentor?</span>
+                        <svg class="faq-icon w-6 h-6 flex-shrink-0 transition-transform" style="color: var(--color-accent);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div class="faq-answer hidden px-8 pb-8">
+                        <p class="text-gray-300 leading-relaxed text-lg">
+                            Simplemente registrate como mentor, completá tu perfil con tu experiencia profesional y áreas de expertise. No necesitás ser famoso ni tener miles de seguidores, solo ganas de compartir tu conocimiento y ayudar a otros a crecer.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 3 -->
+                <div class="card rounded-2xl overflow-hidden">
+                    <button class="faq-question w-full text-left p-8 flex justify-between items-center hover:bg-opacity-80 transition-all">
+                        <span class="text-xl font-bold pr-8">¿Tiene algún costo usar Pipol?</span>
+                        <svg class="faq-icon w-6 h-6 flex-shrink-0 transition-transform" style="color: var(--color-accent);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div class="faq-answer hidden px-8 pb-8">
+                        <p class="text-gray-300 leading-relaxed text-lg">
+                            Registrarte y explorar mentores es completamente gratuito. Los mentores pueden establecer sus propias tarifas por sesiones de mentoría, asegurando que su experiencia sea valorada justamente.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 4 -->
+                <div class="card rounded-2xl overflow-hidden">
+                    <button class="faq-question w-full text-left p-8 flex justify-between items-center hover:bg-opacity-80 transition-all">
+                        <span class="text-xl font-bold pr-8">¿Qué tipo de mentores puedo encontrar?</span>
+                        <svg class="faq-icon w-6 h-6 flex-shrink-0 transition-transform" style="color: var(--color-accent);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div class="faq-answer hidden px-8 pb-8">
+                        <p class="text-gray-300 leading-relaxed text-lg">
+                            En Pipol encontrarás profesionales de diversas industrias y con diferentes trayectorias. Desde emprendedores hasta ejecutivos, freelancers y especialistas técnicos. Todos comparten el deseo de ayudar a otros con su experiencia real.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 5 -->
+                <div class="card rounded-2xl overflow-hidden">
+                    <button class="faq-question w-full text-left p-8 flex justify-between items-center hover:bg-opacity-80 transition-all">
+                        <span class="text-xl font-bold pr-8">¿Cómo sé qué mentor es el adecuado para mí?</span>
+                        <svg class="faq-icon w-6 h-6 flex-shrink-0 transition-transform" style="color: var(--color-accent);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div class="faq-answer hidden px-8 pb-8">
+                        <p class="text-gray-300 leading-relaxed text-lg">
+                            Cada perfil de mentor incluye su experiencia, áreas de expertise, y enfoque de mentoría. Podés leer sobre su trayectoria y elegir a quien mejor se alinee con tus objetivos y necesidades profesionales.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <!--  Enhanced contact section with improved layout -->
+    <section id="contacto" class="section-dark py-24 px-4">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-20">
+                <h2 class="text-5xl md:text-6xl font-black mb-6">
+                    ¿Tenés alguna <span class="gradient-text">pregunta</span>?
+                </h2>
+                <p class="text-xl text-gray-300">
+                    Estamos aquí para ayudarte. Escribinos y te responderemos a la brevedad.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-12">
+                <!-- Contact Form -->
+                <div class="card p-10 rounded-3xl">
+                    <form class="space-y-6">
+                        <div>
+                            <label class="block text-sm font-semibold mb-3 text-gray-300">Nombre</label>
+                            <input type="text" class="w-full px-5 py-4 rounded-xl focus:outline-none focus:ring-2 transition-all text-lg" style="background: var(--color-dark); border: 1px solid rgba(147, 21, 255, 0.3); color: white;" placeholder="Tu nombre">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold mb-3 text-gray-300">Email</label>
+                            <input type="email" class="w-full px-5 py-4 rounded-xl focus:outline-none focus:ring-2 transition-all text-lg" style="background: var(--color-dark); border: 1px solid rgba(147, 21, 255, 0.3); color: white;" placeholder="tu@email.com">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold mb-3 text-gray-300">Mensaje</label>
+                            <textarea rows="5" class="w-full px-5 py-4 rounded-xl focus:outline-none focus:ring-2 transition-all text-lg" style="background: var(--color-dark); border: 1px solid rgba(147, 21, 255, 0.3); color: white;" placeholder="¿En qué podemos ayudarte?"></textarea>
+                        </div>
+                        <button type="submit" class="btn-primary w-full text-white px-6 py-4 rounded-xl font-bold text-lg">
+                            Enviar mensaje
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Contact Info -->
+                <div class="space-y-6">
+                    <div class="card p-8 rounded-3xl flex items-start gap-6">
+                        <div class="w-16 h-16 gradient-bg rounded-2xl flex items-center justify-center flex-shrink-0">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-xl mb-2">Email</h3>
+                            <p class="text-gray-300 text-lg">contacto@pipol.com</p>
+                        </div>
+                    </div>
+
+                    <div class="card p-8 rounded-3xl flex items-start gap-6">
+                        <div class="w-16 h-16 gradient-bg rounded-2xl flex items-center justify-center flex-shrink-0">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-xl mb-2">Ubicación</h3>
+                            <p class="text-gray-300 text-lg">Buenos Aires, Argentina</p>
+                        </div>
+                    </div>
+
+                    <div class="card p-8 rounded-3xl">
+                        <h3 class="font-bold text-xl mb-6">Seguinos en redes</h3>
+                        <div class="flex gap-4">
+                            <a href="#" class="w-14 h-14 gradient-bg rounded-xl flex items-center justify-center hover:opacity-80 transition-opacity">
+                                <svg class="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                                </svg>
+                            </a>
+                            <a href="#" class="w-14 h-14 gradient-bg rounded-xl flex items-center justify-center hover:opacity-80 transition-opacity">
+                                <svg class="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+                                </svg>
+                            </a>
+                            <a href="#" class="w-14 h-14 gradient-bg rounded-xl flex items-center justify-center hover:opacity-80 transition-opacity">
+                                <svg class="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                                </svg>
+                            </a>
+                            <a href="#" class="w-14 h-14 gradient-bg rounded-xl flex items-center justify-center hover:opacity-80 transition-opacity">
+                                <svg class="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227-.224.562-.479.96-.899 1.382-.421.419-.824.679-1.38.896-.42.164-1.065.36-2.235.413-1.274.057-1.649.07-4.859.07-3.211 0-3.586-.015-4.859-.074-1.171-.061-1.816-.256-2.236-.421-.569-.224-.96-.479-1.379-.899-.421-.419-.69-.824-.9-1.38-.165-.42-.359-1.065-.42-2.235-.045-1.26-.061-1.649-.061-4.844 0-3.196.016-3.586.061-4.861.061-1.17.255-1.814.42-2.234.21-.57.479-.96.9-1.381.419-.419.81-.689 1.379-.898.42-.166 1.051-.361 2.221-.421 1.275-.045 1.65-.06 4.859-.06l.045.03zm0 3.678c-3.405 0-6.162 2.76-6.162 6.162 0 3.405 2.76 6.162 6.162 6.162 3.405 0 6.162-2.76 6.162-6.162 0-3.405-2.76-6.162-6.162-6.162zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm7.846-10.405c0 .795-.646 1.44-1.44 1.44-.795 0-1.44-.646-1.44-1.44 0-.794.646-1.439 1.44-1.439.793-.001 1.44.645 1.44 1.439z"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
 @endsection

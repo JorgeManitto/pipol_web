@@ -167,7 +167,7 @@ return [
     |
     */
 
-    'asset_url' => env('APP_URL', null),
+    // 'asset_url' => env('APP_URL', null),
 
     /*
     |--------------------------------------------------------------------------
@@ -179,5 +179,5 @@ return [
     |
     */
 
-    'middleware_group' => 'web',
+    // 'middleware_group' => 'web',
 ];
