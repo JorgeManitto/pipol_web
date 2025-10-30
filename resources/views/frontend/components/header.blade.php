@@ -79,7 +79,10 @@
         <div class="flex justify-between items-center h-20">
             <!-- Logo -->
             <div class="flex-shrink-0">
-                <a href="{{ route('home') }}" class="text-3xl font-bold gradient-text-hero">Pipol</a>
+                <a href="{{ route('home') }}" class="text-3xl font-bold gradient-text-hero">
+                  {{-- <img src="{{ asset('/images/logo-v2.png') }}" alt="logo" style="height: 60px;width: 150px;"> --}}
+                  Pipol
+                </a>
             </div>
             <div class="hidden md:flex items-center gap-8">
               <a href="#que-es" class="nav-link text-white hover:text-gray-200">Qué es Pipol</a>

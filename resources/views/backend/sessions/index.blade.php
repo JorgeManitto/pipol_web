@@ -186,8 +186,8 @@
 <div class="mb-8">
     <div class="flex items-center justify-between mb-4">
         <div>
-            <h1 class="text-3xl font-bold text-[#2d5a4a] mb-2">Mis Sesiones</h1>
-            <p class="text-gray-600">Gestiona tus sesiones programadas con mentores</p>
+            <h1 class="text-3xl font-bold text-white mb-2">Mis Sesiones</h1>
+            <p class="text-white">Gestiona tus sesiones programadas con mentores</p>
         </div>
         <button class="bg-[#2d5a4a] text-white px-6 py-3 rounded-lg hover:bg-[#234539] transition-colors flex items-center gap-2">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

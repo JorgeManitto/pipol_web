@@ -134,14 +134,14 @@
     </div>
 
     <div class="flex items-center justify-center gap-4 mb-8">
-        <div class="h-px bg-gray-300 flex-1"></div>
-        <p class="text-gray-600">Conecta de manera fácil, segura y privada con un mentor en línea.</p>
-        <div class="h-px bg-gray-300 flex-1"></div>
+        <div class="h-px bg-white flex-1"></div>
+        <p class="text-white">Conecta de manera fácil, segura y privada con un mentor en línea.</p>
+        <div class="h-px bg-white flex-1"></div>
     </div>
 
     @if ($mentors->count())
         <!-- Results Count -->
-        <p class="text-gray-600 mb-6">{{ $mentors->count() }} resultados encontrados</p>
+        <p class="text-white mb-6">{{ $mentors->count() }} resultados encontrados</p>
     @endif
 
     @if ($mentors->count())

@@ -128,8 +128,8 @@
     <main class="container px-6 py-12 max-w-6xl">
         <!-- Page Header -->
         <div class="mb-8">
-            <h1 class="text-4xl font-bold text-stone-800 mb-2">Editar Perfil</h1>
-            <p class="text-stone-600">Actualiza tu información para que otros puedan conocerte mejor</p>
+            <h1 class="text-4xl font-bold text-white mb-2">Editar Perfil</h1>
+            <p class="text-white">Actualiza tu información para que otros puedan conocerte mejor</p>
         </div>
         @if (session('success'))
         <div class="bg-green-100 text-green-800 p-2 rounded mb-4">{{ session('success') }}</div>

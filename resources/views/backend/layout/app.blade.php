@@ -8,6 +8,47 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --color-primary: #9315ff;
+            --color-secondary: #4b61fd;
+            --color-accent: #00efcf;
+            --color-dark: #0a0a1f;
+            --color-dark-secondary: #1a1a3e;
+            --color-pink: #ff006b;
+        }
+        .hero-section {
+            background: linear-gradient(180deg, #1a0a3e 0%, var(--color-dark) 100%);
+        }
+        .gradient-text-hero {
+            background: linear-gradient(90deg, #ff006b 0%, var(--color-primary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .btn-primary {
+            background: linear-gradient(90deg, #ff006b 0%, var(--color-primary) 100%);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(255, 0, 107, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 30px rgba(255, 0, 107, 0.5);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
         * {
             font-family: 'Inter', sans-serif;
         }
@@ -48,7 +89,7 @@
 
     @include('backend.components.sidebar')
     <!-- Main Content -->
-    <main class="md:ml-64 p-2 md:p-8">
+    <main class="md:ml-64 p-2 md:p-8 hero-section h-min-screen min-h-screen">
         
         @include('backend.components.breadcrumb')
         @yield('main_content')

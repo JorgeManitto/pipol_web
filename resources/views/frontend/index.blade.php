@@ -3,74 +3,11 @@
 @section('title', 'Pipol - Conectando experiencia con talento')  
 @section('main_content')
     <!-- Hero Section -->
-    <section class="hero-section relative pt-32 pb-20 px-4 overflow-hidden min-h-screen flex items-center">
+    <section class="hero-section relative pt-32 pb-4 px-4 overflow-hidden  flex items-center">
         <!-- Network dots pattern con animación -->
-<svg class="network-dots" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" >
-    <defs>
-        <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" style="stop-color:#9315ff;stop-opacity:0.6" />
-            <stop offset="50%" style="stop-color:#4b61fd;stop-opacity:0.6" />
-            <stop offset="100%" style="stop-color:#00efcf;stop-opacity:0.6" />
-        </linearGradient>
-
-        <!-- Estilo animado para las líneas -->
-        <style>
-            .network-line {
-                stroke: url(#lineGradient);
-                stroke-width: 2;
-                stroke-dasharray: 8 8;
-                animation: flow 3s linear infinite;
-            }
-
-            @keyframes flow {
-                from {
-                    stroke-dashoffset: 0;
-                }
-                to {
-                    stroke-dashoffset: -16;
-                }
-            }
-
-            /* Opcional: efecto de pulso en los nodos */
-            .network-node {
-                transform-origin: center;
-                animation: pulse 2s ease-in-out infinite;
-            }
-
-            @keyframes pulse {
-                0%, 100% {
-                    transform: scale(1);
-                    opacity: 1;
-                }
-                50% {
-                    transform: scale(1.2);
-                    opacity: 0.8;
-                }
-            }
-        </style>
-    </defs>
-
-    <!-- Network connections -->
-    <line x1="100" y1="100" x2="200" y2="150" class="network-line" />
-    <line x1="200" y1="150" x2="300" y2="120" class="network-line" />
-    <line x1="300" y1="120" x2="350" y2="200" class="network-line" />
-    <line x1="200" y1="150" x2="250" y2="250" class="network-line" />
-    <line x1="250" y1="250" x2="320" y2="280" class="network-line" />
-    <line x1="150" y1="300" x2="250" y2="250" class="network-line" />
-
-    <!-- Network nodes -->
-    <circle cx="100" cy="100" r="8" fill="#9315ff" class="network-node" style="animation-delay: 0s;"/>
-    <circle cx="200" cy="150" r="10" fill="#4b61fd" class="network-node" style="animation-delay: 0.3s;"/>
-    <circle cx="300" cy="120" r="8" fill="#00efcf" class="network-node" style="animation-delay: 0.6s;"/>
-    <circle cx="350" cy="200" r="8" fill="#9315ff" class="network-node" style="animation-delay: 0.9s;"/>
-    <circle cx="250" cy="250" r="10" fill="#4b61fd" class="network-node" style="animation-delay: 1.2s;"/>
-    <circle cx="320" cy="280" r="8" fill="#00efcf" class="network-node" style="animation-delay: 1.5s;"/>
-    <circle cx="150" cy="300" r="8" fill="#9315ff" class="network-node" style="animation-delay: 1.8s;"/>
-</svg>
-
         
         <div class="max-w-7xl mx-auto relative z-10 w-full">
-            <div class="flex justify-between gap-12 items-center">
+            <div class="flex flex-col md:flex-row justify-between gap-12 items-center">
                 <!-- Left Column - Text Content -->
                 <div>
                     <!-- Tagline with lightbulb icon -->
@@ -84,12 +21,12 @@
                     </div>
 
                     <!-- Main Heading -->
-                    <h1 class="text-5xl md:text-6xl lg:text-7xl font-black mb-6 leading-tight">
-                        <span class="gradient-text-hero">Pipol:</span> <span class="text-white">Rompemos el monopolio de la experiencia.</span>
+                    <h1 class="text-5xl md:text-5xl lg:text-5xl font-black mb-6 leading-tight">
+                    <span class="text-white">Rompemos el monopolio de la experiencia.</span>
                     </h1>
 
                     <!-- Description -->
-                    <p class="text-xl text-gray-300 mb-10 leading-relaxed">
+                    <p class="text-md text-gray-300 mb-10 leading-relaxed" >
                         Conectamos a personas que ya vivieron con quienes recién empiezan, para que la experiencia no se pierda: se comparta. Porque nadie llega solo. Todos tuvimos un mentor.
                     </p>
                     
@@ -111,41 +48,9 @@
                 </div>
 
                 <!-- Right Column - Illustration -->
-                <div class="relative hidden lg:block w-10/12">
-                    <div class="relative">
-                        <!-- Computer screen with mentor -->
-                        <div class="bg-gradient-to-br from-blue-500 to-blue-600 rounded-3xl p-8 shadow-2xl relative">
-                            <!-- Mentor illustration -->
-                            <div class="bg-white rounded-2xl p-6 mb-4 relative">
-                                <div class="flex items-start gap-4">
-                                    <!-- Lightbulb speech bubble -->
-                                    <div class="absolute -top-6 -left-6 bg-white rounded-full p-4 shadow-lg">
-                                        <div class="w-8 h-8 rounded-full bg-yellow-400 flex items-center justify-center">
-                                            <svg class="w-5 h-5 text-gray-900" fill="currentColor" viewBox="0 0 20 20">
-                                                <path d="M11 3a1 1 0 10-2 0v1a1 1 0 102 0V3zM15.657 5.757a1 1 0 00-1.414-1.414l-.707.707a1 1 0 001.414 1.414l.707-.707zM18 10a1 1 0 01-1 1h-1a1 1 0 110-2h1a1 1 0 011 1zM5.05 6.464A1 1 0 106.464 5.05l-.707-.707a1 1 0 00-1.414 1.414l.707.707zM5 10a1 1 0 01-1 1H3a1 1 0 110-2h1a1 1 0 011 1zM8 16v-1h4v1a2 2 0 11-4 0zM12 14c.015-.34.208-.646.477-.859a4 4 0 10-4.954 0c.27.213.462.519.476.859h4.002z"/>
-                                            </svg>
-                                        </div>
-                                    </div>
-                                    
-                                    <!-- Mentor avatar -->
-                                    <div class="flex-1 text-center">
-                                        <div class="w-32 h-32 mx-auto mb-4 rounded-full bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center text-6xl">
-                                            👨‍💼
-                                        </div>
-                                        <div class="w-24 h-2 bg-gray-200 rounded mx-auto"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <!-- Computer base -->
-                            <div class="bg-gray-300 h-3 rounded-b-lg"></div>
-                            <div class="bg-gray-400 h-8 w-32 mx-auto rounded-b-xl"></div>
-                        </div>
-
-                        <!-- Young person looking at screen -->
-                        <div class="absolute -bottom-8 -left-8 bg-gradient-to-br from-pink-500 to-pink-600 rounded-full w-32 h-32 flex items-center justify-center text-5xl shadow-xl">
-                            👩
-                        </div>
+                <div class="relative  w-10/12">
+                    <div>
+                        <video src="{{ asset('/images/illustrator.mp4') }}" autoplay muted loop style="border-radius: 90px;"></video>
                     </div>
                 </div>
             </div>
