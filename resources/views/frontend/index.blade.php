@@ -224,18 +224,36 @@
         </div>
     </section>
 
-    <!-- FAQ -->
-    <!--  Updated FAQ section styling for consistency -->
+    <!-- FAQ con Tabs: Mentores y Mentees -->
     <section id="faq" class="section-darker py-24 px-4">
         <div class="max-w-4xl mx-auto">
-            <div class="text-center mb-20">
+            <div class="text-center mb-12">
                 <h2 class="text-5xl md:text-6xl font-black mb-6">
                     Preguntas <span class="gradient-text">frecuentes</span>
                 </h2>
             </div>
 
-            <div class="space-y-6">
-                <!-- FAQ Item 1 -->
+            <!-- Tabs -->
+            <div class="flex justify-center mb-10">
+                <div class="inline-flex bg-gray-800 rounded-xl p-1 shadow-lg">
+                    <button 
+                        onclick="switchTab('mentores')" 
+                        class="tab-btn px-8 py-3 rounded-lg font-bold text-lg transition-all duration-300 active-tab"
+                        id="tab-mentores">
+                        Mentores
+                    </button>
+                    <button 
+                        onclick="switchTab('mentees')" 
+                        class="tab-btn px-8 py-3 rounded-lg font-bold text-lg transition-all duration-300"
+                        id="tab-mentees">
+                        Mentees
+                    </button>
+                </div>
+            </div>
+
+            <!-- Contenido de Tabs -->
+            <div id="content-mentores" class="tab-content space-y-6">
+                <!-- FAQ Item 1 - Mentores -->
                 <div class="card rounded-2xl overflow-hidden">
                     <button class="faq-question w-full text-left p-8 flex justify-between items-center hover:bg-opacity-80 transition-all">
                         <span class="text-xl font-bold pr-8">¿Qué es Pipol exactamente?</span>
@@ -250,7 +268,7 @@
                     </div>
                 </div>
 
-                <!-- FAQ Item 2 -->
+                <!-- FAQ Item 2 - Mentores -->
                 <div class="card rounded-2xl overflow-hidden">
                     <button class="faq-question w-full text-left p-8 flex justify-between items-center hover:bg-opacity-80 transition-all">
                         <span class="text-xl font-bold pr-8">¿Cómo puedo convertirme en mentor?</span>
@@ -265,7 +283,7 @@
                     </div>
                 </div>
 
-                <!-- FAQ Item 3 -->
+                <!-- FAQ Item 3 - Mentores -->
                 <div class="card rounded-2xl overflow-hidden">
                     <button class="faq-question w-full text-left p-8 flex justify-between items-center hover:bg-opacity-80 transition-all">
                         <span class="text-xl font-bold pr-8">¿Tiene algún costo usar Pipol?</span>
@@ -279,8 +297,25 @@
                         </p>
                     </div>
                 </div>
+            </div>
 
-                <!-- FAQ Item 4 -->
+            <div id="content-mentees" class="tab-content space-y-6 hidden">
+                <!-- FAQ Item 1 - Mentees -->
+                <div class="card rounded-2xl overflow-hidden">
+                    <button class="faq-question w-full text-left p-8 flex justify-between items-center hover:bg-opacity-80 transition-all">
+                        <span class="text-xl font-bold pr-8">¿Cómo encuentro el mentor ideal para mí?</span>
+                        <svg class="faq-icon w-6 h-6 flex-shrink-0 transition-transform" style="color: var(--color-accent);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div class="faq-answer hidden px-8 pb-8">
+                        <p class="text-gray-300 leading-relaxed text-lg">
+                            Filtrá por industria, experiencia o enfoque de mentoría. Revisá perfiles detallados con trayectoria, reseñas y estilo de enseñanza. Podés reservar una sesión introductoria para ver si hay conexión.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 2 - Mentees -->
                 <div class="card rounded-2xl overflow-hidden">
                     <button class="faq-question w-full text-left p-8 flex justify-between items-center hover:bg-opacity-80 transition-all">
                         <span class="text-xl font-bold pr-8">¿Qué tipo de mentores puedo encontrar?</span>
@@ -295,7 +330,7 @@
                     </div>
                 </div>
 
-                <!-- FAQ Item 5 -->
+                <!-- FAQ Item 3 - Mentees -->
                 <div class="card rounded-2xl overflow-hidden">
                     <button class="faq-question w-full text-left p-8 flex justify-between items-center hover:bg-opacity-80 transition-all">
                         <span class="text-xl font-bold pr-8">¿Cómo sé qué mentor es el adecuado para mí?</span>
@@ -313,13 +348,83 @@
         </div>
     </section>
 
+<!-- JavaScript para Tabs y Acordeón -->
+<script>
+    // Cambiar pestaña + reinicializar acordeones
+    function switchTab(tab) {
+        const mentoresContent = document.getElementById('content-mentores');
+        const menteesContent = document.getElementById('content-mentees');
+        const mentoresTab = document.getElementById('tab-mentores');
+        const menteesTab = document.getElementById('tab-mentees');
+
+        if (tab === 'mentores') {
+            mentoresContent.classList.remove('hidden');
+            menteesContent.classList.add('hidden');
+            mentoresTab.classList.add('active-tab');
+            menteesTab.classList.remove('active-tab');
+        } else {
+            menteesContent.classList.remove('hidden');
+            mentoresContent.classList.add('hidden');
+            menteesTab.classList.add('active-tab');
+            mentoresTab.classList.remove('active-tab');
+        }
+
+        // REINICIAR acordeones en la pestaña activa
+        initAccordions();
+    }
+
+    // Función para inicializar TODOS los acordeones visibles
+    function initAccordions() {
+        // Remover eventos anteriores para evitar duplicados
+        document.querySelectorAll('.faq-question').forEach(btn => {
+            btn.replaceWith(btn.cloneNode(true)); // Clona para eliminar listeners
+        });
+
+        // Volver a asignar eventos a los nuevos botones
+        document.querySelectorAll('.faq-question').forEach(button => {
+            button.addEventListener('click', () => {
+                const answer = button.nextElementSibling;
+                const icon = button.querySelector('.faq-icon');
+
+                answer.classList.toggle('hidden');
+                icon.classList.toggle('rotate-180');
+            });
+        });
+    }
+
+    // Inicializar al cargar la página
+    document.addEventListener('DOMContentLoaded', () => {
+        initAccordions();
+    });
+</script>
+
+<!-- Estilos adicionales para tabs activos -->
+<style>
+    .active-tab {
+        background: linear-gradient(135deg, #6e8efb, #a777e3);
+        color: white;
+        box-shadow: 0 4px 15px rgba(110, 142, 251, 0.4);
+    }
+    .tab-btn:hover:not(.active-tab) {
+        background-color: rgba(255, 255, 255, 0.1);
+        color: #e0e0e0;
+    }
+    .faq-icon {
+        transition: transform 0.3s ease;
+    }
+    .rotate-180 {
+        transform: rotate(180deg);
+    }
+</style>
+
     <!-- Contact -->
     <!--  Enhanced contact section with improved layout -->
     <section id="contacto" class="section-dark py-24 px-4">
         <div class="max-w-6xl mx-auto">
             <div class="text-center mb-20">
                 <h2 class="text-5xl md:text-6xl font-black mb-6">
-                    ¿Tenés alguna <span class="gradient-text">pregunta</span>?
+                    {{-- ¿Tenés alguna <span class="gradient-text">pregunta</span>? --}}
+                    ¿Necesitas <span class="gradient-text">contactarnos</span>?
                 </h2>
                 <p class="text-xl text-gray-300">
                     Estamos aquí para ayudarte. Escribinos y te responderemos a la brevedad.
@@ -339,6 +444,15 @@
                             <input type="email" class="w-full px-5 py-4 rounded-xl focus:outline-none focus:ring-2 transition-all text-lg" style="background: var(--color-dark); border: 1px solid rgba(147, 21, 255, 0.3); color: white;" placeholder="tu@email.com">
                         </div>
                         <div>
+                            <label for="motivo" class="block text-sm font-semibold mb-3 text-gray-300">Motivo</label>
+                            <select name="motivo" id="motivo" class="w-full px-5 py-4 rounded-xl focus:outline-none focus:ring-2 transition-all text-lg" style="background: var(--color-dark); border: 1px solid rgba(147, 21, 255, 0.3); color: white;">
+                                <option value="">Sugerencia</option>
+                                <option value="">Feedback</option>
+                                <option value="">Reclamo</option>
+                                <option value="">Consulta</option>
+                            </select>
+                        </div>
+                        <div>
                             <label class="block text-sm font-semibold mb-3 text-gray-300">Mensaje</label>
                             <textarea rows="5" class="w-full px-5 py-4 rounded-xl focus:outline-none focus:ring-2 transition-all text-lg" style="background: var(--color-dark); border: 1px solid rgba(147, 21, 255, 0.3); color: white;" placeholder="¿En qué podemos ayudarte?"></textarea>
                         </div>
@@ -350,7 +464,7 @@
 
                 <!-- Contact Info -->
                 <div class="space-y-6">
-                    <div class="card p-8 rounded-3xl flex items-start gap-6">
+                    {{-- <div class="card p-8 rounded-3xl flex items-start gap-6">
                         <div class="w-16 h-16 gradient-bg rounded-2xl flex items-center justify-center flex-shrink-0">
                             <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
@@ -360,7 +474,7 @@
                             <h3 class="font-bold text-xl mb-2">Email</h3>
                             <p class="text-gray-300 text-lg">contacto@pipol.com</p>
                         </div>
-                    </div>
+                    </div> --}}
 
                     <div class="card p-8 rounded-3xl flex items-start gap-6">
                         <div class="w-16 h-16 gradient-bg rounded-2xl flex items-center justify-center flex-shrink-0">

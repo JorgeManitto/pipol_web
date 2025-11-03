@@ -6,14 +6,14 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     {{-- <title>Document</title> --}}
     <title>@yield('page_title') </title>
-     {{-- @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
-            @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+     @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
         @else
             
-        @endif --}}
+        @endif
         
-        <script src="https://cdn.tailwindcss.com"></script>
-        <script src="https://unpkg.com/flowbite@2.5.1/dist/flowbite.min.js"></script>
+        {{-- <script src="https://cdn.tailwindcss.com"></script> --}}
+        <script src="https://unpkg.com/flowbite@2.5.1/dist/flowbite.min.js"></script> 
         <script>
             tailwind.config = {
             theme: {
