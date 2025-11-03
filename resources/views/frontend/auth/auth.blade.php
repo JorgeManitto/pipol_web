@@ -6,12 +6,13 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     {{-- <title>Document</title> --}}
     <title>@yield('page_title') </title>
+    @vite(['resources/css/app.css', 'resources/js/app.js']) 
      {{-- @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
             @vite(['resources/css/app.css', 'resources/js/app.js'])
         @else
             
         @endif --}}
-        <script src="https://cdn.tailwindcss.com"></script>
+        {{-- <script src="https://cdn.tailwindcss.com"></script>
         <script>
             tailwind.config = {
             theme: {
@@ -30,7 +31,7 @@
                 }
             }
             }
-        </script>
+        </script> --}}
         <style>
             @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
             
@@ -38,9 +39,9 @@
             scroll-behavior: smooth;
             }
             
-            .hero-gradient {
+            /* .hero-gradient {
             background: linear-gradient(135deg, #2D5F5D 0%, #1A4644 100%);
-            }
+            } */
             
             .text-balance {
             text-wrap: balance;

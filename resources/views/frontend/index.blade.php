@@ -400,21 +400,7 @@
 
 <!-- Estilos adicionales para tabs activos -->
 <style>
-    .active-tab {
-        background: linear-gradient(135deg, #6e8efb, #a777e3);
-        color: white;
-        box-shadow: 0 4px 15px rgba(110, 142, 251, 0.4);
-    }
-    .tab-btn:hover:not(.active-tab) {
-        background-color: rgba(255, 255, 255, 0.1);
-        color: #e0e0e0;
-    }
-    .faq-icon {
-        transition: transform 0.3s ease;
-    }
-    .rotate-180 {
-        transform: rotate(180deg);
-    }
+
 </style>
 
     <!-- Contact -->

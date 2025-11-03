@@ -32,7 +32,7 @@
     </style>
 
     <!-- Profile Header -->
-    <div class="gradient-bg pb-16">
+    <div class="pb-16">
         <div class="max-w-6xl mx- px-4 sm:px-6 lg:px-8">
             <div class="bg-white rounded-2xl profile-card p-8 md:p-12">
                 <div class="flex flex-col md:flex-row gap-8 items-start">
