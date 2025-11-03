@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [Home::class, 'index'])->name('home');
 Route::get('/log-out', [Home::class, 'logOut'])->name('logout');
-
+// 
 Route::get('/auth', function () { return view('frontend.auth.auth'); })->name('login');
 
 
