@@ -9,7 +9,11 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [Home::class, 'index'])->name('home');
-Route::get('/log-out', [Home::class, 'logOut'])->name('logout');
+// Route::get('/log-out', [Home::class, 'logOut'])->name('logout');
+Route::get('/log-out-v2', function (){
+    auth()->logout();
+    return redirect()->route('home');
+})->name('logout');
 Route::get('/auth', function () { return view('frontend.auth.auth'); })->name('login');
 
 Route::middleware(['auth'])->group(function () {
