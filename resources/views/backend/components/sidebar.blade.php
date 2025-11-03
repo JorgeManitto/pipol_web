@@ -41,7 +41,7 @@
       </svg>
       <span>Perfil</span>
       </a>
-      <a href="{{ route('logout') }}" class="flex absolute bottom-16 items-center gap-3 p-2 rounded  sidebar-icon">
+      <a href="#" class="flex absolute bottom-16 items-center gap-3 p-2 rounded  sidebar-icon">
       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
     d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H6a2 2 0 01-2-2V7a2 2 0 012-2h5a2 2 0 012 2v1" />
