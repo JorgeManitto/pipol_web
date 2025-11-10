@@ -2,11 +2,24 @@
 
 @section('title', 'Pipol - Conectando experiencia con talento')  
 @section('main_content')
+    
+
     <!-- Hero Section -->
     <section class="hero-section relative pt-32 pb-4 px-4 overflow-hidden  flex items-center">
         <!-- Network dots pattern con animación -->
         
         <div class="max-w-7xl mx-auto relative z-10 w-full">
+                <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 mb-4" role="alert">
+    <p>
+        <span class="font-bold">Google meet: </span>
+        <a href="https://meet.google.com/bxf-ytfs-etf" 
+           class="underline hover:text-blue-800"
+           target="_blank"
+           rel="noopener noreferrer">
+            Unirse a la llamada
+        </a>
+    </p>
+</div>
             <div class="flex flex-col md:flex-row justify-between gap-12 items-center">
                 <!-- Left Column - Text Content -->
                 <div>
@@ -149,6 +162,7 @@
             </div>
         </div>
     </section>
+    
 
     <!-- Cómo funciona -->
     <!--  Updated section background and improved visual hierarchy -->

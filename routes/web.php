@@ -6,6 +6,7 @@ use App\Http\Controllers\Frontend\Home;
 use App\Http\Controllers\Backend\ProfileController;
 use App\Http\Controllers\PipolSessionController;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [Home::class, 'index'])->name('home');
@@ -15,6 +16,10 @@ Route::get('/log-out-v2', function (){
     return redirect()->route('home');
 })->name('logout');
 Route::get('/auth', function () { return view('frontend.auth.auth'); })->name('login');
+
+Route::get('test-notification', [MentorSearchController::class, 'enviarNotificacion']);
+
+Broadcast::routes(['middleware' => ['auth']]);
 
 Route::middleware(['auth'])->group(function () {
 

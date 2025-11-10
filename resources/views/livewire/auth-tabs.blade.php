@@ -235,13 +235,13 @@
                     <div class="flex bg-gray-800/30 rounded-xl p-1 mb-6">
                         <button
                             wire:click="showLogin"
-                            class="flex-1 py-3 text-center font-semibold rounded-lg transition-colors
+                            class="flex-1 py-3 text-center font-semibold rounded-lg transition-colors cursor-pointer
                             {{ $activeTab === 'login' ? 'active-tab' : 'text-gray-300' }}">
                             Iniciar Sesión
                         </button>
                         <button
                             wire:click="showRegister"
-                            class="flex-1 py-3 text-center font-semibold rounded-lg transition-colors
+                            class="flex-1 py-3 text-center font-semibold rounded-lg transition-colors cursor-pointer
                             {{ $activeTab === 'register' ? 'active-tab' : 'text-gray-300' }}">
                             Registrarse
                         </button>
@@ -280,7 +280,7 @@
                             </div>
 
                             <button type="submit"
-                                class="w-full btn-primary text-white font-semibold py-3 rounded-full">
+                                class="w-full btn-primary text-white font-semibold py-3 rounded-full cursor-pointer">
                                 Iniciar Sesión
                             </button>
                         </form>
@@ -367,7 +367,7 @@
                                 </label>
                             </div>
 
-                            <button type="submit" class="w-full btn-primary text-white font-semibold py-3 rounded-full">
+                            <button type="submit" class="w-full btn-primary text-white font-semibold py-3 rounded-full cursor-pointer">
                                 Crear Cuenta
                             </button>
                         </form>

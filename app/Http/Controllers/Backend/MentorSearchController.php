@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Pipol_sessions;
 use App\Models\Skills;
 use App\Models\User;
+use App\Notifications\NuevaNotificacion;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -94,7 +95,18 @@ class MentorSearchController extends Controller
             'currency' => $parameters['currency'],
         ]);
 
+        $this->enviarNotificacion($parameters['mentor_id'], 'Tienes una nueva solicitud de sesión de mentoría.');
         return response()->json(['message' => 'Sesión creada con exito.'], 200);
+        
+    }
+    public function enviarNotificacion($userId = 2, $mensaje = 'HOLA! wEsta es una notificación de prueba desde MentorSearchController.')
+    {
+        try {
+            $user = User::find($userId);
+            $user->notify(new NuevaNotificacion($mensaje));
+        } catch (\Throwable $th) {
+            throw $th;
+        }
         
     }
 }

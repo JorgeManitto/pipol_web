@@ -190,6 +190,7 @@
     @livewireStyles
 </head>
 <body>
+    
     @include('frontend.components.header')
     @yield('main_content')
     @include('frontend.components.footer')

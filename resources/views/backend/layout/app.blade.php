@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('page_title')</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/css/app.css'])
+
     {{-- <script src="https://cdn.tailwindcss.com"></script> --}}
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -39,7 +40,7 @@
         .btn-secondary {
             background: rgba(255, 255, 255, 0.05);
             border: 2px solid rgba(255, 255, 255, 0.1);
-            color: white;
+            /* color: white; */
             transition: all 0.3s ease;
             backdrop-filter: blur(10px);
         }
@@ -63,7 +64,7 @@
         
         .filter-checkbox:checked + label {
             background-color: #2d5a4a;
-            color: white;
+            /* color: white; */
         }
         
         .professional-card {
@@ -94,6 +95,20 @@
         @include('backend.components.breadcrumb')
         @yield('main_content')
     </main>
+   
     @livewireScripts
+    @vite(['resources/js/app.js'])
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            console.log(Echo);
+            
+            Echo.private('App.Models.User.' + {{ auth()->id() }})
+                .notification((notification) => {
+                    console.log('🔔', notification);
+                    notifications.unshift(notification); // agrega al inicio
+                    renderNotifications(notifications);
+                 });
+        });
+    </script>
 </body>
 </html>
