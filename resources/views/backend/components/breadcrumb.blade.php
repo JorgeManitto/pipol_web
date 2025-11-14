@@ -124,6 +124,13 @@
 
     // Limpiar notificaciones
     document.getElementById("clearNotifs").addEventListener("click", () => {
+        fetch("{{ route('notifications.markAsRead') }}", {
+            method: "POST",
+            headers: {
+                "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                "Content-Type": "application/json"
+            }
+        });
         notifications.length = 0;
         renderNotifications(notifications);
     });

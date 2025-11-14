@@ -25,7 +25,7 @@ class AppServiceProvider extends ServiceProvider
         // Esto se ejecuta en cada render de vista, cuando Auth ya está disponible
         View::composer('*', function ($view) {
             if (auth()->check()) {
-                $notificaciones = Notification::where('notifiable_id', auth()->id())->orderBy('created_at', 'DESC')->paginate(10)->pluck('data')->toArray();
+                $notificaciones = Notification::where('read_at', null)->where('notifiable_id', auth()->id())->orderBy('created_at', 'DESC')->paginate(10)->pluck('data')->toArray();
                 // dd(Notification::where('notifiable_id', auth()->id())->orderBy('created_at', 'DESC')->paginate(10));
                 $view->with('notificaciones', $notificaciones);
             } 

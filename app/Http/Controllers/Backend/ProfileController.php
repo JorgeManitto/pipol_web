@@ -17,8 +17,9 @@ class ProfileController extends Controller
      */
     public function show($id)
     {
-        $user = User::with('skills')->findOrFail($id);
 
+        $user = User::with('skills')->findOrFail($id);
+        // dd($user);
         if(!$user->is_mentor){
             return view('backend.profiles.show-not-mentor', compact('user'));
         }

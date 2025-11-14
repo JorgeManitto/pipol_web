@@ -5,9 +5,14 @@ use App\Http\Controllers\Backend\MentorSearchController;
 use App\Http\Controllers\Frontend\Home;
 use App\Http\Controllers\Backend\ProfileController;
 use App\Http\Controllers\PipolSessionController;
+use App\Models\User;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\Facades\Route;
+use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 Route::get('/', [Home::class, 'index'])->name('home');
 // Route::get('/log-out', [Home::class, 'logOut'])->name('logout');
@@ -44,6 +49,15 @@ Route::middleware(['auth'])->group(function () {
 
 
     Route::get('/profile/{id}', [ProfileController::class, 'show'])->name('profile.show');
+
+
+    Route::prefix('admin')->name('admin.')->group(function () {
+        Route::resource('users', \App\Http\Controllers\Backend\AdminUserController::class);
+    });
+
+    Route::post('/notifications/mark-as-read', [Dashboard::class, 'makeNotificationRead'])->name('notifications.markAsRead');
+
+    Route::get('/statistics', [Dashboard::class, 'statistics'])->name('admin.statistics');
 });
 
 
@@ -56,4 +70,38 @@ Route::get('run-clear', function(){
 
     
     return 'Link de storage ejecutado correctamente';
+});
+
+
+// Redirige a Google
+Route::get('/auth/google', function () {
+    return Socialite::driver('google')->redirect();
+});
+
+// Callback desde Google
+Route::get('/auth/google/callback', function () {
+    // $googleUser = Socialite::driver('google')->user();
+    $googleUser = Socialite::driver('google')->stateless()->user();
+
+    // Buscar o crear usuario
+    $user = User::updateOrCreate([
+        'email' => $googleUser->getEmail(),
+    ], [
+        'name' => $googleUser->getName(),
+        'google_id' => $googleUser->getId(),
+        'avatar' => $googleUser->getAvatar(),
+    ]);
+
+    if ($googleUser->getAvatar()) {
+        $contents = file_get_contents($googleUser->getAvatar());
+        $filename = 'google_' . Str::random(10) . '.jpg';
+
+        Storage::disk('public')->put('avatars/' . $filename, $contents);
+
+        $user->avatar = $filename;
+        $user->save();
+    }
+    Auth::login($user);
+
+    return redirect('/dashboard');
 });

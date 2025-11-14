@@ -33,6 +33,13 @@
       </svg>
       <span>Favoritos</span>
     </a>
+    <a href="{{ route('admin.statistics') }}" class="flex items-center gap-3 p-2 rounded {{ request()->routeIs('admin.statistics') ? 'bg-[#ffffff55]' : 'hover:bg-[#ffffff55]' }} sidebar-icon">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9 17v-6m4 6V7m4 10v-3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+        </svg>
+        <span>Mis estadísticas</span>
+      </a>
         
       <a href="{{ route('profile.show', ['id'=>auth()->id()]) }}" class="flex items-center gap-3 p-2 rounded {{ request()->routeIs('profile.show') ? 'bg-[#ffffff55]' : 'hover:bg-[#ffffff55]' }}  sidebar-icon">
       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -41,13 +48,29 @@
       </svg>
       <span>Perfil</span>
       </a>
-      <a href="#" class="flex absolute bottom-16 items-center gap-3 p-2 rounded  sidebar-icon">
-      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-    d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H6a2 2 0 01-2-2V7a2 2 0 012-2h5a2 2 0 012 2v1" />
-</svg>
-      <span>Cerrar Sesión</span>
+
+      <a href="{{ route('admin.users.index') }}" class="flex items-center gap-3 p-2 rounded {{ request()->routeIs('admin.users.*') ? 'bg-[#ffffff55]' : 'hover:bg-[#ffffff55]' }} sidebar-icon">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
+        </svg>
+          <span>Gestión de usuarios</span>
       </a>
+
+      
+      <div class="flex absolute bottom-16 items-center gap-3 p-2 rounded flex-col">
+        <div class="flex items-center cursor-pointer w-full gap-2" data-dropdown-toggle="userDropdown" data-dropdown-placement="bottom-start" style="padding: 0.2em 0.5em;background: #261848;border-radius: 23px;">
+            <img src="{{ auth()->user()->avatar ? asset('storage/avatars/'.auth()->user()->avatar) : asset('images/default-avatar.png') }}" alt="Emí" class="w-10 h-10 rounded-full border-2 border-purple-500 object-cover">
+            <span class="text-white font-medium"> {{ auth()->user()->name }}</span>
+        </div>
+        <a href="{{ route('logout') }}" class="sidebar-icon flex items-center gap-3 p-2 rounded hover:bg-[#ffffff55] w-full">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H6a2 2 0 01-2-2V7a2 2 0 012-2h5a2 2 0 012 2v1" />
+          </svg>
+          <span>Cerrar Sesión</span>
+        </a>
+      </div>
     
   </nav>
 </aside>

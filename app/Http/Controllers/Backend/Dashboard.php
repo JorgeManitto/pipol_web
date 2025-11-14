@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Nette\Utils\Json;
 
 class Dashboard extends Controller
 {
@@ -11,5 +12,13 @@ class Dashboard extends Controller
         
         
         return view('backend.dashboard.index');
+    }
+
+    function makeNotificationRead() {
+        auth()->user()->unreadNotifications->markAsRead();
+        return Json::encode(['status' => 'success']);
+    }
+    function statistics() {
+        return view('backend.components.on-working');
     }
 }
