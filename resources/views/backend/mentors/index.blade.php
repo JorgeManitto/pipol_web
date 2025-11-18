@@ -124,10 +124,12 @@
         <p class="text-gray-600 mb-6">Diseñado para quienes están en la búsqueda de un profesional adecuado a tus necesidades.</p>
         
         <div class="relative">
-            <input type="text" placeholder="¿Encontremos a tu próximo terapeuta?" class="w-full px-6 py-4 rounded-xl border-2 border-gray-200 focus:border-[#2d5a4a] focus:outline-none text-gray-700">
-            <button class="absolute right-2 top-1/2 -translate-y-1/2 px-6 py-2 bg-[#2d5a4a] text-white rounded-lg hover:bg-[#3d6a5a] transition-colors">
-                Buscar
-            </button>
+            <form action="">
+                <input type="text" name="q" value="{{ request('q')}}" placeholder="¿Encontremos a tu próximo terapeuta?" class="w-full px-6 py-4 rounded-xl border-2 border-gray-200 focus:border-[#2d5a4a] focus:outline-none text-gray-700">
+                <button class="absolute right-2 top-1/2 -translate-y-1/2 px-6 py-2 bg-[#2d5a4a] text-white rounded-lg hover:bg-[#3d6a5a] transition-colors">
+                    Buscar
+                </button>
+            </form>
         </div>
         
         <p class="text-xs text-gray-500 mt-3">Pipol no te sugiere ningún tratamiento médico.</p>
@@ -141,7 +143,12 @@
 
     @if ($mentors->count())
         <!-- Results Count -->
-        <p class="text-white mb-6">{{ $mentors->count() }} resultados encontrados</p>
+        <div class="flex justify-between items-center">
+            <p class="text-white mb-6">{{ $mentors->count() }} resultados encontrados</p>
+            @if (request('q'))
+                <a href="{{ route('mentors.index') }}" class="px-6 py-2 bg-[#2d5a4a] text-white rounded-lg hover:bg-[#3d6a5a] transition-colors">Limpiar filtros</a>
+            @endif
+        </div>
     @endif
 
     @if ($mentors->count())
@@ -222,7 +229,13 @@
         @endforeach
     </div>
     @else
-        <p class="text-gray-600">No se encontraron profesionales que coincidan con tu búsqueda.</p>
+    <div class="flex justify-between items-center">
+        <p class="text-gray-600 text-white">No se encontraron profesionales que coincidan con tu búsqueda.</p>
+
+        @if (request('q'))
+            <a href="{{ route('mentors.index') }}" class="px-6 py-2 bg-[#2d5a4a] text-white rounded-lg hover:bg-[#3d6a5a] transition-colors">Limpiar filtros</a>
+        @endif
+    </div>
     @endif
 
     <!-- Pagination -->

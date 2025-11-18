@@ -11,6 +11,9 @@ class Home extends Controller
     {
         return view('frontend.index');
     }
+    function mentors() {
+        return view('frontend.mentors');
+    }
     function logOut() {
         auth()->logout();
         return redirect()->route('home');

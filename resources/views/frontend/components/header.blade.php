@@ -74,7 +74,7 @@
     </div>
   </nav> --}}
 
-  <nav class="fixed w-full z-50 backdrop-blur-md" style="background: rgba(26, 10, 62, 0.9);">
+  <nav class="sticky top-0 w-full z-50 backdrop-blur-md" style="background: rgba(26, 10, 62, 0.9);">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-0">
         <div class="flex justify-between items-center h-20">
             <!-- Logo -->
@@ -85,10 +85,12 @@
                 </a>
             </div>
             <div class="hidden md:flex items-center gap-8">
-              <a href="#que-es" class="nav-link text-white hover:text-gray-200">Qué es Pipol</a>
-                <a href="#como-funciona" class="nav-link text-white hover:text-gray-200">Cómo funciona</a>
-                <a href="#faq" class="nav-link text-white hover:text-gray-200">Preguntas</a>
-                <a href="#contacto" class="nav-link text-white hover:text-gray-200">Contacto</a>
+                <a href="{{ route('home').'#que-es' }}" class="nav-link text-white hover:text-gray-200">Qué es Pipol</a>
+                <a href="{{ route('home.mentors') }}" class="nav-link text-white hover:text-gray-200">Quiero ser mentor</a>
+                <a href="#" class="nav-link text-white hover:text-gray-200">Encontrá tu mentor</a>
+                {{-- <a href="#como-funciona" class="nav-link text-white hover:text-gray-200">Cómo funciona</a> --}}
+                {{-- <a href="#faq" class="nav-link text-white hover:text-gray-200">Preguntas</a> --}}
+                {{-- <a href="#contacto" class="nav-link text-white hover:text-gray-200">Contacto</a> --}}
             </div>
             <!-- Desktop Menu -->
             <div class="hidden md:flex items-center gap-8">

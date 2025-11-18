@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 Route::get('/', [Home::class, 'index'])->name('home');
+Route::get('/home/mentors', [Home::class, 'mentors'])->name('home.mentors');
 // Route::get('/log-out', [Home::class, 'logOut'])->name('logout');
 Route::get('/log-out-v2', function (){
     auth()->logout();
