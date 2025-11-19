@@ -7,7 +7,7 @@
         <h2 class="text-5xl md:text-7xl font-black text-white mb-8 leading-tight">
             Tu experiencia tiene un valor que el mundo necesita.
         </h2>
-        <p class="text-2xl md:text-3xl text-white mb-12 leading-relaxed">
+        <p class="text-2xl text-white mb-12 leading-relaxed">
             Compartila. Inspirá. Dejá tu huella.
         </p>
         <a href="#soy-mentor" class="btn-primary inline-flex items-center gap-3 text-white px-12 py-6 rounded-full text-2xl font-black uppercase tracking-wide">

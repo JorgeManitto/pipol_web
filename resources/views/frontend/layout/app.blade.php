@@ -189,11 +189,33 @@
     </style>
     @livewireStyles
 </head>
-<body>
+<body style="position: relative;">
     
     @include('frontend.components.header')
+    <div class="absolute top-0  -z-10  bg-[#000000] bg-[radial-gradient(#ffffff33_1px,#00091d_1px)] bg-[size:20px_20px]" style="height: 100%;width: 100%;display: none;" id="bg-1"></div>
+    <div class="absolute inset-0 -z-10 w-full items-center px-5 py-24 [background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)]" style="display: none;" id="bg-2"></div>
+    <div class="absolute h-full -z-10 bottom-0 left-0 right-0 top-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:14px_24px] [mask-image:radial-gradient(ellipse_80%_90%_at_50%_0%,#000_70%,transparent_110%)]" style="" id="bg-3"></div>
+    <div class="absolute inset-0  -z-10 h-full w-full bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:92px_92px]" style="display: none;" id="bg-4"></div>
+    <div class="absolute top-0 h-full -z-10  bg-neutral-950 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))]" style="display: none;width: 100%;" id="bg-5"></div>
     @yield('main_content')
     @include('frontend.components.footer')
     @livewireScripts
+    <script>
+        const fondos = ["bg-1", "bg-2", "bg-3", "bg-4", "bg-5"];
+        let index = 0;
+
+        document.getElementById("toggle-bg").addEventListener("click", () => {
+            // Ocultar todos
+            fondos.forEach(id => {
+                document.getElementById(id).style.display = "none";
+            });
+
+            // Mostrar el siguiente
+            document.getElementById(fondos[index]).style.display = "block";
+
+            // Avanzar al próximo
+            index = (index + 1) % fondos.length;
+        });
+    </script>
 </body>
 </html>

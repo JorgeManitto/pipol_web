@@ -4,11 +4,11 @@
 @section('main_content')
     
 
-    <!-- Hero Section -->
-    <section class="hero-section relative px-4 overflow-hidden flex md:items-center" style="height: 80dvh;">
-        <!-- Network dots pattern con animación -->
-        
-        <div class="max-w-7xl mx-auto relative z-10 w-full">
+    
+    
+    <section class=" relative px-4 overflow-hidden flex md:items-center" style="height: 80dvh;">
+
+        <div class="max-w-7xl mx-auto relative pt-8 z-10 w-full">
                 {{-- <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 mb-4" role="alert">
                         <p>
                             <span class="font-bold">Google meet: </span>
@@ -83,6 +83,7 @@
             </div>
         </div>
     </section>
+      
   <!-- Hero Section -->
   {{-- <section id="home" class="hero-gradient pt-24 pb-20 px-4 sm:px-6 lg:px-8">
     <div class="max-w-7xl mx-auto">
