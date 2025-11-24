@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\Backend\AdminUserController;
 use App\Http\Controllers\Backend\Dashboard;
 use App\Http\Controllers\Backend\MentorSearchController;
+use App\Http\Controllers\Backend\PaymentController;
 use App\Http\Controllers\Frontend\Home;
 use App\Http\Controllers\Backend\ProfileController;
 use App\Http\Controllers\PipolSessionController;
@@ -28,6 +30,7 @@ Route::get('test-notification', [MentorSearchController::class, 'enviarNotificac
 Broadcast::routes(['middleware' => ['auth']]);
 
 Route::middleware(['auth'])->group(function () {
+    Route::get('/test-meet', [AdminUserController::class, 'testMeet'])->name('test.meet');
 
     Route::get('/dashboard', [Dashboard::class, 'index'])->name('dashboard');
 
@@ -43,6 +46,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/sessions/{id}', [PipolSessionController::class, 'show'])->name('sessions.show');
 
     Route::post('/sessions/{id}/confirm', [PipolSessionController::class, 'confirm'])->name('sessions.confirm');
+    Route::post('/sessions/confirmjson', [PipolSessionController::class, 'confirmJson'])->name('sessions.confirmjson');
     Route::post('/sessions/{id}/complete', [PipolSessionController::class, 'complete'])->name('sessions.complete');
     Route::post('/sessions/{id}/cancel', [PipolSessionController::class, 'cancel'])->name('sessions.cancel');
 
@@ -59,6 +63,22 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/notifications/mark-as-read', [Dashboard::class, 'makeNotificationRead'])->name('notifications.markAsRead');
 
     Route::get('/statistics', [Dashboard::class, 'statistics'])->name('admin.statistics');
+
+
+    Route::get('/crear-link', [PaymentController::class, 'generarLink']);
+
+    Route::get('/mp/success', function() {
+        return "Pago exitoso";
+    })->name('mp.success');
+
+    Route::get('/mp/failure', function() {
+        return "Pago fallido";
+    })->name('mp.failure');
+
+    Route::get('/mp/pending', function() {
+        return "Pago pendiente";
+    })->name('mp.pending');
+
 });
 
 
@@ -76,7 +96,16 @@ Route::get('run-clear', function(){
 
 // Redirige a Google
 Route::get('/auth/google', function () {
-    return Socialite::driver('google')->redirect();
+    return Socialite::driver('google')
+    ->scopes(['openid', 'profile', 'email',
+     'https://www.googleapis.com/auth/calendar'
+     ])
+    ->with([
+        'access_type' => 'offline',
+        'prompt' => 'consent select_account', // fuerza a Google a mostrar selector
+    ])
+    ->redirect();
+
 });
 
 // Callback desde Google
@@ -84,6 +113,7 @@ Route::get('/auth/google/callback', function () {
     // $googleUser = Socialite::driver('google')->user();
     $googleUser = Socialite::driver('google')->stateless()->user();
 
+    // dd($googleUser);
     // Buscar o crear usuario
     $user = User::updateOrCreate([
         'email' => $googleUser->getEmail(),
@@ -91,7 +121,18 @@ Route::get('/auth/google/callback', function () {
         'name' => $googleUser->getName(),
         'google_id' => $googleUser->getId(),
         'avatar' => $googleUser->getAvatar(),
+
+        'google_access_token' => $googleUser->token,
+        'google_refresh_token' => $googleUser->refreshToken, // puede venir null si no pediste offline access
+        'google_token_expires_at' => now()->addSeconds($googleUser->expiresIn),
     ]);
+    $user->google_id = $googleUser->getId();
+    $user->google_access_token = $googleUser->token;
+    $user->google_refresh_token = $googleUser->refreshToken;
+    $user->google_token_expires_at = now()->addSeconds($googleUser->expiresIn);
+    $user->save();
+
+    // dd($user);
 
     if ($googleUser->getAvatar()) {
         $contents = file_get_contents($googleUser->getAvatar());

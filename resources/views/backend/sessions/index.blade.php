@@ -197,6 +197,17 @@
         </button>
     </div>
 </div>
+    @if(session('success'))
+        <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-6 rounded-r-lg shadow-sm animate-fade-in">
+            <p class="font-medium">{{ session('success') }}</p>
+        </div>
+    @endif
+
+    @if (request()->status)
+        <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-6 rounded-r-lg shadow-sm animate-fade-in">
+            <p class="font-medium">{{ request()->status }}</p>
+        </div>
+    @endif
 
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
     <!-- Sessions List -->
@@ -207,10 +218,10 @@
                 Próximas ({{ $sessions->count() }})
             </button>
             <button class="tab-button flex-1 py-2 px-4 rounded-lg font-medium text-gray-600" data-tab="pasadas">
-                Pasadas (1)
+                Pasadas (0)
             </button>
             <button class="tab-button flex-1 py-2 px-4 rounded-lg font-medium text-gray-600" data-tab="canceladas">
-                Canceladas (1)
+                Canceladas (0)
             </button>
         </div>
 
@@ -228,16 +239,18 @@
                                 if($user->is_mentor){
                                     $name = $session->mentee->name;
                                     $image = $session->mentee->avatar;
+                                    $profession = $session->mentee->profession;
                                 }else{
                                     $name = $session->mentor->name;
                                     $image = $session->mentor->avatar;
+                                    $profession = $session->mentor->profession;
                                 }
                             @endphp
                             <img src="{{ $image ? asset('storage/avatars/'.$image) : asset('images/default-avatar.png') }}" alt="{{ $name }}" class="w-16 h-16 rounded-full object-cover">
                             <div>
                                 <h3 class="font-semibold text-lg text-[#2d5a4a] mb-1">{{ $name }}</h3>
-                                <p class="text-sm text-gray-600 mb-2">{{ $session->mentor->profession }}</p>
-                                <span class="status-badge status-pending">
+                                <p class="text-sm text-gray-600 mb-2">{{ $profession }}</p>
+                                <span class="status-badge status-{{ $session->status }}">
                                     <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                                         <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
                                     </svg>
@@ -304,23 +317,59 @@
                             </p>
                         </div>
                     @endif
+                    @if ($session->status === 'confirmed')
+                        <div class="bg-green-50 border border-green-200 rounded-lg p-3 mb-3">
+                            <p class="text-sm text-green-800">
+                                <strong>Sesión confirmada.</strong> ¡Prepárate para tu sesión con {{ $name }}!
+                            </p>
+                        </div>
+
+                        <div class="p-3 mb-3">
+                            <p class="text-sm text-blue-500">Url de la reunión: No disponible.</p>
+                        </div>
+
+                    @endif
 
                     <div class="flex gap-3">
-                        <button class="flex-1 bg-gray-300 text-gray-500 py-2 px-4 rounded-lg cursor-not-allowed" disabled>
-                            Esperando Confirmación
-                        </button>
-                        <button class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors" onclick="openRescheduleModal('Carina Mariani', 'Lun, 28 Oct 2025', '10:00 - 11:00')">
+                        @if($session->status === 'pending' && $session->mentee->id === auth()->id())
+                            <button class="flex-1 bg-gray-300 text-gray-500 py-2 px-4 rounded-lg cursor-not-allowed" disabled>
+                                Esperando Confirmación
+                            </button>
+                        
+                        @endif                
+                        @if ($session->status === 'pending' && $session->mentor->id === auth()->id())
+                            <button onclick="openConfirmModal({{ $session->id}} )" class="flex-1 bg-[#2d5a4a] text-white py-2 px-4 rounded-lg hover:bg-[#234539] transition-colors">
+                                Confirmar Sesión
+                            </button>
+                        @endif
+
+                        @if ($session->status === 'confirmed')
+                            <button class="flex-1 bg-gray-300 text-gray-500 py-2 px-4 rounded-lg cursor-not-allowed" disabled>
+                                Sesión Confirmada
+                            </button>
+                            @if ($session->mentor->id === auth()->id())
+                                
+                                <button class="flex-1 bg-[#1e40af] text-white py-2 px-4 rounded-lg cursor-pointer" onclick="generarUrlMeet()">
+                                    Generar Link de Reunión
+                                </button>
+                            @endif
+                        @endif
+                        
+
+                        {{-- <button class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors" onclick="openRescheduleModal('Carina Mariani', 'Lun, 28 Oct 2025', '10:00 - 11:00')">
                             Reprogramar
-                        </button>
+                        </button> --}}
                         <button class="flex-1 bg-[#2d5a4a] text-white py-2 px-4 rounded-lg hover:bg-[#234539] transition-colors flex items-center justify-center gap-2">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
                             </svg>
                             Unirse a la Sesión
                         </button>
-                        <button class="px-4 py-2 border border-red-300 text-red-600 rounded-lg hover:bg-red-50 transition-colors" onclick="openCancelModal('Melanie Bolter Salinas', 'Vie, 1 Nov 2025', '09:00 - 10:00')">
-                            Cancelar
-                        </button>
+                        @if ($session->status != 'confirmed')
+                            <button class="px-4 py-2 border border-red-300 text-red-600 rounded-lg hover:bg-red-50 transition-colors" onclick="openCancelModal('Melanie Bolter Salinas', 'Vie, 1 Nov 2025', '09:00 - 10:00')">
+                                Cancelar
+                            </button>
+                        @endif
                     </div>
                 </div>
             @endforeach                
@@ -546,6 +595,73 @@
         </div>
     </div>
 
+    {{-- Confirm Modal --}}
+
+    <div id="confirmModal" class="modal">
+        <div class="modal-content">
+            <div class="p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-xl font-bold text-[#2d5a4a]">Confirmar Sesión</h3>
+                    <button onclick="closeConfirmModal()" class="text-gray-400 hover:text-gray-600">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </button>
+                </div>
+                <input type="hidden" name="session_id" id="confirm-session-id" value="">
+                <div class="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg">
+                    <p class="text-sm text-green-800">
+                        <strong>¿Estás seguro que deseas confirmar esta sesión?</strong> Una vez confirmada, no podrás reprogramarla ni cancelarla .
+                    </p>
+                </div>
+                <div class="flex gap-3">
+                    <button onclick="closeConfirmModal()" class="flex-1 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+                        Volver
+                    </button>
+                    
+                    <button type="submit" onclick="confirmSession()" class="flex-1 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors">
+                        Confirmar Sesión
+                    </button>
+                    
+                </div>
+
+            </div>
+        </div>
+    </div>
+    {{-- generateMeetForm Modal --}}
+
+    <div id="generateMeetForm" class="modal">
+        <div class="modal-content">
+            <div class="p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-xl font-bold text-[#2d5a4a]">Generar Link de Reunión</h3>
+                    <button onclick="closeGenerateMeetForm()" class="text-gray-400 hover:text-gray-600">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </button>
+                </div>
+                <div class="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                    <p class="text-sm text-blue-800">
+                        <strong>Genera un link de reunión para tu sesión programada.</strong> Este link será compartido con el mentee para que pueda unirse a la sesión.
+                    </p>   
+                    <p class="text-sm text-red-500">
+                        Se necesita haber vinculado la sesión con Google para generar el link.    
+                    </p> 
+                </div>
+                <div class="flex gap-3">
+                    <button onclick="closeGenerateMeetForm()" class="flex-1 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+                        Cancelar
+                    </button>
+                    
+                    <button type="submit" disabled class="flex-1 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                        Generar Link
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Cancel Modal -->
     <div id="cancelModal" class="modal">
         <div class="modal-content">
@@ -662,6 +778,39 @@
             document.getElementById('cancelModal').classList.add('active');
         }
 
+        function openConfirmModal(id) {
+            document.getElementById('confirmModal').classList.add('active');
+            document.getElementById('confirm-session-id').value = id;
+        }
+
+        function closeConfirmModal(){
+            document.getElementById('confirmModal').classList.remove('active');
+
+        }
+        function confirmSession() {
+            // alert('Sesión confirmada exitosamente.');
+            fetch('{{route("sessions.confirmjson")}}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({ id: document.getElementById('confirm-session-id').value }) // Replace with actual session ID
+            })
+            .then(response => response.json())
+            .then(data => {
+                window.location.href = window.location.pathname + '?status='+ data.status;
+            });
+
+            closeConfirmModal();
+        }
+
+        function generarUrlMeet(){
+            document.getElementById('generateMeetForm').classList.add('active');
+        }
+        function closeGenerateMeetForm(){
+            document.getElementById('generateMeetForm').classList.remove('active');
+        }
         function closeCancelModal() {
             document.getElementById('cancelModal').classList.remove('active');
         }

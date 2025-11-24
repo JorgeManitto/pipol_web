@@ -64,6 +64,7 @@ class ProfileController extends Controller
             'skills'         => 'array',
             'skills.*'       => 'integer|exists:skills,id',
             'paypal_email'  => 'nullable|email|max:255',
+            
             'is_mentor'     => 'nullable|boolean',
             'bio_laboral'   => 'nullable|string|max:2000',
         ]);

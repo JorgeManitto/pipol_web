@@ -16,6 +16,8 @@ class PipolSessionController extends Controller
     {
         $user = Auth::user();
 
+
+        // dd($user);
         if ($user->is_mentor) {
             $sessions = Pipol_sessions::where('mentor_id', $user->id)
                 ->with(['mentee'])
@@ -27,6 +29,7 @@ class PipolSessionController extends Controller
                 ->orderBy('scheduled_at', 'desc')
                 ->paginate(10);
         }
+        // dd($sessions);
         // dd($sessions[0]->mentor);
         return view('backend.sessions.index', compact('sessions', 'user'));
     }
@@ -36,6 +39,7 @@ class PipolSessionController extends Controller
      */
     public function show($id)
     {
+        
         $session = Pipol_sessions::with(['mentor', 'mentee', 'review'])->findOrFail($id);
         $user = Auth::user();
 
@@ -62,8 +66,25 @@ class PipolSessionController extends Controller
         $session->status = 'confirmed';
         $session->mentor_confirmed = true;
         $session->save();
-
+        // dd($session);
         return back()->with('success', 'Sesión confirmada correctamente.');
+    }
+
+    public function confirmJson()
+    {
+        $id = request()->input('id');
+        $session = Pipol_sessions::findOrFail($id);
+        $user = Auth::user();
+
+        if ($user->id !== $session->mentor_id) {
+            return response()->json(['status' => 'Solo el mentor puede confirmar la sesión.'], 403);
+        }
+
+        $session->status = 'confirmed';
+        $session->mentor_confirmed = true;
+        $session->save();
+
+        return response()->json(['status' => 'Sesión confirmada correctamente.']);
     }
 
     /**

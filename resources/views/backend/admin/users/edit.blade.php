@@ -137,7 +137,7 @@
                 <div>
                     <label class="block mb-1 font-medium">Rol</label>
                     <select name="role" class="w-full border rounded p-2">
-                        <option value="user" {{ $user->role == 'user' ? 'selected' : '' }}>Usuario</option>
+                        <option value="mentee" {{ $user->role == 'mentee' ? 'selected' : '' }}>Mentee</option>
                         <option value="mentor" {{ $user->role == 'mentor' ? 'selected' : '' }}>Mentor</option>
                         <option value="admin" {{ $user->role == 'admin' ? 'selected' : '' }}>Admin</option>
                     </select>

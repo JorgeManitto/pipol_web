@@ -55,7 +55,7 @@ class AdminUserController extends Controller
             'stripe_connect_id' => 'nullable|string|max:255',
 
             'is_mentor' => 'nullable|boolean',
-            // 'role' => 'nullable|string|max:50',
+            'role' => 'nullable|string|max:50',
             'active' => 'nullable|boolean',
             'session_complete' => 'nullable|boolean',
             'average_rating' => 'nullable|numeric',
@@ -95,5 +95,17 @@ class AdminUserController extends Controller
         $user = User::findOrFail($id);
         $user->delete();
         return redirect()->route('admin.users.index')->with('success', 'Usuario eliminado');
+    }
+
+    function testMeet() {
+        $meet = app(\App\Services\GoogleMeetService::class)
+        ->createMeet(
+            'Reunión con cliente',
+            now()->addHour(),
+            now()->addHours(2)
+        );
+
+    return $meet;
+
     }
 }

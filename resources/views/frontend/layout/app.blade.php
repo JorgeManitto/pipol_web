@@ -6,8 +6,34 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     {{-- <title>Document</title> --}}
     <title>@yield('page_title') </title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-     @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
+    <style>
+        /* @font-face {
+            font-family: "TT Firs Neue";
+            src: url("/tt_firs_neue/TT Firs Neue Trial Regular.ttf") format("truetype");
+            font-weight: 400;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: "TT Firs Neue";
+            src: url("/tt_firs_neue/TT Firs Neue Trial Bold.ttf") format("truetype");
+            font-weight: 700;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: "TT Firs Neue";
+            src: url("/tt-firs/TT Firs Neue Trial Italic.ttf") format("truetype");
+            font-weight: 400;
+            font-style: italic;
+        } */
+    </style>
+    
+    @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
         @else
             
         @endif
@@ -188,6 +214,7 @@
         }
     </style>
     @livewireStyles
+    
 </head>
 <body style="position: relative;">
     
