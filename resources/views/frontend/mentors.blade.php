@@ -2,15 +2,15 @@
 
 @section('title', 'Pipol - Mentores')  
 @section('main_content')
-<section class="section-darker py-32 px-4">
+<section class="section-darker py-32 px-4 h-screen flex items-center">
     <div class="max-w-4xl mx-auto text-center">
-        <h2 class="text-5xl md:text-7xl font-black text-white mb-8 leading-tight">
+        <h2 class="text-5xl md:text-6xl font-black text-white mb-8 leading-tight">
             Tu experiencia tiene un valor que el mundo necesita.
         </h2>
-        <p class="text-2xl text-white mb-12 leading-relaxed">
+        <p class="text-xl text-white mb-12 leading-relaxed">
             Compartila. Inspirá. Dejá tu huella.
         </p>
-        <a href="#soy-mentor" class="btn-primary inline-flex items-center gap-3 text-white px-12 py-6 rounded-full text-2xl font-black uppercase tracking-wide">
+        <a href="#soy-mentor" class="btn-primary inline-flex items-center gap-3 text-white px-6 py-4 rounded-full text-xl font-black uppercase tracking-wide">
             QUIERO SER MENTOR
         </a>
     </div>
@@ -69,7 +69,7 @@
                 </div>
                 <div>
                     <p class="text-xl md:text-2xl text-white leading-relaxed">
-                        Las capacitaciones de liderazgo no generan impacto real, sólo pérdida de tiempo.
+                        Las empresas no están formando líderes. Los líderes se forman entre líderes.
                     </p>
                 </div>
             </div>
@@ -83,7 +83,7 @@
                 </div>
                 <div>
                     <p class="text-xl md:text-2xl text-white leading-relaxed">
-                        Los mejores líderes se forman de grandes grandes mentores
+                        Grandes líderes tuvieron grandes mentores.
                     </p>
                 </div>
             </div>

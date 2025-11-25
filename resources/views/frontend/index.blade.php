@@ -6,9 +6,9 @@
 
     
     
-    <section class=" relative px-4 overflow-hidden flex md:items-center" style="height: 80dvh;">
+    <section class=" relative px-4 overflow- flex ">
 
-        <div class="max-w-7xl mx-auto relative pt-8 z-10 w-full">
+        <div class="max-w-7xl mx-auto relative z-10 w-full">
                 {{-- <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 mb-4" role="alert">
                         <p>
                             <span class="font-bold">Google meet: </span>
@@ -36,29 +36,29 @@
                         }
                     }
                 </style>
-                <div  class="main-section">
+                <div  class="main-section md:h-screen flex flex-col md:justify-center">
                     <!-- Tagline with lightbulb icon -->
-                    <div class="flex items-center gap-2 mb-8 justify-center">
+                    <div class="flex items-center gap-2 mb-4 justify-center">
                         <div class="w-6 h-6 rounded-full bg-yellow-400 flex items-center justify-center">
                             <svg class="w-4 h-4 text-gray-900" fill="currentColor" viewBox="0 0 20 20">
                                 <path d="M11 3a1 1 0 10-2 0v1a1 1 0 102 0V3zM15.657 5.757a1 1 0 00-1.414-1.414l-.707.707a1 1 0 001.414 1.414l.707-.707zM18 10a1 1 0 01-1 1h-1a1 1 0 110-2h1a1 1 0 011 1zM5.05 6.464A1 1 0 106.464 5.05l-.707-.707a1 1 0 00-1.414 1.414l.707.707zM5 10a1 1 0 01-1 1H3a1 1 0 110-2h1a1 1 0 011 1zM8 16v-1h4v1a2 2 0 11-4 0zM12 14c.015-.34.208-.646.477-.859a4 4 0 10-4.954 0c.27.213.462.519.476.859h4.002z"/>
                             </svg>
                         </div>
-                        <p class="text-gray-300 text-lg">El conocimiento se aprende. La experiencia se vive.</p>
+                        <p class="text-gray-300 text-md">El conocimiento se aprende. La experiencia se vive.</p>
                     </div>
 
                     <!-- Main Heading -->
-                    <h1 class="text-5xl md:text-5xl lg:text-7xl font-black mb-6 leading-tight">
+                    <h1 class="text-5xl md:text-5xl lg:text-6xl font-black mb-6 leading-tight">
                     <span class="text-white">Rompemos el monopolio de la experiencia.</span>
                     </h1>
 
                     <!-- Description -->
-                    <p class="text-md text-gray-300 mb-10 leading-relaxed md:text-2xl">
+                    <p class="text-md text-gray-300 mb-2 leading-relaxed">
                         Conectamos a personas que ya vivieron con quienes recién empiezan, para que la experiencia no se pierda: se comparta. Porque nadie llega solo. Todos tuvimos un mentor.
                     </p>
                     
                     <!-- CTA Buttons -->
-                    <div class="flex flex-col sm:flex-row gap-4  md:pt-12 justify-center">
+                    <div class="flex flex-col sm:flex-row gap-4  md:mt-12 justify-center z-20">
                         <a href="#registro" class="btn-primary text-white px-8 py-4 rounded-full text-lg font-semibold inline-flex items-center justify-center gap-2 w-full sm:w-auto">
                             Encontrá tu mentor
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
