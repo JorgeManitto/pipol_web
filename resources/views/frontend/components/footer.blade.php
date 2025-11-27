@@ -12,24 +12,24 @@
                 <div>
                     <h4 class="font-bold text-lg mb-6">Plataforma</h4>
                     <ul class="space-y-3 text-gray-400">
-                        <li><a href="#que-es" class="hover:text-white transition-colors text-lg">Qué es Pipol</a></li>
-                        <li><a href="#como-funciona" class="hover:text-white transition-colors text-lg">Cómo funciona</a></li>
-                        <li><a href="#soy-mentor" class="hover:text-white transition-colors text-lg">Ser mentor</a></li>
+                        <li><a href="{{ route('home') }}#que-es" class="hover:text-white transition-colors text-lg">Qué es Pipol</a></li>
+                        <li><a href="{{ route('home') }}#como-funciona" class="hover:text-white transition-colors text-lg">Cómo funciona</a></li>
+                        <li><a href="{{ route('login',['is_mentor'=>1]) }}" class="hover:text-white transition-colors text-lg">Ser mentor</a></li>
                     </ul>
                 </div>
                 <div>
                     <h4 class="font-bold text-lg mb-6">Soporte</h4>
                     <ul class="space-y-3 text-gray-400">
-                        <li><a href="#faq" class="hover:text-white transition-colors text-lg">Preguntas frecuentes</a></li>
-                        <li><a href="#contacto" class="hover:text-white transition-colors text-lg">Contacto</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors text-lg">Ayuda</a></li>
+                        <li><a href="{{ route('preguntas.frecuentes') }}" class="hover:text-white transition-colors text-lg">Preguntas frecuentes</a></li>
+                        <li><a href="{{ route('contacto') }}" class="hover:text-white transition-colors text-lg">Contacto</a></li>
+                        <li><a href="{{ route('ayuda') }}" class="hover:text-white transition-colors text-lg">Ayuda</a></li>
                     </ul>
                 </div>
                 <div>
                     <h4 class="font-bold text-lg mb-6">Legal</h4>
                     <ul class="space-y-3 text-gray-400">
-                        <li><a href="#" class="hover:text-white transition-colors text-lg">Términos y condiciones</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors text-lg">Política de privacidad</a></li>
+                        <li><a href="{{ route('terminos.y.condiciones') }}" class="hover:text-white transition-colors text-lg">Términos y condiciones</a></li>
+                        <li><a href="{{ route('politica.y.privacidad') }}" class="hover:text-white transition-colors text-lg">Política de privacidad</a></li>
                     </ul>
                 </div>
             </div>

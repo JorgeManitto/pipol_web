@@ -18,4 +18,23 @@ class Home extends Controller
         auth()->logout();
         return redirect()->route('home');
     }
+    function contacto() {
+        return view('frontend.soporte.contacto');
+    }
+
+    function preguntas() {
+        return view('frontend.soporte.preguntas');
+    }
+
+    function ayuda() {
+        return view('frontend.soporte.ayuda');
+    }
+
+    function terminoycondiciones()  {
+        return view('frontend.legal.terminos-y-condiciones');
+    }
+
+    function politica() {
+        return view('frontend.legal.politica-y-privacidad');
+    }
 }

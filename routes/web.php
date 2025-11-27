@@ -18,6 +18,14 @@ use Illuminate\Support\Str;
 
 Route::get('/', [Home::class, 'index'])->name('home');
 Route::get('/home/mentors', [Home::class, 'mentors'])->name('home.mentors');
+
+Route::get('/soporte/contacto', [Home::class, 'contacto'])->name('contacto');
+Route::get('/soporte/preguntas-frecuentes', [Home::class, 'preguntas'])->name('preguntas.frecuentes');
+Route::get('/soporte/ayuda', [Home::class, 'ayuda'])->name('ayuda');
+Route::get('/legal/terminos-y-condiciones', [Home::class, 'terminoycondiciones'])->name('terminos.y.condiciones');
+Route::get('/legal/politica-y-privacidad', [Home::class, 'politica'])->name('politica.y.privacidad');
+
+
 // Route::get('/log-out', [Home::class, 'logOut'])->name('logout');
 Route::get('/log-out-v2', function (){
     auth()->logout();
@@ -88,6 +96,10 @@ Route::get('run-clear', function(){
     Artisan::call('config:clear');
     Artisan::call('config:clear');
     Artisan::call('view:clear');
+    Artisan::call('cache:clear');
+    Artisan::call('route:clear');
+    Artisan::call('storage:link');
+
 
     
     return 'Link de storage ejecutado correctamente';

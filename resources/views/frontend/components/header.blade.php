@@ -74,7 +74,7 @@
     </div>
   </nav> --}}
 
-  <nav class="sticky top-0 w-full z-50 backdrop-blur-md" style="background: rgba(26, 10, 62, 0.9);">
+  <nav class="hidden md:block sticky top-0 w-full z-50 backdrop-blur-md" style="background: #1a0a3ee6;">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-0">
         <div class="flex justify-between items-center h-20">
             <!-- Logo -->
@@ -152,6 +152,110 @@
         </div>
     </div>
   </nav>
+<nav class="block md:hidden bg-[#1a0a3ee6] sticky top-0 text-white p-4 flex justify-between items-center relative z-30">
+  <a href="{{ route('home') }}" class="text-3xl font-bold gradient-text-hero">Pipol</a>
+
+  <!-- Botón hamburguesa -->
+  <button id="menu-toggle" class="focus:outline-none">
+    <svg id="menu-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+        d="M4 6h16M4 12h16M4 18h16" />
+    </svg>
+  </button>
+</nav>
+
+<!-- Sidebar móvil -->
+<div id="mobile-sidebar"
+  class="fixed top-0 left-0 h-full w-64 bg-[#1a0a3ee6] text-white transform -translate-x-full transition-transform duration-300 ease-in-out z-40">
+  <div class="p-4 flex justify-between items-center border-b border-[#ffffff55]">
+    <a href="{{ route('home') }}" class="text-3xl font-bold gradient-text-hero">Pipol</a>
+    <button id="close-sidebar" class="focus:outline-none">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+  </div>
+
+  <nav class="flex flex-col space-y-2 p-4 border-b border-[#ffffff55]">
+
+    <a href="{{ route('home').'#que-es' }}" class="flex items-center gap-3 p-2 rounded hover:bg-[#ffffff55] sidebar-icon close-menu">Qué es Pipol</a>
+    <a href="{{ route('home.mentors') }}" class="flex items-center gap-3 p-2 rounded hover:bg-[#ffffff55] sidebar-icon close-menu">Quiero ser mentor</a>
+    <a href="#" class="flex items-center gap-3 p-2 rounded hover:bg-[#ffffff55] sidebar-icon close-menu"><span>Encontrá tu mentor</span></a>
+   
+  </nav>
+
+  @auth
+
+    <div class="p-4">
+       <div class=" py-3 text-sm text-gray-200 dark:text-white">
+          <div>{{ auth()->user()->name }}</div>
+          <div class="font-medium truncate">{{ auth()->user()->email }}</div>
+        </div>
+        <ul class="py-2 px-0 mx-0 text-sm text-gray-200 dark:text-gray-200" aria-labelledby="avatarButton">
+          <li>
+            <a href="{{ route('mentors.index') }}" class="block  py-2  hover:bg-[#261848]/80 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</a>
+          </li>
+          <li>
+            <a href="{{ route('profile.show', ['id'=> auth()->id()]) }}" class="block  py-2  hover:bg-[#261848]/80 dark:hover:bg-gray-600 dark:hover:text-white">Mi perfil</a>
+          </li>
+          <li>
+            <a href="#" class="block  py-2  hover:bg-[#261848]/80 dark:hover:bg-gray-600 dark:hover:text-white">Ajustes</a>
+          </li>
+        </ul>
+        <div class="py-1">
+          <a href="{{ route('logout') }}" class="block  py-2 text-sm text-gray-200 hover:bg-[#261848]/80 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Cerrar Sesión</a>
+        </div>
+    </div>
+  @else
+    <div class="flex flex-col space-y-2 p-4">
+
+      <a href="{{ route('login') }}" class="inline-block px-4 py-2 text-white hover:text-white/80 transition-colors">
+        Iniciar sesión
+      </a>
+      <a href="{{ route('login', ['is_mentor' => true]) }}" class="px-5 py-2 bg-[#261848] text-white rounded-full hover:bg-[#261848]/90 transition-all font-medium">
+        Registrarme
+      </a>
+    </div>
+  @endauth
+</div>
+
+<!-- Fondo semitransparente -->
+<div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 hidden z-30"></div>
+
+<!-- JS puro -->
+<script>
+  const menuToggle = document.getElementById('menu-toggle');
+  const mobileSidebar = document.getElementById('mobile-sidebar');
+  const overlay = document.getElementById('overlay');
+  const closeSidebar = document.getElementById('close-sidebar');
+  const menuIcon = document.getElementById('menu-icon');
+
+  // Abrir sidebar
+  menuToggle.addEventListener('click', () => {
+    mobileSidebar.classList.remove('-translate-x-full');
+    overlay.classList.remove('hidden');
+  });
+
+  // Cerrar sidebar (botón ✖️)
+  closeSidebar.addEventListener('click', () => {
+    mobileSidebar.classList.add('-translate-x-full');
+    overlay.classList.add('hidden');
+  });
+
+  // Cerrar al hacer clic fuera
+  overlay.addEventListener('click', () => {
+    mobileSidebar.classList.add('-translate-x-full');
+    overlay.classList.add('hidden');
+  });
+  document.querySelectorAll('.close-menu').forEach(item => {
+    item.addEventListener('click', () => {
+      mobileSidebar.classList.add('-translate-x-full');
+      overlay.classList.add('hidden');
+    });
+  });
+</script>
+
+
   <a href="https://wa.me/5491123456789" class="btn-wsp" target="_blank">
       <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="WhatsApp">
   </a>
