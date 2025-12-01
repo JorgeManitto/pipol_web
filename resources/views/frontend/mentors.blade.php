@@ -36,7 +36,7 @@
                     </svg>
                 </div>
                 <div>
-                    <p class="text-xl md:text-2xl text-white leading-relaxed">
+                    <p class="text-md md:text-2xl text-white leading-relaxed">
                         El mercado deja afuera lo más valioso: la experiencia.
                     </p>
                 </div>
@@ -51,7 +51,7 @@
                     </svg>
                 </div>
                 <div>
-                    <p class="text-xl md:text-2xl text-white leading-relaxed">
+                    <p class="text-md md:text-2xl text-white leading-relaxed">
                         Las nuevas generaciones enfrentan desafíos que nadie les enseñó a resolver.
                     </p>
                 </div>
@@ -68,7 +68,7 @@
                     </svg>
                 </div>
                 <div>
-                    <p class="text-xl md:text-2xl text-white leading-relaxed">
+                    <p class="text-md md:text-2xl text-white leading-relaxed">
                         Las empresas no están formando líderes. Los líderes se forman entre líderes.
                     </p>
                 </div>
@@ -82,7 +82,7 @@
                     </svg>
                 </div>
                 <div>
-                    <p class="text-xl md:text-2xl text-white leading-relaxed">
+                    <p class="text-md md:text-2xl text-white leading-relaxed">
                         Grandes líderes tuvieron grandes mentores.
                     </p>
                 </div>
@@ -98,7 +98,7 @@
                 <h2 class="text-5xl md:text-6xl font-black mb-6">
                     ¿Cómo <span class="gradient-text">funciona</span> Pipol para Mentores?
                 </h2>
-                <p class="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+                <p class="text-md text-gray-300 max-w-3xl mx-auto leading-relaxed">
                     La plataforma gestiona las reservas, el pago y las calificaciones, para que vos te enfoques en lo esencial: acompañar desde tu recorrido y tu mirada profesional.
                 </p>
             </div>
@@ -113,7 +113,7 @@
                         1
                     </div>
                     <h3 class="text-2xl font-bold mb-4">Creá tu perfil profesional</h3>
-                    <p class="text-gray-300 leading-relaxed text-lg">
+                    <p class="text-gray-300 leading-relaxed text-md">
                         Contanos quien sos, tu experiencia profesional y en que temas o habilidades querés mentorear.
                     </p>
                 </div>
@@ -124,7 +124,7 @@
                         2
                     </div>
                     <h3 class="text-2xl font-bold mb-4">Pipol validará tu perfil</h3>
-                    <p class="text-gray-300 leading-relaxed text-lg">
+                    <p class="text-gray-300 leading-relaxed text-md">
                         Revisamos tu perfil para asegurarnos que tengas la experiencia necesaria y así generar confianza en la comunidad.
                     </p>
                 </div>
@@ -135,7 +135,7 @@
                         3
                     </div>
                     <h3 class="text-2xl font-bold mb-4">Definí tu disponibilidad</h3>
-                    <p class="text-gray-300 leading-relaxed text-lg">
+                    <p class="text-gray-300 leading-relaxed text-md">
                         Elegí tus días y horarios para mentorear.
                     </p>
                 </div>
@@ -146,7 +146,7 @@
                         4
                     </div>
                     <h3 class="text-2xl font-bold mb-4">Valorá tu experiencia</h3>
-                    <p class="text-gray-300 leading-relaxed text-lg">
+                    <p class="text-gray-300 leading-relaxed text-md">
                         Te ayudaremos a darle valor económico a tus mentorías.
                     </p>
                 </div>
@@ -157,7 +157,7 @@
                         5
                     </div>
                     <h3 class="text-2xl font-bold mb-4">Capacitate y seguí creciendo</h3>
-                    <p class="text-gray-300 leading-relaxed text-lg">
+                    <p class="text-gray-300 leading-relaxed text-md">
                         Accedé a cursos, talleres y feedback para potenciar tu impacto como mentor.
                     </p>
                 </div>
@@ -177,16 +177,16 @@
                 <!-- FAQ Item 1 - Mentores -->
                 <div class="card rounded-2xl overflow-hidden">
                     <button class="faq-question w-full text-left p-8 flex justify-between items-center hover:bg-opacity-80 transition-all">
-                        <span class="text-xl font-bold pr-8">¿Tiene algún costo ser Mentor en Pipol?</span>
+                        <span class="text-md font-bold pr-8">¿Tiene algún costo ser Mentor en Pipol?</span>
                         <svg class="faq-icon w-6 h-6 flex-shrink-0 transition-transform" style="color: var(--color-accent);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                         </svg>
                     </button>
                     <div class="faq-answer hidden px-8 pb-8">
-                        <p class="text-gray-300 leading-relaxed text-lg">
+                        <p class="text-gray-300 leading-relaxed text-md">
                             Registrarte y estar en la plataforma no tiene costo fijo. Pipol funciona con un modelo de comisión por cada sesión que realizás, es decir, solo aportás cuando efectivamente mentoreás. Queremos que tu experiencia genere valor y que ganar sea mutuo.
                         </p>
-                        <p class="text-gray-300 leading-relaxed text-lg">
+                        <p class="text-gray-300 leading-relaxed text-md">
                             Además, en Pipol reconocemos tu crecimiento y el impacto que generás en la comunidad. A medida que alcanzás nuevos niveles como mentor, tu comisión se reduce progresivamente, premiando tu dedicación y constancia en acompañar a otros. Ver tabla de niveles y comisiones (link).
                         </p>
                     </div>
@@ -195,16 +195,16 @@
                 <!-- FAQ Item 2 - Mentores -->
                 <div class="card rounded-2xl overflow-hidden">
                     <button class="faq-question w-full text-left p-8 flex justify-between items-center hover:bg-opacity-80 transition-all">
-                        <span class="text-xl font-bold pr-8">¿Qué requisitos debo cumplir para ser Mentor en Pipol?</span>
+                        <span class="text-md font-bold pr-8">¿Qué requisitos debo cumplir para ser Mentor en Pipol?</span>
                         <svg class="faq-icon w-6 h-6 flex-shrink-0 transition-transform" style="color: var(--color-accent);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                         </svg>
                     </button>
                     <div class="faq-answer hidden px-8 pb-8">
-                        <p class="text-gray-300 leading-relaxed text-lg">
+                        <p class="text-gray-300 leading-relaxed text-md">
                             Para ser Mentor en Pipol necesitás:
                         </p>
-                        <p class="text-gray-300 leading-relaxed text-lg">
+                        <p class="text-gray-300 leading-relaxed text-md">
                             1) Experiencia real comprobable: Buscamos personas con trayectoria laboral sólida en cargos de liderazgo o gestión y/o emprendimientos propios con resultados reales.
                             <br>
                             2) Completar tu perfil y formación inicial 
@@ -219,13 +219,13 @@
                 <!-- FAQ Item 3 - Mentores -->
                 <div class="card rounded-2xl overflow-hidden">
                     <button class="faq-question w-full text-left p-8 flex justify-between items-center hover:bg-opacity-80 transition-all">
-                        <span class="text-xl font-bold pr-8">¿Pueden rechazar mi registro como Mentor?</span>
+                        <span class="text-md font-bold pr-8">¿Pueden rechazar mi registro como Mentor?</span>
                         <svg class="faq-icon w-6 h-6 flex-shrink-0 transition-transform" style="color: var(--color-accent);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                         </svg>
                     </button>
                     <div class="faq-answer hidden px-8 pb-8">
-                        <p class="text-gray-300 leading-relaxed text-lg">
+                        <p class="text-gray-300 leading-relaxed text-md">
                             Si. Pipol revisa cada perfil y podrá aceptar, rechazar o solicitar información adicional.
                             <br>
                             Los principales métodos de validación son: conectar tu perfil de LinkedIn (en caso de tener uno) y cargar tu cv profesional.
@@ -238,13 +238,13 @@
                 <!-- FAQ Item 4 - Mentores -->
                 <div class="card rounded-2xl overflow-hidden">
                     <button class="faq-question w-full text-left p-8 flex justify-between items-center hover:bg-opacity-80 transition-all">
-                        <span class="text-xl font-bold pr-8">¿Cómo me registro?</span>
+                        <span class="text-md font-bold pr-8">¿Cómo me registro?</span>
                         <svg class="faq-icon w-6 h-6 flex-shrink-0 transition-transform" style="color: var(--color-accent);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                         </svg>
                     </button>
                     <div class="faq-answer hidden px-8 pb-8">
-                        <p class="text-gray-300 leading-relaxed text-lg">
+                        <p class="text-gray-300 leading-relaxed text-md">
                             Es simple y rápido. Completás tu perfil, contás quién sos y qué experiencia tenés, elegís los temas en los que podés acompañar, fijás tu disponibilidad y listo. Una vez aprobado tu perfil, ya podés recibir reservas y comenzar a mentorear.
                         </p>
                     </div>
@@ -252,13 +252,13 @@
                 <!-- FAQ Item 4 - Mentores -->
                 <div class="card rounded-2xl overflow-hidden">
                     <button class="faq-question w-full text-left p-8 flex justify-between items-center hover:bg-opacity-80 transition-all">
-                        <span class="text-xl font-bold pr-8">¿Cómo protege Pipol la privacidad y seguridad de los datos?</span>
+                        <span class="text-md font-bold pr-8">¿Cómo protege Pipol la privacidad y seguridad de los datos?</span>
                         <svg class="faq-icon w-6 h-6 flex-shrink-0 transition-transform" style="color: var(--color-accent);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                         </svg>
                     </button>
                     <div class="faq-answer hidden px-8 pb-8">
-                        <p class="text-gray-300 leading-relaxed text-lg">
+                        <p class="text-gray-300 leading-relaxed text-md">
                             La información de mentores y mentees se protege con estándares modernos de seguridad.
                             <br>
                             ● Datos alojados en servidores seguros (Hostinger)

@@ -121,12 +121,11 @@
       </div>
     </div>
   </section> --}}
-
- <!-- Qué es Pipol -->
+     <!-- Qué es Pipol -->
     <!--  Updated section background to match hero style -->
     <section id="que-es" class="section-dark py-24 px-4">
-        <div class="max-w-7xl mx-auto">
-            <div class="text-center mb-20">
+        <div class="max-w-7xl mx-auto ">
+            <div class="text-center mb-4 md:mb-20">
                 <h2 class="text-5xl md:text-5xl lg:text-6xl  font-black mb-6">
                     ¿Qué es <span class="gradient-text">Pipol</span>?
                 </h2>
@@ -135,48 +134,139 @@
                 </p>
             </div>
 
-            <div class="grid md:grid-cols-3 gap-8">
+            <div class="hidden md:grid md:grid-cols-3 gap-8">
                 <!-- Card 1 -->
-                <div class="card p-10 rounded-3xl">
-                    <div class="w-20 h-20 gradient-bg rounded-2xl flex items-center justify-center mb-8">
+                <div class="card p-4 rounded-3xl">
+                    <div class="w-20 h-20 gradient-bg rounded-2xl flex items-center justify-center mb-2" style=" background: linear-gradient(to bottom right, #a855f7, #ec4899, #f97316);">
                         <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
                         </svg>
                     </div>
-                    <h3 class="text-2xl font-bold mb-4">Conectamos generaciones</h3>
+                    <h3 class="text-xl font-bold mb-4">Conectamos generaciones</h3>
                     <p class="text-gray-300 leading-relaxed text-md">
                         Creamos un espacio donde las personas pueden desarrollarse a través de la experiencia de otros, aprendiendo de historias reales, no de teorías vacías.
                     </p>
                 </div>
 
                 <!-- Card 2 -->
-                <div class="card p-10 rounded-3xl">
-                    <div class="w-20 h-20 gradient-bg rounded-2xl flex items-center justify-center mb-8">
+                <div class="card p-4 rounded-3xl">
+                    <div class="w-20 h-20 gradient-bg rounded-2xl flex items-center justify-center mb-2" style=" background: linear-gradient(to bottom right, #a855f7, #ec4899, #f97316);">
                         <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                         </svg>
                     </div>
-                    <h3 class="text-2xl font-bold mb-4">Damos valor a la experiencia</h3>
+                    <h3 class="text-xl font-bold mb-4">Damos valor a la experiencia</h3>
                     <p class="text-gray-300 leading-relaxed text-md">
                         Quienes hoy quedan fuera del mercado laboral por edad, contexto o cambio de etapa, encuentran aquí un lugar para compartir su experiencia y seguir aportando valor.
                     </p>
                 </div>
 
                 <!-- Card 3 -->
-                <div class="card p-10 rounded-3xl">
-                    <div class="w-20 h-20 gradient-bg rounded-2xl flex items-center justify-center mb-8">
+                <div class="card p-4 rounded-3xl">
+                    <div class="w-20 h-20 gradient-bg rounded-2xl flex items-center justify-center mb-2" style=" background: linear-gradient(to bottom right, #a855f7, #ec4899, #f97316);">
                         <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
                         </svg>
                     </div>
-                    <h3 class="text-2xl font-bold mb-4">Visibilidad real</h3>
+                    <h3 class="text-xl font-bold mb-4">Visibilidad real</h3>
                     <p class="text-gray-300 leading-relaxed text-md">
                         Damos visibilidad a profesionales que no son influencers ni tienen miles de seguidores, pero que tienen muchísimo por enseñar.
                     </p>
                 </div>
             </div>
         </div>
+        <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.css"
+        />
+        <script src="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js"></script>
+        <div class="md:hidden">
+            <div class="swiper max-w-7xl mx-auto pt-8 ">
+                <!-- Additional required wrapper -->
+                <div class="swiper-wrapper">
+                    <!-- Slides -->
+                    <div class="swiper-slide pt-6 flex">
+                        <div class="card items-center p-2 rounded-3xl h-full flex flex-col" style="height: 390px;">
+                            <div class="w-20 h-20 gradient-bg rounded-2xl flex items-center justify-center mb-8" style=" background: linear-gradient(to bottom right, #a855f7, #ec4899, #f97316);">
+                                <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-lg font-bold mb-4">Conectamos generaciones</h3>
+                            <p class="text-gray-300 leading-relaxed text-md text-center">
+                                Creamos un espacio donde las personas pueden desarrollarse a través de la experiencia de otros, aprendiendo de historias reales, no de teorías vacías.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="swiper-slide pt-6 flex">
+                        <div class="card items-center p-2 rounded-3xl h-full flex flex-col" style="height: 390px;">
+                            <div class="w-20 h-20 gradient-bg rounded-2xl flex items-center justify-center mb-8" style=" background: linear-gradient(to bottom right, #a855f7, #ec4899, #f97316);">
+                                <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-lg font-bold mb-4">Damos valor a la experiencia</h3>
+                            <p class="text-gray-300 leading-relaxed text-md text-center">
+                                Quienes hoy quedan fuera del mercado laboral por edad, contexto o cambio de etapa, encuentran aquí un lugar para compartir su experiencia y seguir aportando valor.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="swiper-slide pt-6 flex">
+                        <div class="card items-center p-2 rounded-3xl h-full flex flex-col" style="height: 390px;">
+                            <div class="w-20 h-20 gradient-bg rounded-2xl flex items-center justify-center mb-8" style=" background: linear-gradient(to bottom right, #a855f7, #ec4899, #f97316);">
+                                <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-lg font-bold mb-4">Visibilidad real</h3>
+                            <p class="text-gray-300 leading-relaxed text-md text-center">
+                                Damos visibilidad a profesionales que no son influencers ni tienen miles de seguidores, pero que tienen muchísimo por enseñar.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    </div>
+                <!-- If we need pagination -->
+                <div class="swiper-pagination"></div>
+    
+                <!-- If we need navigation buttons -->
+                <div class="swiper-button-prev" style="height: 22px;left: -10px;"></div>
+                <div class="swiper-button-next" style="height: 22px;right: -10px;"></div>
+    
+            </div>
+        </div>
+        <script>
+            const swiper = new Swiper('.swiper', {
+                // Optional parameters
+                direction: 'horizontal',
+                loop: true,
+                    // autoplay: {
+                    //     delay: 2500,
+                    //     disableOnInteraction: false,
+                    // },
+                slidesPerView: 1,
+                spaceBetween: 20,
+                // centeredSlides: true,
+
+                // If we need pagination
+                pagination: {
+                    el: '.swiper-pagination',
+                },
+
+                // Navigation arrows
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                },
+
+                // And if we need scrollbar
+                scrollbar: {
+                    el: '.swiper-scrollbar',
+                },
+            });
+        </script>
     </section>
+
     
 
     <!-- Cómo funciona -->
@@ -285,7 +375,7 @@
                 <!-- FAQ Item 1 - Mentores -->
                 <div class="card rounded-2xl overflow-hidden">
                     <button class="faq-question w-full text-left p-8 flex justify-between items-center hover:bg-opacity-80 transition-all">
-                        <span class="text-xl font-bold pr-8">¿Qué es Pipol exactamente?</span>
+                        <span class="text-md font-bold pr-8">¿Qué es Pipol exactamente?</span>
                         <svg class="faq-icon w-6 h-6 flex-shrink-0 transition-transform" style="color: var(--color-accent);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                         </svg>
@@ -300,7 +390,7 @@
                 <!-- FAQ Item 2 - Mentores -->
                 <div class="card rounded-2xl overflow-hidden">
                     <button class="faq-question w-full text-left p-8 flex justify-between items-center hover:bg-opacity-80 transition-all">
-                        <span class="text-xl font-bold pr-8">¿Cómo puedo convertirme en mentor?</span>
+                        <span class="text-md font-bold pr-8">¿Cómo puedo convertirme en mentor?</span>
                         <svg class="faq-icon w-6 h-6 flex-shrink-0 transition-transform" style="color: var(--color-accent);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                         </svg>
@@ -315,7 +405,7 @@
                 <!-- FAQ Item 3 - Mentores -->
                 <div class="card rounded-2xl overflow-hidden">
                     <button class="faq-question w-full text-left p-8 flex justify-between items-center hover:bg-opacity-80 transition-all">
-                        <span class="text-xl font-bold pr-8">¿Tiene algún costo usar Pipol?</span>
+                        <span class="text-md font-bold pr-8">¿Tiene algún costo usar Pipol?</span>
                         <svg class="faq-icon w-6 h-6 flex-shrink-0 transition-transform" style="color: var(--color-accent);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                         </svg>
@@ -332,7 +422,7 @@
                 <!-- FAQ Item 1 - Mentees -->
                 <div class="card rounded-2xl overflow-hidden">
                     <button class="faq-question w-full text-left p-8 flex justify-between items-center hover:bg-opacity-80 transition-all">
-                        <span class="text-xl font-bold pr-8">¿Cómo encuentro el mentor ideal para mí?</span>
+                        <span class="text-md font-bold pr-8">¿Cómo encuentro el mentor ideal para mí?</span>
                         <svg class="faq-icon w-6 h-6 flex-shrink-0 transition-transform" style="color: var(--color-accent);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                         </svg>
@@ -347,7 +437,7 @@
                 <!-- FAQ Item 2 - Mentees -->
                 <div class="card rounded-2xl overflow-hidden">
                     <button class="faq-question w-full text-left p-8 flex justify-between items-center hover:bg-opacity-80 transition-all">
-                        <span class="text-xl font-bold pr-8">¿Qué tipo de mentores puedo encontrar?</span>
+                        <span class="text-md font-bold pr-8">¿Qué tipo de mentores puedo encontrar?</span>
                         <svg class="faq-icon w-6 h-6 flex-shrink-0 transition-transform" style="color: var(--color-accent);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                         </svg>
@@ -362,7 +452,7 @@
                 <!-- FAQ Item 3 - Mentees -->
                 <div class="card rounded-2xl overflow-hidden">
                     <button class="faq-question w-full text-left p-8 flex justify-between items-center hover:bg-opacity-80 transition-all">
-                        <span class="text-xl font-bold pr-8">¿Cómo sé qué mentor es el adecuado para mí?</span>
+                        <span class="text-md font-bold pr-8">¿Cómo sé qué mentor es el adecuado para mí?</span>
                         <svg class="faq-icon w-6 h-6 flex-shrink-0 transition-transform" style="color: var(--color-accent);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                         </svg>
