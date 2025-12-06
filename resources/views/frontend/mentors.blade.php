@@ -4,7 +4,7 @@
 @section('main_content')
 <section class="section-darker py-32 px-4 h-screen flex items-center">
     <div class="max-w-4xl mx-auto text-center">
-        <h2 class="text-5xl md:text-6xl font-black text-white mb-8 leading-tight">
+        <h2 class="text-5xl md:text-6xl font-semibold titulos text-white mb-8 leading-tight">
             Tu experiencia tiene un valor que el mundo necesita.
         </h2>
         <p class="text-md text-gray-300 mb-6 leading-relaxed">
@@ -18,8 +18,8 @@
 <section class="section-dark py-24 px-4">
     <div class="max-w-6xl mx-auto">
         <div class="text-center mb-16">
-            <h2 class="text-5xl md:text-6xl font-black mb-4">
-                Por qué ser mentor <span class="gradient-text">Pipol</span>?
+            <h2 class="text-5xl md:text-6xl font-semibold titulos mb-4">
+                Por qué ser mentor <span class="gradient-text"><img style="display: inline-block;height: 50px;" src="{{ asset('/images/logo-clea-recorte.png') }}" alt="Pipol" /></span>?
             </h2>
             <!-- Added gradient underline -->
             <div class="w-64 h-1 mx-auto bg-gradient-to-r from-purple-600 via-blue-500 to-cyan-400 rounded-full"></div>
@@ -36,7 +36,7 @@
                     </svg>
                 </div>
                 <div>
-                    <p class="text-md md:text-2xl text-white leading-relaxed">
+                    <p class="text-md md:text-xl text-white leading-relaxed">
                         El mercado deja afuera lo más valioso: la experiencia.
                     </p>
                 </div>
@@ -51,7 +51,7 @@
                     </svg>
                 </div>
                 <div>
-                    <p class="text-md md:text-2xl text-white leading-relaxed">
+                    <p class="text-md md:text-xl text-white leading-relaxed">
                         Las nuevas generaciones enfrentan desafíos que nadie les enseñó a resolver.
                     </p>
                 </div>
@@ -68,7 +68,7 @@
                     </svg>
                 </div>
                 <div>
-                    <p class="text-md md:text-2xl text-white leading-relaxed">
+                    <p class="text-md md:text-xl text-white leading-relaxed">
                         Las empresas no están formando líderes. Los líderes se forman entre líderes.
                     </p>
                 </div>
@@ -82,7 +82,7 @@
                     </svg>
                 </div>
                 <div>
-                    <p class="text-md md:text-2xl text-white leading-relaxed">
+                    <p class="text-md md:text-xl text-white leading-relaxed">
                         Grandes líderes tuvieron grandes mentores.
                     </p>
                 </div>
@@ -95,7 +95,7 @@
     <section id="como-funciona" class="section-darker py-24 px-4">
         <div class="max-w-7xl mx-auto">
             <div class="text-center mb-20">
-                <h2 class="text-5xl md:text-6xl font-black mb-6">
+                <h2 class="text-5xl md:text-6xl font-semibold titulos mb-6">
                     ¿Cómo <span class="gradient-text">funciona</span> Pipol para Mentores?
                 </h2>
                 <p class="text-md text-gray-300 max-w-3xl mx-auto leading-relaxed">
@@ -169,7 +169,7 @@
     <section id="faq" class="section-darker py-24 px-4">
         <div class="max-w-4xl mx-auto">
             <div class="text-center mb-12">
-                <h2 class="text-5xl md:text-6xl font-black mb-6">
+                <h2 class="text-5xl md:text-6xl font-semibold titulos mb-6">
                     Preguntas <span class="gradient-text">frecuentes</span>
                 </h2>
             </div>

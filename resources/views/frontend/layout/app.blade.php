@@ -209,22 +209,6 @@
     @yield('main_content')
     @include('frontend.components.footer')
     @livewireScripts
-    <script>
-        const fondos = ["bg-1", "bg-2", "bg-3", "bg-4", "bg-5"];
-        let index = 0;
 
-        document.getElementById("toggle-bg").addEventListener("click", () => {
-            // Ocultar todos
-            fondos.forEach(id => {
-                document.getElementById(id).style.display = "none";
-            });
-
-            // Mostrar el siguiente
-            document.getElementById(fondos[index]).style.display = "block";
-
-            // Avanzar al próximo
-            index = (index + 1) % fondos.length;
-        });
-    </script>
 </body>
 </html>
