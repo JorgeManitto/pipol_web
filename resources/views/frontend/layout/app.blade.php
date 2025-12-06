@@ -8,30 +8,9 @@
     <title>@yield('title') </title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <style>
-        /* @font-face {
-            font-family: "TT Firs Neue";
-            src: url("/tt_firs_neue/TT Firs Neue Trial Regular.ttf") format("truetype");
-            font-weight: 400;
-            font-style: normal;
-        }
 
-        @font-face {
-            font-family: "TT Firs Neue";
-            src: url("/tt_firs_neue/TT Firs Neue Trial Bold.ttf") format("truetype");
-            font-weight: 700;
-            font-style: normal;
-        }
-
-        @font-face {
-            font-family: "TT Firs Neue";
-            src: url("/tt-firs/TT Firs Neue Trial Italic.ttf") format("truetype");
-            font-weight: 400;
-            font-style: italic;
-        } */
-    </style>
     
     @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
         @else
@@ -77,6 +56,9 @@
         <style>
         * {
             font-family: 'Inter', sans-serif;
+        }
+        .titulos {
+            font-family: 'Poppins', sans-serif;
         }
         
         :root {

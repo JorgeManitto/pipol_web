@@ -1,7 +1,8 @@
 <!-- Sidebar principal (desktop) -->
 <aside class="hidden md:block fixed left-0 top-0 h-full w-64 hero-section text-white p-6 overflow-y-auto z-40">
   <div class="mb-8">
-    <h1 class="text-3xl font-bold gradient-text-hero">Pipol</h1>
+    {{-- <h1 class="text-3xl font-bold gradient-text-hero">Pipol</h1> --}}
+    <img src="{{ asset('/images/logo-v3.png') }}" alt="logo" style=" object-fit: contain;">
   </div>
   {{-- @dd(auth()->user()) --}}
   <nav class="mb-8 space-y-4">

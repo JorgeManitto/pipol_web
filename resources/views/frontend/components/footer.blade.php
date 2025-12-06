@@ -1,16 +1,15 @@
     <!-- Footer -->
-    <!--  Enhanced footer with better spacing and typography -->
     <footer class="py-16 px-4 section-darker border-t" style="border-color: rgba(147, 21, 255, 0.2);">
         <div class="max-w-7xl mx-auto">
             <div class="grid md:grid-cols-4 gap-12 mb-12">
                 <div>
-                    <h3 class="text-3xl font-black gradient-text mb-6">pipol</h3>
+                    <h3 class="text-3xl font-black gradient-text mb-6"><img style="display: inline-block;height: 40px;" src="{{ asset('/images/logo-clea-recorte.png') }}" alt="Pipol" /></h3>
                     <p class="text-gray-400 leading-relaxed text-lg">
                         Construimos puentes entre generaciones y democratizamos el valor de la experiencia.
                     </p>
                 </div>
                 <div>
-                    <h4 class="font-bold text-lg mb-6">Plataforma</h4>
+                    <h4 class="font-bold text-lg mb-6 titulos">Plataforma</h4>
                     <ul class="space-y-3 text-gray-400">
                         <li><a href="{{ route('home') }}#que-es" class="hover:text-white transition-colors text-lg">Qué es Pipol</a></li>
                         <li><a href="{{ route('home') }}#como-funciona" class="hover:text-white transition-colors text-lg">Cómo funciona</a></li>
@@ -18,7 +17,7 @@
                     </ul>
                 </div>
                 <div>
-                    <h4 class="font-bold text-lg mb-6">Soporte</h4>
+                    <h4 class="font-bold text-lg mb-6 titulos">Soporte</h4>
                     <ul class="space-y-3 text-gray-400">
                         <li><a href="{{ route('preguntas.frecuentes') }}" class="hover:text-white transition-colors text-lg">Preguntas frecuentes</a></li>
                         <li><a href="{{ route('contacto') }}" class="hover:text-white transition-colors text-lg">Contacto</a></li>
@@ -26,7 +25,7 @@
                     </ul>
                 </div>
                 <div>
-                    <h4 class="font-bold text-lg mb-6">Legal</h4>
+                    <h4 class="font-bold text-lg mb-6 titulos">Legal</h4>
                     <ul class="space-y-3 text-gray-400">
                         <li><a href="{{ route('terminos.y.condiciones') }}" class="hover:text-white transition-colors text-lg">Términos y condiciones</a></li>
                         <li><a href="{{ route('politica.y.privacidad') }}" class="hover:text-white transition-colors text-lg">Política de privacidad</a></li>

@@ -80,8 +80,8 @@
             <!-- Logo -->
             <div class="flex-shrink-0">
                 <a href="{{ route('home') }}" class="text-3xl font-bold gradient-text-hero">
-                  {{-- <img src="{{ asset('/images/logo-v2.png') }}" alt="logo" style="height: 60px;width: 150px;"> --}}
-                  Pipol
+                  <img src="{{ asset('/images/logo-v3.png') }}" alt="logo" style="height: 92px; object-fit: contain;">
+                  {{-- Pipol --}}
                 </a>
             </div>
             <div class="hidden md:flex items-center gap-8">
@@ -153,7 +153,9 @@
     </div>
   </nav>
 <nav class="block md:hidden bg-[#1a0a3ee6] sticky top-0 text-white p-4 flex justify-between items-center relative z-30">
-  <a href="{{ route('home') }}" class="text-3xl font-bold gradient-text-hero">Pipol</a>
+  <a href="{{ route('home') }}" class="text-3xl font-bold gradient-text-hero">
+    <img src="{{ asset('/images/logo-v3.png') }}" alt="logo" style="height: 80px; object-fit: contain;">
+  </a>
 
   <!-- Botón hamburguesa -->
   <button id="menu-toggle" class="focus:outline-none">
@@ -168,7 +170,9 @@
 <div id="mobile-sidebar"
   class="fixed top-0 left-0 h-full w-64 bg-[#1a0a3ee6] text-white transform -translate-x-full transition-transform duration-300 ease-in-out z-40">
   <div class="p-4 flex justify-between items-center border-b border-[#ffffff55]">
-    <a href="{{ route('home') }}" class="text-3xl font-bold gradient-text-hero">Pipol</a>
+    <a href="{{ route('home') }}" class="text-3xl font-bold gradient-text-hero">
+      <img src="{{ asset('/images/logo-v3.png') }}" alt="logo" style="height: 80px; object-fit: contain;">
+    </a>
     <button id="close-sidebar" class="focus:outline-none">
       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />

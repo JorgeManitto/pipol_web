@@ -1,11 +1,6 @@
 @extends('frontend.layout.app')
-
 @section('title', 'Pipol - Conectando experiencia con talento')  
 @section('main_content')
-    
-
-    
-    
     <section class=" relative px-4 overflow- flex ">
 
         <div class="max-w-7xl mx-auto relative z-10 w-full">
@@ -48,8 +43,8 @@
                     </div>
 
                     <!-- Main Heading -->
-                    <h1 class="text-5xl md:text-5xl lg:text-6xl font-black mb-6 leading-tight">
-                    <span class="text-white">Rompemos el monopolio de la experiencia.</span>
+                    <h1 class="text-5xl md:text-5xl lg:text-6xl font-semibold mb-6 leading-tight">
+                    <span class="text-white titulos">Rompemos el monopolio de la experiencia.</span>
                     </h1>
 
                     <!-- Description -->
@@ -73,61 +68,16 @@
                         </a>
                     </div>
                 </div>
-
-                <!-- Right Column - Illustration -->
-                {{-- <div class="relative  w-10/12">
-                    <div>
-                        <video src="{{ asset('/images/illustrator.mp4') }}" autoplay muted loop style="border-radius: 90px;"></video>
-                    </div>
-                </div> --}}
             </div>
         </div>
     </section>
       
-  <!-- Hero Section -->
-  {{-- <section id="home" class="hero-gradient pt-24 pb-20 px-4 sm:px-6 lg:px-8">
-    <div class="max-w-7xl mx-auto">
-      <div class="grid lg:grid-cols-2 gap-12 items-center min-h-[600px]">
-        <div class="text-white space-y-8">
-          <div class="inline-block px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full text-sm">
-            ✨ La experiencia es el conocimiento más valioso
-          </div>
-          <h1 class="text-4xl sm:text-5xl lg:text-5xl font-bold leading-tight text-balance">
-            <span class="text-[#d4af6a]">Pipol:</span> Construir un puente entre generaciones y democratizar el valor de la experiencia.
-          </h1>
-          <p class="text-xl text-white/90 leading-relaxed">
-            Conectamos a profesionales con experiencia real con quienes están empezando su camino. Porque los mejores líderes tuvieron grandes mentores.
-          </p>
-          <div class="flex flex-col sm:flex-row gap-4 pt-4">
-            <a href="#registro" class="inline-flex items-center justify-center px-8 py-4 bg-white text-primary rounded-full font-semibold hover:bg-secondary transition-all text-md shadow-lg">
-              Encontrá tu mentor
-              <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
-              </svg>
-            </a>
-            <a href="#soy-mentor" class="inline-flex items-center justify-center px-8 py-4 border-2 border-white text-white rounded-full font-semibold hover:bg-white hover:text-primary transition-all text-md">
-              Quiero ser mentor
-            </a>
-          </div>
-        </div>
-        <div class="hidden lg:block">
-          <div class="relative">
-            <div class="absolute inset-0 bg-accent/20 rounded-3xl blur-3xl"></div>
-            <img src="https://images.ctfassets.net/k0lk9kiuza3o/5FPiCcAZSijYVv5qoT1ZpO/82156da1075a50b8a81db9f482498f5f/6.png?q=85&fm=webp" 
-                 alt="Mentores y aprendices colaborando" 
-                 class="relative rounded-3xl shadow-2xl w-full">
-          </div>
-        </div>
-      </div>
-    </div>
-  </section> --}}
-     <!-- Qué es Pipol -->
-    <!--  Updated section background to match hero style -->
+    <!-- Qué es Pipol -->
     <section id="que-es" class="section-dark py-24 px-4">
         <div class="max-w-7xl mx-auto ">
             <div class="text-center mb-4 md:mb-20">
-                <h2 class="text-5xl md:text-5xl lg:text-6xl  font-black mb-6">
-                    ¿Qué es <span class="gradient-text">Pipol</span>?
+                <h2 class="text-5xl md:text-5xl lg:text-6xl mb-6 titulos font-semibold">
+                    ¿Qué es <img style="display: inline-block;height: 120px;" src="{{ asset('/images/logo-clean.png') }}" />?
                 </h2>
                 <p class="text-md text-gray-300 mb-2 leading-relaxed">
                     En Pipol creemos que la experiencia es el conocimiento más valioso que existe —y que solo tiene sentido cuando se comparte.
@@ -267,14 +217,11 @@
         </script>
     </section>
 
-    
-
     <!-- Cómo funciona -->
-    <!--  Updated section background and improved visual hierarchy -->
     <section id="como-funciona" class="section-darker py-24 px-4">
         <div class="max-w-7xl mx-auto">
             <div class="text-center mb-20">
-                <h2 class="text-5xl md:text-6xl font-black mb-6">
+                <h2 class="text-5xl md:text-6xl titulos font-semibold mb-6">
                     ¿Cómo <span class="gradient-text">funciona</span>?
                 </h2>
                 <p class="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
@@ -282,7 +229,7 @@
                 </p>
             </div>
 
-            <div class="grid md:grid-cols-3 gap-16 relative">
+            <div class="hidden md:grid md:grid-cols-3 gap-16 relative">
                 <!--  Added connector lines between steps -->
                 <div class="hidden md:block absolute top-10 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-purple-500 to-transparent opacity-30"></div>
                 
@@ -319,35 +266,90 @@
                     </p>
                 </div>
             </div>
+            <!-- Mobile Swiper -->
+            <div class="block md:hidden px-6">
+                <div class="swiper mySwiper">
+                    <div class="swiper-wrapper">
+
+                        <!-- Slide 1 -->
+                        <div class="swiper-slide text-center">
+                            <div class="w-24 h-24 gradient-bg rounded-full flex items-center justify-center mx-auto mb-6 text-4xl font-black text-white shadow-2xl">
+                                1
+                            </div>
+                            <h3 class="text-2xl font-bold mb-3">Registrate</h3>
+                            <p class="text-gray-300 leading-relaxed text-md">
+                                Creá tu perfil y contanos qué estás buscando: orientación profesional, cambio de carrera, o desarrollar una idea.
+                            </p>
+                        </div>
+
+                        <!-- Slide 2 -->
+                        <div class="swiper-slide text-center">
+                            <div class="w-24 h-24 gradient-bg rounded-full flex items-center justify-center mx-auto mb-6 text-4xl font-black text-white shadow-2xl">
+                                2
+                            </div>
+                            <h3 class="text-2xl font-bold mb-3">Encontrá tu mentor</h3>
+                            <p class="text-gray-300 leading-relaxed text-md">
+                                Explorá perfiles de profesionales con experiencia real en tu área de interés y elegí quien mejor se adapte a tus necesidades.
+                            </p>
+                        </div>
+
+                        <!-- Slide 3 -->
+                        <div class="swiper-slide text-center">
+                            <div class="w-24 h-24 gradient-bg rounded-full flex items-center justify-center mx-auto mb-6 text-4xl font-black text-white shadow-2xl">
+                                3
+                            </div>
+                            <h3 class="text-2xl font-bold mb-3">Crecé con propósito</h3>
+                            <p class="text-gray-300 leading-relaxed text-md">
+                                Conectá con tu mentor, aprendé de su experiencia y definí tu camino profesional con claridad y confianza.
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <div class="my-swiper-pagination mt-6 flex justify-center"></div>
+                    {{-- <div class="my-swiper-button-prev" style="height: 22px;left: -10px;"></div> --}}
+                    {{-- <div class="my-swiper-button-next" style="height: 22px;right: -10px;"></div> --}}
+                </div>
+            </div>
+            <script>
+            var newswiper = new Swiper('.mySwiper', {
+                // Optional parameters
+                direction: 'horizontal',
+                loop: true,
+                    autoplay: {
+                        delay: 2500,
+                        disableOnInteraction: false,
+                    },
+                slidesPerView: 1,
+                spaceBetween: 20,
+                // centeredSlides: true,
+
+                // If we need pagination
+                pagination: {
+                    el: '.my-swiper-pagination',
+                },
+
+                // Navigation arrows
+                navigation: {
+                    nextEl: '.my-swiper-button-next',
+                    prevEl: '.my-swiper-button-prev',
+                },
+
+                // And if we need scrollbar
+                scrollbar: {
+                    el: '.swiper-scrollbar',
+                },
+            });
+        </script>
+
         </div>
     </section>
-
-    <!-- Soy Mentor CTA -->
-    <!--  Enhanced CTA section with better visual hierarchy -->
-    {{-- <section id="soy-mentor" class="section-dark py-24 px-4">
-        <div class="max-w-5xl mx-auto">
-            <div class="gradient-border rounded-3xl p-16 text-center">
-                <h2 class="text-5xl md:text-6xl font-black mb-8">
-                    ¿Tenés experiencia para <span class="gradient-text">compartir</span>?
-                </h2>
-                <p class="text-xl text-gray-300 mb-10 leading-relaxed max-w-3xl mx-auto">
-                    Si sentís que tu experiencia puede ayudar a otros a crecer, este es tu lugar. No necesitás ser influencer ni tener miles de seguidores. Solo necesitas ganas de compartir lo que aprendiste.
-                </p>
-                <a href="#registro-mentor" class="btn-primary inline-flex items-center gap-2 text-white px-10 py-5 rounded-full text-xl font-bold">
-                    Quiero ser mentor
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-                    </svg>
-                </a>
-            </div>
-        </div>
-    </section> --}}
 
     <!-- FAQ con Tabs: Mentores y Mentees -->
     <section id="faq" class="section-darker py-24 px-4">
         <div class="max-w-4xl mx-auto">
             <div class="text-center mb-12">
-                <h2 class="text-5xl md:text-6xl font-black mb-6">
+                <h2 class="text-5xl md:text-6xl titulos font-semibold mb-6">
                     Preguntas <span class="gradient-text">frecuentes</span>
                 </h2>
             </div>
@@ -467,64 +469,53 @@
         </div>
     </section>
 
-<!-- JavaScript para Tabs y Acordeón -->
-<script>
-    // Cambiar pestaña + reinicializar acordeones
-    function switchTab(tab) {
-        const mentoresContent = document.getElementById('content-mentores');
-        const menteesContent = document.getElementById('content-mentees');
-        const mentoresTab = document.getElementById('tab-mentores');
-        const menteesTab = document.getElementById('tab-mentees');
+    <!-- JavaScript para Tabs y Acordeón -->
+    <script>
+        // Cambiar pestaña + reinicializar acordeones
+        function switchTab(tab) {
+            const mentoresContent = document.getElementById('content-mentores');
+            const menteesContent = document.getElementById('content-mentees');
+            const mentoresTab = document.getElementById('tab-mentores');
+            const menteesTab = document.getElementById('tab-mentees');
 
-        if (tab === 'mentores') {
-            mentoresContent.classList.remove('hidden');
-            menteesContent.classList.add('hidden');
-            mentoresTab.classList.add('active-tab');
-            menteesTab.classList.remove('active-tab');
-        } else {
-            menteesContent.classList.remove('hidden');
-            mentoresContent.classList.add('hidden');
-            menteesTab.classList.add('active-tab');
-            mentoresTab.classList.remove('active-tab');
+            if (tab === 'mentores') {
+                mentoresContent.classList.remove('hidden');
+                menteesContent.classList.add('hidden');
+                mentoresTab.classList.add('active-tab');
+                menteesTab.classList.remove('active-tab');
+            } else {
+                menteesContent.classList.remove('hidden');
+                mentoresContent.classList.add('hidden');
+                menteesTab.classList.add('active-tab');
+                mentoresTab.classList.remove('active-tab');
+            }
+
+            // REINICIAR acordeones en la pestaña activa
+            initAccordions();
         }
 
-        // REINICIAR acordeones en la pestaña activa
-        initAccordions();
-    }
-
-    // Función para inicializar TODOS los acordeones visibles
-    function initAccordions() {
-        // Remover eventos anteriores para evitar duplicados
-        document.querySelectorAll('.faq-question').forEach(btn => {
-            btn.replaceWith(btn.cloneNode(true)); // Clona para eliminar listeners
-        });
-
-        // Volver a asignar eventos a los nuevos botones
-        document.querySelectorAll('.faq-question').forEach(button => {
-            button.addEventListener('click', () => {
-                const answer = button.nextElementSibling;
-                const icon = button.querySelector('.faq-icon');
-
-                answer.classList.toggle('hidden');
-                icon.classList.toggle('rotate-180');
+        // Función para inicializar TODOS los acordeones visibles
+        function initAccordions() {
+            // Remover eventos anteriores para evitar duplicados
+            document.querySelectorAll('.faq-question').forEach(btn => {
+                btn.replaceWith(btn.cloneNode(true)); // Clona para eliminar listeners
             });
+
+            // Volver a asignar eventos a los nuevos botones
+            document.querySelectorAll('.faq-question').forEach(button => {
+                button.addEventListener('click', () => {
+                    const answer = button.nextElementSibling;
+                    const icon = button.querySelector('.faq-icon');
+
+                    answer.classList.toggle('hidden');
+                    icon.classList.toggle('rotate-180');
+                });
+            });
+        }
+
+        // Inicializar al cargar la página
+        document.addEventListener('DOMContentLoaded', () => {
+            initAccordions();
         });
-    }
-
-    // Inicializar al cargar la página
-    document.addEventListener('DOMContentLoaded', () => {
-        initAccordions();
-    });
-</script>
-
-<!-- Estilos adicionales para tabs activos -->
-<style>
-
-</style>
-
-    <!-- Contact -->
-    <!--  Enhanced contact section with improved layout -->
-
-
-
+    </script>
 @endsection
