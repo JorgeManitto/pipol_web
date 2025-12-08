@@ -159,3 +159,23 @@ Route::get('/auth/google/callback', function () {
 
     return redirect('/dashboard');
 });
+
+
+Route::get('/chat', function () {
+    return view('frontend.auth.chat');
+})->name('chat');
+
+// Opcional: guardar datos
+Route::post('/guardar-datos', function (Illuminate\Http\Request $request) {
+    // Puedes guardarlo en DB o enviarlo por mail
+    return response()->json(['ok' => true]);
+});
+Route::post('/procesar-cv', function () {
+    // Aquí procesás el PDF/Word y retornás los datos extraídos
+    return response()->json([
+        "nombre" => "Ejemplo",
+        "email" => "ejemplo@mail.com",
+        "experiencia" => "5 años",
+        // ...
+    ]);
+});

@@ -23,8 +23,8 @@
                 <!-- Right: Auth Card (estética adaptada de index.blade.php) -->
                 <div class="relative">
                     <div class="bg-white/5 backdrop-blur-sm rounded-3xl p-8 shadow-2xl">
-                        <div class="flex items-center justify-between mb-6">
-                            <a href="{{ route('home') }}" class="text-2xl font-bold text-white">Pipol</a>
+                        <div class="flex items-center justify-center mb-6">
+                            <a href="{{ route('home') }}" class="text-2xl font-bold text-white"><img style="display: inline-block;height: 40px;" src="{{ asset('/images/logo-clea-recorte.png') }}" alt="Pipol" /></a>
                             {{-- <div class="text-sm text-gray-300">¿Nuevo? <button wire:click="showRegister" class="text-purple-300 underline ml-2">Crear cuenta</button></div> --}}
                         </div>
 
