@@ -4,37 +4,37 @@
             <div class="grid md:grid-cols-4 gap-12 mb-12">
                 <div>
                     <h3 class="text-3xl font-black gradient-text mb-6"><img style="display: inline-block;height: 40px;" src="{{ asset('/images/logo-clea-recorte.png') }}" alt="Pipol" /></h3>
-                    <p class="text-gray-400 leading-relaxed text-lg">
+                    <p class="text-gray-400 leading-relaxed text-sm">
                         Construimos puentes entre generaciones y democratizamos el valor de la experiencia.
                     </p>
                 </div>
                 <div>
-                    <h4 class="font-bold text-lg mb-6 titulos">Plataforma</h4>
+                    <h4 class="font-bold text-sm mb-6 titulos">Plataforma</h4>
                     <ul class="space-y-3 text-gray-400">
-                        <li><a href="{{ route('home') }}#que-es" class="hover:text-white transition-colors text-lg">Qué es Pipol</a></li>
-                        <li><a href="{{ route('home') }}#como-funciona" class="hover:text-white transition-colors text-lg">Cómo funciona</a></li>
-                        <li><a href="{{ route('login',['is_mentor'=>1]) }}" class="hover:text-white transition-colors text-lg">Ser mentor</a></li>
+                        <li><a href="{{ route('home') }}#que-es" class="hover:text-white transition-colors text-sm">Qué es Pipol</a></li>
+                        <li><a href="{{ route('home') }}#como-funciona" class="hover:text-white transition-colors text-sm">Cómo funciona</a></li>
+                        <li><a href="{{ route('login',['is_mentor'=>1]) }}" class="hover:text-white transition-colors text-sm">Ser mentor</a></li>
                     </ul>
                 </div>
                 <div>
-                    <h4 class="font-bold text-lg mb-6 titulos">Soporte</h4>
+                    <h4 class="font-bold text-sm mb-6 titulos">Soporte</h4>
                     <ul class="space-y-3 text-gray-400">
-                        <li><a href="{{ route('preguntas.frecuentes') }}" class="hover:text-white transition-colors text-lg">Preguntas frecuentes</a></li>
-                        <li><a href="{{ route('contacto') }}" class="hover:text-white transition-colors text-lg">Contacto</a></li>
-                        <li><a href="{{ route('ayuda') }}" class="hover:text-white transition-colors text-lg">Ayuda</a></li>
+                        <li><a href="{{ route('preguntas.frecuentes') }}" class="hover:text-white transition-colors text-sm">Preguntas frecuentes</a></li>
+                        <li><a href="{{ route('contacto') }}" class="hover:text-white transition-colors text-sm">Contacto</a></li>
+                        <li><a href="{{ route('ayuda') }}" class="hover:text-white transition-colors text-sm">Ayuda</a></li>
                     </ul>
                 </div>
                 <div>
-                    <h4 class="font-bold text-lg mb-6 titulos">Legal</h4>
+                    <h4 class="font-bold text-sm mb-6 titulos">Legal</h4>
                     <ul class="space-y-3 text-gray-400">
-                        <li><a href="{{ route('terminos.y.condiciones') }}" class="hover:text-white transition-colors text-lg">Términos y condiciones</a></li>
-                        <li><a href="{{ route('politica.y.privacidad') }}" class="hover:text-white transition-colors text-lg">Política de privacidad</a></li>
+                        <li><a href="{{ route('terminos.y.condiciones') }}" class="hover:text-white transition-colors text-sm">Términos y condiciones</a></li>
+                        <li><a href="{{ route('politica.y.privacidad') }}" class="hover:text-white transition-colors text-sm">Política de privacidad</a></li>
                     </ul>
                 </div>
             </div>
             <div class="border-t pt-10 text-center text-gray-400" style="border-color: rgba(147, 21, 255, 0.2);">
-                <p class="text-lg">&copy; 2025 Pipol. Todos los derechos reservados.</p>
-                <p class="mt-3 italic text-base">Cuando la experiencia se comparte, todos crecemos.</p>
+                <p class="text-sm">&copy; 2025 Pipol. Todos los derechos reservados.</p>
+                <p class="mt-3 italic text-sm">Cuando la experiencia se comparte, todos crecemos.</p>
             </div>
         </div>
     </footer>
