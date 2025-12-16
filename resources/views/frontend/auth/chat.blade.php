@@ -2,11 +2,12 @@
 @section('title', 'Pipol - Chat de Carga de Perfil')  
 @section('main_content')
 <!-- Vue + Tailwind -->
-    <script src="https://unpkg.com/vue@3.4.15/dist/vue.global.prod.js"></script>
-    <div id="app" class="flex justify-center py-10">
+    {{-- <script src="https://unpkg.com/vue@3.4.15/dist/vue.global.prod.js"></script> --}}
+    {{-- <div id="app" class="flex justify-center py-10">
         <chat-form></chat-form>
-    </div>
-    <style>
+    </div> --}}
+    @livewire('mentor-registration-chat')
+    {{-- <style>
         .template{
             border-color: var(--color-primary);
             box-shadow: 0 8px 30px rgba(147, 21, 255, 0.3);
@@ -16,8 +17,8 @@
         .btn:hover {
             transform: translateY(-2px);
         }
-    </style>
- <script>
+    </style> --}}
+ {{-- <script>
     const { createApp, ref, reactive, watch, nextTick } = Vue;
 
     createApp({
@@ -165,6 +166,8 @@
 
                     const manualData = reactive({
                         nombre: "",
+                        fecha_de_nacimiento: "",
+                        pais_y_ciudad: "",
                         cargo: "",
                         experiencia: "",
                         empresas: "",
@@ -179,6 +182,8 @@
 
                     const manualQuestions = [
                         { key: "nombre", text: "Nombre y apellido:" },
+                        { key: "fecha_de_nacimiento", text: "Fecha de nacimiento:" },
+                        { key: "pais_y_ciudad", text: "País y ciudad de residencia:" },
                         { key: "cargo", text: "Cargo actual o último:" },
                         { key: "experiencia", text: "Años de experiencia:" },
                         { key: "empresas", text: "Empresas donde trabajaste:" },
@@ -356,7 +361,7 @@
                         step.value = 0;
                         showInput.value = true;
 
-                        messages.value.push({ from: "bot", text: "Perfecto ✔️ Vamos a completar tus datos." });
+                        messages.value.push({ from: "bot", text: "Para comenzar, necesitamos algunos datos básicos." });
                         messages.value.push({ from: "bot", text: manualQuestions[0].text });
                         
                     };
@@ -524,7 +529,7 @@
             }
         }
     }).mount("#app");
-</script>
+</script> --}}
 
 
 @endsection

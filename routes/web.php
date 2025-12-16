@@ -7,6 +7,7 @@ use App\Http\Controllers\Backend\PaymentController;
 use App\Http\Controllers\Frontend\Home;
 use App\Http\Controllers\Backend\ProfileController;
 use App\Http\Controllers\PipolSessionController;
+use App\Livewire\MentorRegistrationChat;
 use App\Models\User;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
@@ -179,3 +180,5 @@ Route::post('/procesar-cv', function () {
         // ...
     ]);
 });
+
+Route::get('/chat-v2', [MentorRegistrationChat::class, 'render'])->name('chat.v2');
