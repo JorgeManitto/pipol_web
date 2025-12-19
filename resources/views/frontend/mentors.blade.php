@@ -103,7 +103,7 @@
                 </p>
             </div>
 
-            <div class="grid md:grid-cols-5 gap-8 relative">
+            {{-- <div class="grid md:grid-cols-5 gap-8 relative">
                 <!--  Added connector lines between steps -->
                 <div class="hidden md:block absolute top-10 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-purple-500 to-transparent opacity-30"></div>
                 
@@ -161,7 +161,115 @@
                         Accedé a cursos, talleres y feedback para potenciar tu impacto como mentor.
                     </p>
                 </div>
+            </div> --}}
+            <!-- Swiper -->
+            <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.css"
+            />
+            <script src="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js"></script>
+            <div class="swiper steps-swiper relative">
+                <div class="swiper-wrapper">
+
+                    <!-- Step 1 -->
+                    <div class="swiper-slide">
+                        <div class="text-center px-6">
+                            <div class="w-24 h-24 gradient-bg rounded-full flex items-center justify-center mx-auto mb-8 text-4xl font-black text-white shadow-2xl">
+                                1
+                            </div>
+                            <h3 class="text-2xl font-bold mb-4">Creá tu espacio profesional</h3>
+                            <p class="text-gray-300 leading-relaxed text-md">
+                                Contanos quién sos, tu recorrido y en qué podés ayudar. Este es el punto de partida para mentorear en Pipol.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="swiper-slide">
+                        <div class="text-center px-6">
+                            <div class="w-24 h-24 gradient-bg rounded-full flex items-center justify-center mx-auto mb-8 text-4xl font-black text-white shadow-2xl">
+                                2
+                            </div>
+                            <h3 class="text-2xl font-bold mb-4">Pipol lo valida</h3>
+                            <p class="text-gray-300 leading-relaxed text-md">
+                                Revisamos tu información para asegurar experiencia real y generar confianza en la comunidad.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="swiper-slide">
+                        <div class="text-center px-6">
+                            <div class="w-24 h-24 gradient-bg rounded-full flex items-center justify-center mx-auto mb-8 text-4xl font-black text-white shadow-2xl">
+                                3
+                            </div>
+                            <h3 class="text-2xl font-bold mb-4">Definí tu agenda</h3>
+                            <p class="text-gray-300 leading-relaxed text-md">
+                                Elegí días y horarios para mentorear.
+                                Vos decidís cuándo estar disponible.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Step 4 -->
+                    <div class="swiper-slide">
+                        <div class="text-center px-6">
+                            <div class="w-24 h-24 gradient-bg rounded-full flex items-center justify-center mx-auto mb-8 text-4xl font-black text-white shadow-2xl">
+                                4
+                            </div>
+                            <h3 class="text-2xl font-bold mb-4">Poné valor a tu experiencia</h3>
+                            <p class="text-gray-300 leading-relaxed text-md">
+                                Te ayudamos a convertir tu conocimiento
+                                en mentorías con valor económico.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Step 5 -->
+                    <div class="swiper-slide">
+                        <div class="text-center px-6">
+                            <div class="w-24 h-24 gradient-bg rounded-full flex items-center justify-center mx-auto mb-8 text-4xl font-black text-white shadow-2xl">
+                                5
+                            </div>
+                            <h3 class="text-2xl font-bold mb-4">Capacitate para crecer</h3>
+                            <p class="text-gray-300 leading-relaxed text-md">
+                                Accedé a formación, feedback y herramientas para potenciar tu impacto como mentor.
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Controles -->
+                {{-- <div class="swiper-pagination mt-8"></div> --}}
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
             </div>
+            <script>
+                const stepsSwiper = new Swiper('.steps-swiper', {
+                    loop: false,
+                    spaceBetween: 32,
+                    slidesPerView: 1,
+                    pagination: {
+                        el: '.swiper-pagination',
+                        clickable: true,
+                    },
+                    navigation: {
+                        nextEl: '.swiper-button-next',
+                        prevEl: '.swiper-button-prev',
+                    },
+                    breakpoints: {
+                        768: {
+                            slidesPerView: 1,
+                        },
+                        1024: {
+                            slidesPerView: 3,
+                        }
+                    }
+                });
+            </script>
+
+
         </div>
     </section>
 
@@ -173,10 +281,26 @@
                     Preguntas <span class="gradient-text">frecuentes</span>
                 </h2>
             </div>
-                        <div id="content-mentores" class="tab-content space-y-6">
+            <div id="content-mentores" class="tab-content space-y-6">
+
+                <!-- FAQ Item 4 - Mentores -->
+                <div class="card rounded-2xl overflow-hidden">
+                    <button class="faq-question w-full text-left p-8 flex justify-between items-center hover:bg-opacity-80 transition-all cursor-pointer">
+                        <span class="text-md font-bold pr-8">¿Cómo me registro?</span>
+                        <svg class="faq-icon w-6 h-6 flex-shrink-0 transition-transform" style="color: var(--color-accent);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div class="faq-answer hidden px-8 pb-8">
+                        <p class="text-gray-300 leading-relaxed text-md">
+                            Es simple y rápido. Completás tu perfil, contás quién sos y qué experiencia tenés, elegís los temas en los que podés acompañar, fijás tu disponibilidad y listo. Una vez aprobado tu perfil, ya podés recibir reservas y comenzar a mentorear.
+                        </p>
+                    </div>
+                </div>
+
                 <!-- FAQ Item 1 - Mentores -->
                 <div class="card rounded-2xl overflow-hidden">
-                    <button class="faq-question w-full text-left p-8 flex justify-between items-center hover:bg-opacity-80 transition-all">
+                    <button class="faq-question w-full text-left p-8 flex justify-between items-center hover:bg-opacity-80 transition-all cursor-pointer">
                         <span class="text-md font-bold pr-8">¿Tiene algún costo ser Mentor en Pipol?</span>
                         <svg class="faq-icon w-6 h-6 flex-shrink-0 transition-transform" style="color: var(--color-accent);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
@@ -194,7 +318,7 @@
 
                 <!-- FAQ Item 2 - Mentores -->
                 <div class="card rounded-2xl overflow-hidden">
-                    <button class="faq-question w-full text-left p-8 flex justify-between items-center hover:bg-opacity-80 transition-all">
+                    <button class="faq-question w-full text-left p-8 flex justify-between items-center hover:bg-opacity-80 transition-all cursor-pointer">
                         <span class="text-md font-bold pr-8">¿Qué requisitos debo cumplir para ser Mentor en Pipol?</span>
                         <svg class="faq-icon w-6 h-6 flex-shrink-0 transition-transform" style="color: var(--color-accent);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
@@ -218,7 +342,7 @@
 
                 <!-- FAQ Item 3 - Mentores -->
                 <div class="card rounded-2xl overflow-hidden">
-                    <button class="faq-question w-full text-left p-8 flex justify-between items-center hover:bg-opacity-80 transition-all">
+                    <button class="faq-question w-full text-left p-8 flex justify-between items-center hover:bg-opacity-80 transition-all cursor-pointer">
                         <span class="text-md font-bold pr-8">¿Pueden rechazar mi registro como Mentor?</span>
                         <svg class="faq-icon w-6 h-6 flex-shrink-0 transition-transform" style="color: var(--color-accent);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
@@ -235,23 +359,10 @@
                     </div>
                 </div>
 
+                
                 <!-- FAQ Item 4 - Mentores -->
                 <div class="card rounded-2xl overflow-hidden">
-                    <button class="faq-question w-full text-left p-8 flex justify-between items-center hover:bg-opacity-80 transition-all">
-                        <span class="text-md font-bold pr-8">¿Cómo me registro?</span>
-                        <svg class="faq-icon w-6 h-6 flex-shrink-0 transition-transform" style="color: var(--color-accent);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                        </svg>
-                    </button>
-                    <div class="faq-answer hidden px-8 pb-8">
-                        <p class="text-gray-300 leading-relaxed text-md">
-                            Es simple y rápido. Completás tu perfil, contás quién sos y qué experiencia tenés, elegís los temas en los que podés acompañar, fijás tu disponibilidad y listo. Una vez aprobado tu perfil, ya podés recibir reservas y comenzar a mentorear.
-                        </p>
-                    </div>
-                </div>
-                <!-- FAQ Item 4 - Mentores -->
-                <div class="card rounded-2xl overflow-hidden">
-                    <button class="faq-question w-full text-left p-8 flex justify-between items-center hover:bg-opacity-80 transition-all">
+                    <button class="faq-question w-full text-left p-8 flex justify-between items-center hover:bg-opacity-80 transition-all cursor-pointer">
                         <span class="text-md font-bold pr-8">¿Cómo protege Pipol la privacidad y seguridad de los datos?</span>
                         <svg class="faq-icon w-6 h-6 flex-shrink-0 transition-transform" style="color: var(--color-accent);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
