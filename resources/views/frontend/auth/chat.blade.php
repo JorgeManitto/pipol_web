@@ -7,6 +7,7 @@
         <chat-form></chat-form>
     </div> --}}
     @livewire('mentor-registration-chat')
+   
     {{-- <style>
         .template{
             border-color: var(--color-primary);

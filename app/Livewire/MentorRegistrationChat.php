@@ -11,22 +11,23 @@ class MentorRegistrationChat extends Component
 
     public $step = 1;
     public $loadMethod = '';
-    public $name = '';
+    public $name = 'Jorge Manitto';
     public $birthDate = '';
-    public $country = '';
-    public $city = '';
+    public $country = 'Argentina';
+    public $city = 'Buenos Aires';
     public $workingNow = '';
-    public $currentPosition = '';
+    public $currentPosition = 'Desarrollador Web';
     public $lastPosition = '';
-    public $yearsExperience = '';
+    public $yearsExperience = '12';
     public $addCompanies = '';
-    public $companies = '';
-    public $sectors = '';
+    public $companies = 'Pipol, Pupilza Biz';
+    public $sectors = 'Tecnología';
     public $hasEducation = '';
-    public $education = '';
-    public $languages = '';
-    public $skills = '';
+    public $education = 'Ingeniería Electronica';
+    public $languages = 'Español, Inglés';
+    public $skills = 'Lidirezago de equipos, Gestión de proyectos';
     public $bio = '';
+    public $bioPivot = '';
     public $availability = '';
     public $seniority = 'Gerente';
     public $confirmSeniority = '';
@@ -38,9 +39,19 @@ class MentorRegistrationChat extends Component
     public $messages = [];
     public $loading = false;
 
+    public $stepHistory = [];
+    public $waitingForBioConfirmation = false;
+
+    public $buttonDisabled = false;
+
+    protected $listeners = [
+        'bioGenerada' => 'recibirBioGenerada',
+    ];
+
+
     public function mount()
     {
-        $this->addBotMessage('¿Cómo quieres cargar tu perfil?');
+        $this->addBotMessage('¿Cómo quieres crear tu perfil?');
     }
 
     private function addBotMessage($message)
@@ -78,6 +89,8 @@ class MentorRegistrationChat extends Component
     public function submitResponse()
     {
         // $this->loading = true;
+        $this->stepHistory[] = $this->step;
+
         $userMessage = $this->getUserResponseContent();
         if ($userMessage) {
             $this->messages[] = [
@@ -109,6 +122,7 @@ class MentorRegistrationChat extends Component
                 $this->addBotMessage('¡Gracias! Ahora vamos a construir tu perfil profesional.');
                 $this->step = 3;
                 $this->addBotMessage('¿Trabajas actualmente?');
+                $this->buttonDisabled = true;
                 break;
             case 3:
                 $this->validate(['workingNow' => 'required|in:yes,no'],
@@ -116,7 +130,8 @@ class MentorRegistrationChat extends Component
                     'workingNow.required' => 'Por favor, indica si estás trabajando actualmente.',
                     'workingNow.in' => 'La respuesta debe ser "yes" o "no".'
                 ]
-            );
+                );
+                $this->buttonDisabled = false;
                 $this->step = 4;
                 if ($this->workingNow === 'yes') {
                     $this->addBotMessage('¿Cuál es tu cargo actual?');
@@ -148,6 +163,7 @@ class MentorRegistrationChat extends Component
                 ]);
                 $this->step = 6;
                 $this->addBotMessage('¿Quieres indicar las empresas donde trabajaste?');
+                $this->buttonDisabled = true;
                 break;
             case 6:
                 $this->validate(['addCompanies' => 'required|in:yes,no'], 
@@ -162,6 +178,7 @@ class MentorRegistrationChat extends Component
                     $this->step = 8;
                     $this->addBotMessage('¿En qué rubros o industrias desarrollaste tu experiencia? (Campo de texto libre)');
                 }
+                 $this->buttonDisabled = false;
                 break;
             case 7:
                 $this->validate(['companies' => 'required'], 
@@ -176,6 +193,7 @@ class MentorRegistrationChat extends Component
                 $this->addBotMessage('Perfecto. Continuemos.');
                 $this->step = 9;
                 $this->addBotMessage('¿Tienes estudios formales y/o certificaciones relevantes?');
+                $this->buttonDisabled = true;
                 break;
             case 9:
                 $this->validate(['hasEducation' => 'required|in:yes,no'], 
@@ -190,6 +208,7 @@ class MentorRegistrationChat extends Component
                     $this->step = 11;
                     $this->addBotMessage('¿Qué idiomas hablas de manera fluida? (Campo libre + sugerencias automáticas)');
                 }
+                $this->buttonDisabled = false;
                 break;
             case 10:
                 $this->validate(['education' => 'required'],
@@ -207,6 +226,14 @@ class MentorRegistrationChat extends Component
                 $this->skills = $this->tagSkills($this->skills);
                 $this->step = 13;
                 $this->addBotMessage('Ahora vamos a crear tu bio profesional. Escríbenos tu bio directamente (puedes describirte como mentor).');
+                $this->loading = true;
+                $this->buttonDisabled = true;
+
+                $this->addBotMessage('Generando bio...');
+            
+                $this->ejecutarGemini();
+
+                // $this->dispatchScrollEvent();
                 break;
             case 13:
                 $this->validate(['bio' => 'required|string|min:5'], 
@@ -215,6 +242,7 @@ class MentorRegistrationChat extends Component
                     'bio.string' => 'La bio debe ser un texto válido.',
                     'bio.min' => 'La bio debe tener al menos 5 caracteres.'
                 ]);
+
                 $this->addBotMessage('Excelente. Una buena bio aumenta tus oportunidades de recibir solicitudes.');
                 $this->step = 14;
                 $this->addBotMessage('Vamos a configurar tu disponibilidad de agenda. Indica qué días y en qué franjas horarias estás disponible. (Respuesta libre o con chips sugeridos)');
@@ -223,6 +251,7 @@ class MentorRegistrationChat extends Component
                 $this->step = 15;
                 $this->addBotMessage('Según tu experiencia, detectamos un nivel de seniority ' . $this->seniority . '. ¿Es correcto?');
                 // Sugiere precios (placeholder)
+                $this->buttonDisabled = true;
                 $this->sessionPrices = [50, 75, 100];
                 break;
             case 15:
@@ -238,6 +267,7 @@ class MentorRegistrationChat extends Component
                     $this->step = 16;
                     $this->addBotMessage('Selecciona tu seniority:');
                 }
+                $this->buttonDisabled = false;
                 break;
             case 16:
                 $this->validate(['seniority' => 'required'], 
@@ -274,6 +304,40 @@ class MentorRegistrationChat extends Component
         $this->loading = false;
     }
 
+    public function goBack()
+    {
+        if (count($this->stepHistory) === 0) {
+            return;
+        }
+
+        // Volver al paso anterior
+        $this->step = array_pop($this->stepHistory);
+
+        // Eliminar último mensaje del usuario
+        for ($i = count($this->messages) - 1; $i >= 0; $i--) {
+            if ($this->messages[$i]['type'] === 'user') {
+                array_splice($this->messages, $i, 1);
+                break;
+            }
+        }
+
+        // Limpiar errores de validación
+        $this->resetErrorBag();
+
+        // Mensaje de feedback
+        $this->addBotMessage('Perfecto, volvamos un paso atrás 🙂');
+
+        // 👉 Repetir la pregunta del step actual
+        $question = $this->getStepQuestion($this->step);
+        if ($question) {
+            $this->addBotMessage($question);
+        }
+
+        $this->dispatchScrollEvent();
+
+    }
+
+
     private function normalizeSectors($input)
     {
         return str_replace(['gastronmia', 'gastronómico'], 'Gastronomía', $input);
@@ -293,4 +357,101 @@ class MentorRegistrationChat extends Component
         // $this->dispatchBrowserEvent('scrollToBottom');
         $this->dispatch('scrollToBottom', param1: 'hola');
     }
+
+    public function ejecutarGemini()
+    {
+        $this->dispatch('ejecutarGemini', data : $this->datoFromUser());
+    }
+
+    private function getStepQuestion($step)
+    {
+        return match ($step) {
+            1 => '¿Cómo quieres crear tu perfil?',
+            2 => 'Para comenzar, necesitamos algunos datos básicos: Nombre y apellido, Fecha de nacimiento, País y ciudad de residencia.',
+            3 => '¿Trabajas actualmente?',
+            4 => $this->workingNow === 'yes'
+                ? '¿Cuál es tu cargo actual?'
+                : '¿Cuál fue tu último cargo?',
+            5 => '¿Cuántos años de experiencia laboral tienes?',
+            6 => '¿Quieres indicar las empresas donde trabajaste?',
+            7 => 'Por favor, escríbelas separadas por coma.',
+            8 => '¿En qué rubros o industrias desarrollaste tu experiencia?',
+            9 => '¿Tienes estudios formales y/o certificaciones relevantes?',
+            10 => 'Escríbelos e indica dónde los realizaste.',
+            11 => '¿Qué idiomas hablas de manera fluida?',
+            12 => '¿Qué habilidades técnicas y/o competencias blandas puedes mentorear?',
+            13 => 'Escribe tu bio profesional.',
+            14 => 'Indica tu disponibilidad horaria.',
+            15 => '¿El seniority detectado es correcto?',
+            16 => 'Selecciona tu seniority:',
+            17 => 'Selecciona el valor de tu hora de mentoría:',
+            18 => 'Sube una selfie y una foto de tu documento.',
+            default => null,
+        };
+    }
+
+    function datoFromUser() {
+        return [
+            'name' => $this->name,
+            'birthDate' => $this->birthDate,
+            'country' => $this->country,
+            'city' => $this->city,
+            'workingNow' => $this->workingNow,
+            'currentPosition' => $this->currentPosition,
+            'lastPosition' => $this->lastPosition,
+            'yearsExperience' => $this->yearsExperience,
+            'addCompanies' => $this->addCompanies,
+            'companies' => $this->companies,
+            'sectors' => $this->sectors,
+            'hasEducation' => $this->hasEducation,
+            'education' => $this->education,
+            'languages' => $this->languages,
+            'skills' => $this->skills,
+            // 'bio' => $this->bio,
+            // 'availability' => $this->availability,
+            // 'seniority' => $this->seniority,
+            // 'selectedPrice' => $this->selectedPrice,
+        ];
+    }
+
+    public function recibirBioGenerada($bio)
+    {
+        $this->loading = false;
+        // $this->buttonDisabled = false;
+
+        // $this->bio = trim($bio);
+        $this->bioPivot = trim($bio);
+
+        // Mostrar la bio como mensaje del bot
+        $this->addBotMessage($this->bioPivot);
+
+        // Preguntar si quiere editarla
+        $this->addBotMessage('¿Querés editar esta bio?');
+
+        $this->waitingForBioConfirmation = true;
+
+        $this->dispatchScrollEvent();
+    }
+
+    public $editBioresponse = '';
+
+    public function confirmarEdicionBio($respuesta)
+    {
+        $this->waitingForBioConfirmation = false;
+
+        if ($respuesta === 'yes') {
+            $this->addBotMessage('Perfecto, podés editar tu bio ahora.');
+            $this->step = 13; // textarea editable
+            $this->editBioresponse = 'yes';
+        } else {
+            $this->addBotMessage('Excelente. Continuamos.');
+            $this->step = 14;
+            $this->editBioresponse = 'no';
+            $this->addBotMessage('Vamos a configurar tu disponibilidad de agenda.');
+        }
+        $this->bio = $this->bioPivot;
+        $this->buttonDisabled = false;
+        $this->dispatchScrollEvent();
+    }
+
 }

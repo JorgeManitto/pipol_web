@@ -1,4 +1,5 @@
 <div class="max-w-2xl mx-4 md:mx-auto p-6 bg-gray-50 rounded-xl shadow-lg border my-12 border-gray-200" style="min-height: 100%;display: flex;flex-direction: column;justify-content: space-between;">
+    
     <div>
         <!-- Header -->
         <div class="text-center border-b border-gray-200 pb-3 mb-3">
@@ -34,6 +35,7 @@
             }
             }
         </style>
+        
         <div id="chat" class="h-96 overflow-y-auto overflow-x-hidden mb-6 space-y-6 px-4 py-4 bg-white rounded-lg shadow-inner">
             @foreach ($messages as $index => $message)
                 <div 
@@ -83,11 +85,11 @@
         </div>
     </div>
 
-    <form wire:submit.prevent="submitResponse" class="space-y-4 text-black flex flex-col justify-end" style="min-height: 100px;">
+    <form wire:submit.prevent="submitResponse"  class="space-y-4 text-black flex flex-col justify-end" style="min-height: 100px;">
         @if ($step == 1)
             <div class="flex space-x-4">
-                <button type="button" wire:click="$set('loadMethod', 'cv')" class="{{ $loadMethod == 'cv' ? 'bg-pink-600 hover:bg-pink-700' : 'bg-gray-600 hover:bg-gray-700 '}} cursor-pointer transition flex-1 px-4 py-2  text-white rounded-lg shadow ">Cargar CV / LinkedIn</button>
-                <button type="button" wire:click="$set('loadMethod', 'manual')" class="{{ $loadMethod == 'manual' ? 'bg-pink-600 hover:bg-pink-700' : 'bg-gray-600 hover:bg-gray-700'}} cursor-pointer flex-1 px-4 py-2  text-white rounded-lg shadow  transition">Cargar datos manualmente</button>
+                <button type="button" wire:click="$set('loadMethod', 'cv')" class="{{ $loadMethod == 'cv' ? 'bg-pink-600 hover:bg-pink-700' : 'bg-gray-600 hover:bg-gray-700 '}} cursor-pointer transition flex-1 px-4 py-2  text-white rounded-lg shadow" onclick="submitForm()">Cargar CV / LinkedIn</button>
+                <button type="button" wire:click="$set('loadMethod', 'manual')" class="{{ $loadMethod == 'manual' ? 'bg-pink-600 hover:bg-pink-700' : 'bg-gray-600 hover:bg-gray-700'}} cursor-pointer flex-1 px-4 py-2  text-white rounded-lg shadow  transition" onclick="submitForm()">Cargar datos manualmente</button>
             </div>
         @elseif ($step == 2)
             <input wire:model="name" placeholder="Nombre y apellido" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
@@ -103,8 +105,8 @@
 
         @elseif ($step == 3)
             <div class="flex space-x-4">
-                <button type="button" wire:click="$set('workingNow', 'yes')" class="{{ $workingNow == 'yes' ? 'bg-pink-600 hover:bg-pink-700' : 'bg-gray-600 hover:bg-gray-700 '}} cursor-pointer flex-1 px-4 py-2 text-white rounded-lg shadow  transition">Sí</button>
-                <button type="button" wire:click="$set('workingNow', 'no')" class="{{ $workingNow == 'no' ? 'bg-pink-600 hover:bg-pink-700' : 'bg-gray-600 hover:bg-gray-700 '}} cursor-pointer flex-1 px-4 py-2 text-white rounded-lg shadow  transition">No</button>
+                <button type="button" wire:click="$set('workingNow', 'yes')" onclick="submitForm()" class="{{ $workingNow == 'yes' ? 'bg-pink-600 hover:bg-pink-700' : 'bg-gray-600 hover:bg-gray-700 '}} cursor-pointer flex-1 px-4 py-2 text-white rounded-lg shadow  transition">Sí</button>
+                <button type="button" wire:click="$set('workingNow', 'no')" onclick="submitForm()" class="{{ $workingNow == 'no' ? 'bg-pink-600 hover:bg-pink-700' : 'bg-gray-600 hover:bg-gray-700 '}} cursor-pointer flex-1 px-4 py-2 text-white rounded-lg shadow  transition">No</button>
             </div>
             @error('workingNow') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
         @elseif ($step == 4)
@@ -120,8 +122,8 @@
             @error('yearsExperience') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
         @elseif ($step == 6)
             <div class="flex space-x-4">
-                <button type="button" wire:click="$set('addCompanies', 'yes')" class="{{ $addCompanies == 'yes' ? 'bg-pink-600 hover:bg-pink-700' : 'bg-gray-600 hover:bg-gray-700 '}} cursor-pointer transition flex-1 px-4 py-2 text-white rounded-lg shadow">Sí</button>
-                <button type="button" wire:click="$set('addCompanies', 'no')" class="{{ $addCompanies == 'no' ? 'bg-pink-600 hover:bg-pink-700' : 'bg-gray-600 hover:bg-gray-700 '}} cursor-pointer transition flex-1 px-4 py-2 text-white rounded-lg shadow">No</button>
+                <button type="button" wire:click="$set('addCompanies', 'yes')" onclick="submitForm()" class="{{ $addCompanies == 'yes' ? 'bg-pink-600 hover:bg-pink-700' : 'bg-gray-600 hover:bg-gray-700 '}} cursor-pointer transition flex-1 px-4 py-2 text-white rounded-lg shadow">Sí</button>
+                <button type="button" wire:click="$set('addCompanies', 'no')" onclick="submitForm()" class="{{ $addCompanies == 'no' ? 'bg-pink-600 hover:bg-pink-700' : 'bg-gray-600 hover:bg-gray-700 '}} cursor-pointer transition flex-1 px-4 py-2 text-white rounded-lg shadow">No</button>
             </div>
             @error('addCompanies') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
         @elseif ($step == 7)
@@ -131,8 +133,8 @@
             <input wire:model="sectors" placeholder="Rubros / industrias" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
         @elseif ($step == 9)
             <div class="flex space-x-4">
-                <button type="button" wire:click="$set('hasEducation', 'yes')" class="{{ $hasEducation == 'yes' ? 'bg-pink-600 hover:bg-pink-700' : 'bg-gray-600 hover:bg-gray-700 '}} cursor-pointer flex-1 px-4 py-2 text-white rounded-lg shadow  transition">Sí</button>
-                <button type="button" wire:click="$set('hasEducation', 'no')" class="{{ $hasEducation == 'no' ? 'bg-pink-600 hover:bg-pink-700' : 'bg-gray-600 hover:bg-gray-700 '}} cursor-pointer flex-1 px-4 py-2  text-white rounded-lg shadow transition">No</button>
+                <button type="button" wire:click="$set('hasEducation', 'yes')" onclick="submitForm()" class="{{ $hasEducation == 'yes' ? 'bg-pink-600 hover:bg-pink-700' : 'bg-gray-600 hover:bg-gray-700 '}} cursor-pointer flex-1 px-4 py-2 text-white rounded-lg shadow  transition">Sí</button>
+                <button type="button" wire:click="$set('hasEducation', 'no')" onclick="submitForm()" class="{{ $hasEducation == 'no' ? 'bg-pink-600 hover:bg-pink-700' : 'bg-gray-600 hover:bg-gray-700 '}} cursor-pointer flex-1 px-4 py-2  text-white rounded-lg shadow transition">No</button>
             </div>
             @error('hasEducation') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
         @elseif ($step == 10)
@@ -143,14 +145,36 @@
         @elseif ($step == 12)
             <textarea wire:model="skills" placeholder="Habilidades (separadas por coma)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 h-24"></textarea>
         @elseif ($step == 13)
-            <textarea wire:model="bio" placeholder="Escribe tu bio profesional aquí" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 h-32"></textarea>
+            @if ($editBioresponse == 'yes')
+                <textarea wire:model="bio" placeholder="Escribe tu bio profesional aquí" id="textBio" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 h-32"></textarea>
+            @endif
+            @if ($waitingForBioConfirmation)
+                <div class="flex space-x-4">
+                    <button
+                        type="button"
+                        wire:click="confirmarEdicionBio('yes')"
+                        class="flex-1 bg-gray-600 text-white px-4 py-2 rounded-lg cursor-pointer"
+                    >
+                        Sí
+                    </button>
+
+                    <button
+                        type="button"
+                        wire:click="confirmarEdicionBio('no')"
+                        class="flex-1 bg-gray-600 text-white px-4 py-2 rounded-lg cursor-pointer"
+                    >
+                        No
+                    </button>
+                </div>
+            @endif
+
             @error('bio') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
         @elseif ($step == 14)
             <textarea wire:model="availability" placeholder="Días y horarios (ej. Lunes-Viernes 9-12)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 h-24"></textarea>
         @elseif ($step == 15)
             <div class="flex space-x-4">
-                <button type="button" wire:click="$set('confirmSeniority', 'yes')" class="{{ $confirmSeniority == 'yes' ? 'bg-pink-600 hover:bg-pink-700' : 'bg-gray-600 hover:bg-gray-700 '}} cursor-pointer flex-1 px-4 py-2 text-white rounded-lg shadow transition">Sí</button>
-                <button type="button" wire:click="$set('confirmSeniority', 'no')" class="{{ $confirmSeniority == 'no' ? 'bg-pink-600 hover:bg-pink-700' : 'bg-gray-600 hover:bg-gray-700 '}} cursor-pointer flex-1 px-4 py-2 text-white rounded-lg shadow transition">No</button>
+                <button type="button" wire:click="$set('confirmSeniority', 'yes')" onclick="submitForm()" class="{{ $confirmSeniority == 'yes' ? 'bg-pink-600 hover:bg-pink-700' : 'bg-gray-600 hover:bg-gray-700 '}} cursor-pointer flex-1 px-4 py-2 text-white rounded-lg shadow transition">Sí</button>
+                <button type="button" wire:click="$set('confirmSeniority', 'no')" onclick="submitForm()" class="{{ $confirmSeniority == 'no' ? 'bg-pink-600 hover:bg-pink-700' : 'bg-gray-600 hover:bg-gray-700 '}} cursor-pointer flex-1 px-4 py-2 text-white rounded-lg shadow transition">No</button>
             </div>
             @error('confirmSeniority') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
         @elseif ($step == 16)
@@ -165,7 +189,7 @@
         @elseif ($step == 17)
             <div class="flex space-x-4">
                 @foreach ($sessionPrices as $price)
-                    <button type="button" wire:click="$set('selectedPrice', {{ $price }})" class="{{ $selectedPrice == $price  ? 'bg-pink-600 hover:bg-pink-700' : 'bg-gray-600 hover:bg-gray-700 '}} cursor-pointer flex-1 px-4 py-2 text-white rounded-lg shadow  transition">${{ $price }}</button>
+                    <button type="button" onclick="submitForm()" wire:click="$set('selectedPrice', {{ $price }})" class="{{ $selectedPrice == $price  ? 'bg-pink-600 hover:bg-pink-700' : 'bg-gray-600 hover:bg-gray-700 '}} cursor-pointer flex-1 px-4 py-2 text-white rounded-lg shadow  transition">${{ $price }}</button>
                 @endforeach
             </div>
             @error('selectedPrice') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
@@ -236,14 +260,25 @@
 
 
         @if ($step < 19)
-            <button type="submit" wire:loading.attr="disabled" class="cursor-pointer w-full px-4 py-3 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 transition {{ $loading ? 'opacity-50 cursor-not-allowed' : '' }}">
-                @if ($loading) Cargando... @else Enviar @endif
+            <button type="submit" @disabled($buttonDisabled) wire:loading.attr="disabled" class="cursor-pointer w-full px-4 py-3 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 transition {{ $buttonDisabled ? 'opacity-50 cursor-not-allowed' : '' }}" id="btn-enviar">
+                @if ($loading) Cargando... @else Siguiente @endif
             </button>
         @endif
+        @if ($step > 1 && $step < 19)
+            <button
+                type="button"
+                wire:click="goBack"
+                class="w-full px-4 py-2 mb-2 border border-gray-300 text-gray-700 rounded-lg
+                    hover:bg-gray-100 transition cursor-pointer"
+            >
+                ← Volver atrás
+            </button>
+        @endif
+
     </form>
+     @include('livewire.components.gemini')
+    {{-- @livewire('components.gemini') --}}
 </div>
-
-
 
 <script>
     let chat = document.getElementById('chat');
@@ -255,4 +290,13 @@
             }, 200);
         }
     });
+    window.addEventListener('ejecutarGemini', event => {
+        
+        ejecutarGemini(event.detail);
+    });
+    function submitForm() {
+        const btnEnviar = document.getElementById('btn-enviar');
+        btnEnviar.disabled = false;
+        btnEnviar.click();
+    }
 </script>
