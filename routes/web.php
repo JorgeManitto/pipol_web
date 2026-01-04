@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\Auth\LinkedInController;
 use App\Http\Controllers\Backend\AdminUserController;
+use App\Http\Controllers\Backend\ChatController;
 use App\Http\Controllers\Backend\Dashboard;
 use App\Http\Controllers\Backend\MentorSearchController;
 use App\Http\Controllers\Backend\PaymentController;
@@ -38,8 +40,11 @@ Route::get('test-notification', [MentorSearchController::class, 'enviarNotificac
 
 Broadcast::routes(['middleware' => ['auth']]);
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth','profile.completed', 'check.active'])->group(function () {
     Route::get('/test-meet', [AdminUserController::class, 'testMeet'])->name('test.meet');
+});
+Route::middleware(['auth','profile.completed'])->group(function () {
+    
 
     Route::get('/dashboard', [Dashboard::class, 'index'])->name('dashboard');
 
@@ -75,18 +80,7 @@ Route::middleware(['auth'])->group(function () {
 
 
     Route::get('/crear-link', [PaymentController::class, 'generarLink']);
-
-    Route::get('/mp/success', function() {
-        return "Pago exitoso";
-    })->name('mp.success');
-
-    Route::get('/mp/failure', function() {
-        return "Pago fallido";
-    })->name('mp.failure');
-
-    Route::get('/mp/pending', function() {
-        return "Pago pendiente";
-    })->name('mp.pending');
+    Route::get('/mensajes', [ChatController::class, 'index'])->name('admin.chat.index');
 
 });
 
@@ -105,6 +99,11 @@ Route::get('run-clear', function(){
     
     return 'Link de storage ejecutado correctamente';
 });
+
+
+Route::get('/auth/linkedin', [LinkedInController::class, 'redirect']);
+Route::get('/auth/linkedin/callback', [LinkedInController::class, 'callback']);
+
 
 
 // Redirige a Google
@@ -161,10 +160,15 @@ Route::get('/auth/google/callback', function () {
     return redirect('/dashboard');
 });
 
+Route::middleware(['auth',
+])->group(function () {
 
-Route::get('/chat', function () {
-    return view('frontend.auth.chat');
-})->name('chat');
+    Route::get('/chat', function () {return view('frontend.auth.chat');})->name('chat');
+    Route::get('/chat-cv', function () {return view('frontend.auth.chat-cv');})->name('chat-cv');
+
+    Route::get('/linkedin/redirect/view', [LinkedInController::class, 'redirectToLinkedinView'])->name('linkedin.redirect.view');
+    Route::get('/linkedin/set-as-mentor', [LinkedInController::class, 'setUserAsMentor'])->name('linkedin.set.as.mentor');
+});
 
 // Opcional: guardar datos
 Route::post('/guardar-datos', function (Illuminate\Http\Request $request) {

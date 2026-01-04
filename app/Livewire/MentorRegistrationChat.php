@@ -2,14 +2,21 @@
 
 namespace App\Livewire;
 
+use App\Models\Availabilitie;
+use App\Models\User;
+use Google\Service\ServiceControl\Auth;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Spatie\PdfToText\Pdf;
+
 
 class MentorRegistrationChat extends Component
 {
     use WithFileUploads;
 
     public $step = 1;
+    public $cvFile;
+    public $isCvSelected = false;
     public $loadMethod = '';
     public $name = '';
     public $birthDate = '';
@@ -29,7 +36,7 @@ class MentorRegistrationChat extends Component
     public $bio = '';
     public $bioPivot = '';
     public $availability = '';
-    public $seniority = 'Gerente';
+    public $seniority = '';
     public $confirmSeniority = '';
     public $sessionPrices = [];
     public $selectedPrice = '';
@@ -44,13 +51,19 @@ class MentorRegistrationChat extends Component
 
     public $buttonDisabled = false;
 
+    public $textCvPivot = '';
+
     protected $listeners = [
         'bioGenerada' => 'recibirBioGenerada',
+        'seniorityGenerada' => 'recibirSeniorityGenerada',
+        'availabilitiesGeneradas' => 'recibirAvailabilitiesGeneradas',
+        'cvProcesado' => 'recibirCvGenerado',
     ];
 
 
     public function mount()
     {
+        // dd(auth()->user());
         $this->addBotMessage('¿Cómo quieres crear tu perfil?');
     }
 
@@ -98,210 +111,315 @@ class MentorRegistrationChat extends Component
                 'content' => $userMessage
             ];
         }
-        switch ($this->step) {
-            case 1:
-                if ($this->loadMethod === 'manual') {
+        if($this->loadMethod == 'cv'){
+            // Aquí puedes agregar la lógica para procesar el archivo CV si es necesario
+            switch ($this->step) {
+                case 1:
                     $this->addBotMessage('¡Gracias! Ahora vamos a construir tu perfil profesional.');
+                    $this->addBotMessage('Para comenzar, necesitamos que cargues tu CV(preferentemente de LinkedIn)');
+                    $this->isCvSelected = true;
                     $this->step = 2;
-                    $this->addBotMessage('Para comenzar, necesitamos algunos datos básicos: Nombre y apellido, Fecha de nacimiento, País y ciudad de residencia.');
-                } else {
-                    // Maneja CV/LinkedIn si lo implementas
-                    $this->addBotMessage('Cargando desde CV/LinkedIn... (falta implementar lógica acá)');
-                }
-                break;
-            case 2:
-                $validated = $this->validate(['name' => 'required', 'birthDate' => 'required|date', 'country' => 'required', 'city' => 'required'],
-                [
-                    'name.required' => 'Por favor, ingresa tu nombre y apellido.',
-                    'birthDate.required' => 'Por favor, ingresa tu fecha de nacimiento.',
-                    'birthDate.date' => 'La fecha de nacimiento debe ser una fecha válida.',
-                    'country.required' => 'Por favor, ingresa tu país de residencia.',
-                    'city.required' => 'Por favor, ingresa tu ciudad de residencia.'
-                ]);
-                
-                $this->addBotMessage('¡Gracias! Ahora vamos a construir tu perfil profesional.');
-                $this->step = 3;
-                $this->addBotMessage('¿Trabajas actualmente?');
-                $this->buttonDisabled = true;
-                break;
-            case 3:
-                $this->validate(['workingNow' => 'required|in:yes,no'],
-                [
-                    'workingNow.required' => 'Por favor, indica si estás trabajando actualmente.',
-                    'workingNow.in' => 'La respuesta debe ser "yes" o "no".'
-                ]
-                );
-                $this->buttonDisabled = false;
-                $this->step = 4;
-                if ($this->workingNow === 'yes') {
-                    $this->addBotMessage('¿Cuál es tu cargo actual?');
-                } else {
-                    $this->addBotMessage('¿Cuál fue tu último cargo?');
-                }
-                break;
-            case 4:
-                if ($this->workingNow === 'yes') {
-                    $this->validate(['currentPosition' => 'required'],
+                    break;
+                case 2:
+                    $validated = $this->validate(['cvFile' => 'required|file|mimes:pdf,doc,docx'],
                     [
-                        'currentPosition.required' => 'Por favor, ingresa tu cargo actual.'
-                    ]
-                );
-                } else {
-                    $this->validate(['lastPosition' => 'required'],
-                    [
-                        'lastPosition.required' => 'Por favor, ingresa tu último cargo.'
+                        'cvFile.required' => 'Por favor, carga tu CV en formato PDF.',
+                        'cvFile.file' => 'El archivo debe ser un archivo válido.',
+                        'cvFile.mimes' => 'El archivo debe ser un PDF o un documento de Word.'
                     ]);
-                }
-                $this->step = 5;
-                $this->addBotMessage('Para entender mejor tu recorrido profesional: ¿Cuántos años de experiencia laboral tienes? (respuesta numérica o rangos sugeridos)');
-                break;
-            case 5:
-                $this->validate(['yearsExperience' => 'required|numeric'],
-                [
-                    'yearsExperience.required' => 'Por favor, ingresa tus años de experiencia laboral.',
-                    'yearsExperience.numeric' => 'Los años de experiencia deben ser un número válido.'
-                ]);
-                $this->step = 6;
-                $this->addBotMessage('¿Quieres indicar las empresas donde trabajaste?');
-                $this->buttonDisabled = true;
-                break;
-            case 6:
-                $this->validate(['addCompanies' => 'required|in:yes,no'], 
-                [
-                    'addCompanies.required' => 'Por favor, indica si deseas agregar las empresas donde trabajaste.',
-                    'addCompanies.in' => 'La respuesta debe ser "yes" o "no".'
-                ]);
-                if ($this->addCompanies === 'yes') {
-                    $this->step = 7;
-                    $this->addBotMessage('Por favor, escríbelas separadas por coma.');
-                } else {
+                    $this->addBotMessage('Procesando tu CV...');
+
+                    $text = Pdf::getText($this->cvFile->getRealPath(),
+                        'C:\poppler\Library\bin\pdftotext.exe');
+
+                    $text = preg_replace('/\s+/', ' ', $text);
+                    $text = trim($text);   
+                    $this->textCvPivot = $text;
+
+                    $this->ejecutarCv($text);
+
+                    break;
+                case 3:
+                    // $this->buttonDisabled = true;
+                    $this->sessionPrices = [50, 75, 100];
+                    $this->addBotMessage('Con base en tu perfil, te proponemos estas opciones para el valor de tu hora. (Recuerda que puedes modificar este valor cuando lo desees.)');
+
+                    break;
+                case 4:
+                    $this->validate(['selectedPrice' => 'required'], 
+                    [
+                        'selectedPrice.required' => 'Por favor, selecciona un valor para tu hora de mentoría.'
+                    ]);
+                    // $this->buttonDisabled = false;
+                    $this->step = 5;
+                    
+                    $this->addBotMessage('Ya casi terminamos. Para validar tu perfil y garantizar una comunidad segura, te pedimos: Tomarte una selfie y cargar una foto de tu documento.');
+                    
+                    break;
+                case 5:
+                    $this->validate(['selfie' => 'required|image', 'documentPhoto' => 'required|image'],
+                    [
+                        'selfie.required' => 'Por favor, carga una selfie.',
+                        'selfie.image' => 'La selfie debe ser un archivo de imagen válido.',
+                        'documentPhoto.required' => 'Por favor, carga una foto de tu documento.',
+                        'documentPhoto.image' => 'La foto del documento debe ser un archivo de imagen válido.'
+                    ]);
+                    $this->saveImagesFromCv();
+                    $this->step = 19;
+                    
+                    $this->addBotMessage('¡Listo! Tu perfil fue enviado para validación. En breve recibirás una notificación para comenzar a mentorear en Pipol.');
+                    
+                    break;
+            }
+           
+        }else{
+            switch ($this->step) {
+                case 1:
+                    $this->addBotMessage('¡Gracias! Ahora vamos a construir tu perfil profesional.');
+                    $this->isCvSelected = false;
+                    if ($this->loadMethod === 'manual') {
+                        $this->step = 2;
+                        $this->addBotMessage('Para comenzar, necesitamos algunos datos básicos: Nombre y apellido, Fecha de nacimiento, País y ciudad de residencia.');
+                    } else {
+                    }
+                    break;
+                case 2:
+                    $validated = $this->validate(['name' => 'required', 'birthDate' => 'required|date', 'country' => 'required', 'city' => 'required'],
+                    [
+                        'name.required' => 'Por favor, ingresa tu nombre y apellido.',
+                        'birthDate.required' => 'Por favor, ingresa tu fecha de nacimiento.',
+                        'birthDate.date' => 'La fecha de nacimiento debe ser una fecha válida.',
+                        'country.required' => 'Por favor, ingresa tu país de residencia.',
+                        'city.required' => 'Por favor, ingresa tu ciudad de residencia.'
+                    ]);
+                    
+                    $this->addBotMessage('¡Gracias! Ahora vamos a construir tu perfil profesional.');
+                    $this->step = 3;
+                    $this->addBotMessage('¿Trabajas actualmente?');
+                    $this->buttonDisabled = true;
+                    break;
+                case 3:
+                    $this->validate(['workingNow' => 'required|in:yes,no'],
+                    [
+                        'workingNow.required' => 'Por favor, indica si estás trabajando actualmente.',
+                        'workingNow.in' => 'La respuesta debe ser "yes" o "no".'
+                    ]
+                    );
+                    $this->buttonDisabled = false;
+                    $this->step = 4;
+                    if ($this->workingNow === 'yes') {
+                        $this->addBotMessage('¿Cuál es tu cargo actual?');
+                    } else {
+                        $this->addBotMessage('¿Cuál fue tu último cargo?');
+                    }
+                    break;
+                case 4:
+                    if ($this->workingNow === 'yes') {
+                        $this->validate(['currentPosition' => 'required'],
+                        [
+                            'currentPosition.required' => 'Por favor, ingresa tu cargo actual.'
+                        ]
+                    );
+                    } else {
+                        $this->validate(['lastPosition' => 'required'],
+                        [
+                            'lastPosition.required' => 'Por favor, ingresa tu último cargo.'
+                        ]);
+                    }
+                    $this->step = 5;
+                    $this->addBotMessage('Para entender mejor tu recorrido profesional: ¿Cuántos años de experiencia laboral tienes? (respuesta numérica o rangos sugeridos)');
+                    break;
+                case 5:
+                    $this->validate(['yearsExperience' => 'required|numeric'],
+                    [
+                        'yearsExperience.required' => 'Por favor, ingresa tus años de experiencia laboral.',
+                        'yearsExperience.numeric' => 'Los años de experiencia deben ser un número válido.'
+                    ]);
+                    $this->step = 6;
+                    $this->addBotMessage('¿Quieres indicar las empresas donde trabajaste?');
+                    $this->buttonDisabled = true;
+                    break;
+                case 6:
+                    $this->validate(['addCompanies' => 'required|in:yes,no'], 
+                    [
+                        'addCompanies.required' => 'Por favor, indica si deseas agregar las empresas donde trabajaste.',
+                        'addCompanies.in' => 'La respuesta debe ser "yes" o "no".'
+                    ]);
+                    if ($this->addCompanies === 'yes') {
+                        $this->step = 7;
+                        $this->addBotMessage('Por favor, escríbelas separadas por coma.');
+                    } else {
+                        $this->step = 8;
+                        $this->addBotMessage('¿En qué rubros o industrias desarrollaste tu experiencia? (Campo de texto libre)');
+                    }
+                     $this->buttonDisabled = false;
+                    break;
+                case 7:
+                    $this->validate(['companies' => 'required'], 
+                    [
+                        'companies.required' => 'Por favor, ingresa las empresas donde trabajaste.'
+                    ]);
                     $this->step = 8;
                     $this->addBotMessage('¿En qué rubros o industrias desarrollaste tu experiencia? (Campo de texto libre)');
-                }
-                 $this->buttonDisabled = false;
-                break;
-            case 7:
-                $this->validate(['companies' => 'required'], 
-                [
-                    'companies.required' => 'Por favor, ingresa las empresas donde trabajaste.'
-                ]);
-                $this->step = 8;
-                $this->addBotMessage('¿En qué rubros o industrias desarrollaste tu experiencia? (Campo de texto libre)');
-                break;
-            case 8:
-                $this->sectors = $this->normalizeSectors($this->sectors);
-                $this->addBotMessage('Perfecto. Continuemos.');
-                $this->step = 9;
-                $this->addBotMessage('¿Tienes estudios formales y/o certificaciones relevantes?');
-                $this->buttonDisabled = true;
-                break;
-            case 9:
-                $this->validate(['hasEducation' => 'required|in:yes,no'], 
-                [
-                    'hasEducation.required' => 'Por favor, indica si tienes estudios formales y/o certificaciones relevantes.',
-                    'hasEducation.in' => 'La respuesta debe ser "yes" o "no".'
-                ]);
-                if ($this->hasEducation === 'yes') {
-                    $this->step = 10;
-                    $this->addBotMessage('Escríbelos e indica dónde los realizaste.');
-                } else {
+                    break;
+                case 8:
+                    $this->sectors = $this->normalizeSectors($this->sectors);
+                    $this->addBotMessage('Perfecto. Continuemos.');
+                    $this->step = 9;
+                    $this->addBotMessage('¿Tienes estudios formales y/o certificaciones relevantes?');
+                    $this->buttonDisabled = true;
+                    break;
+                case 9:
+                    $this->validate(['hasEducation' => 'required|in:yes,no'], 
+                    [
+                        'hasEducation.required' => 'Por favor, indica si tienes estudios formales y/o certificaciones relevantes.',
+                        'hasEducation.in' => 'La respuesta debe ser "yes" o "no".'
+                    ]);
+                    if ($this->hasEducation === 'yes') {
+                        $this->step = 10;
+                        $this->addBotMessage('Escríbelos e indica dónde los realizaste.');
+                    } else {
+                        $this->step = 11;
+                        $this->addBotMessage('¿Qué idiomas hablas de manera fluida? (Campo libre + sugerencias automáticas)');
+                    }
+                    $this->buttonDisabled = false;
+                    break;
+                case 10:
+                    $this->validate(['education' => 'required'],
+                    [
+                        'education.required' => 'Por favor, ingresa tus estudios formales y/o certificaciones relevantes.'
+                    ]);
                     $this->step = 11;
                     $this->addBotMessage('¿Qué idiomas hablas de manera fluida? (Campo libre + sugerencias automáticas)');
-                }
-                $this->buttonDisabled = false;
-                break;
-            case 10:
-                $this->validate(['education' => 'required'],
-                [
-                    'education.required' => 'Por favor, ingresa tus estudios formales y/o certificaciones relevantes.'
-                ]);
-                $this->step = 11;
-                $this->addBotMessage('¿Qué idiomas hablas de manera fluida? (Campo libre + sugerencias automáticas)');
-                break;
-            case 11:
-                $this->step = 12;
-                $this->addBotMessage('Esta información es clave para que los mentees te encuentren. ¿Qué habilidades técnicas y/o competencias blandas puedes mentorear? (Escribe palabras o frases cortas. Ejemplo: liderazgo de equipos, toma de decisiones, gestión del talento)');
-                break;
-            case 12:
-                $this->skills = $this->tagSkills($this->skills);
-                $this->step = 13;
-                $this->addBotMessage('Ahora vamos a crear tu bio profesional. Escríbenos tu bio directamente (puedes describirte como mentor).');
-                $this->loading = true;
-                $this->buttonDisabled = true;
-
-                $this->addBotMessage('Generando bio...');
-            
-                $this->ejecutarGemini();
-
-                // $this->dispatchScrollEvent();
-                break;
-            case 13:
-                $this->validate(['bio' => 'required|string|min:5'], 
-                [
-                    'bio.required' => 'Por favor, ingresa tu bio profesional.',
-                    'bio.string' => 'La bio debe ser un texto válido.',
-                    'bio.min' => 'La bio debe tener al menos 5 caracteres.'
-                ]);
-
-                $this->addBotMessage('Excelente. Una buena bio aumenta tus oportunidades de recibir solicitudes.');
-                $this->step = 14;
-                $this->addBotMessage('Vamos a configurar tu disponibilidad de agenda. Indica qué días y en qué franjas horarias estás disponible. (Respuesta libre o con chips sugeridos)');
-                break;
-            case 14:
-                $this->step = 15;
-                $this->addBotMessage('Según tu experiencia, detectamos un nivel de seniority ' . $this->seniority . '. ¿Es correcto?');
-                // Sugiere precios (placeholder)
-                $this->buttonDisabled = true;
-                $this->sessionPrices = [50, 75, 100];
-                break;
-            case 15:
-                $this->validate(['confirmSeniority' => 'required|in:yes,no'], 
-                [
-                    'confirmSeniority.required' => 'Por favor, confirma si el seniority sugerido es correcto.',
-                    'confirmSeniority.in' => 'La respuesta debe ser "yes" o "no".'
-                ]);
-                if ($this->confirmSeniority === 'yes') {
+                    break;
+                case 11:
+                    $this->step = 12;
+                    $this->addBotMessage('Esta información es clave para que los mentees te encuentren. ¿Qué habilidades técnicas y/o competencias blandas puedes mentorear? (Escribe palabras o frases cortas. Ejemplo: liderazgo de equipos, toma de decisiones, gestión del talento)');
+                    break;
+                case 12:
+                    $this->skills = $this->tagSkills($this->skills);
+                    $this->ejecutarGemini();
+                    $this->step = 13;
+                    $this->addBotMessage('Ahora vamos a crear tu bio profesional. Escríbenos tu bio directamente (puedes describirte como mentor).');
+                    $this->loading = true;
+                    $this->buttonDisabled = true;
+    
+                    $this->addBotMessage('Generando bio...');
+                 
+                    $this->ejecutarGeminiSeniority();
+                    
+                    
+    
+                    // $this->dispatchScrollEvent();
+                    break;
+                case 13:
+                    $this->validate(['bio' => 'required|string|min:5'], 
+                    [
+                        'bio.required' => 'Por favor, ingresa tu bio profesional.',
+                        'bio.string' => 'La bio debe ser un texto válido.',
+                        'bio.min' => 'La bio debe tener al menos 5 caracteres.'
+                    ]);
+                   
+                    $this->addBotMessage('Excelente. Una buena bio aumenta tus oportunidades de recibir solicitudes.');
+                    $this->step = 14;
+                    $this->addBotMessage('Vamos a configurar tu disponibilidad de agenda. Indica qué días y en qué franjas horarias estás disponible. (Respuesta libre o con chips sugeridos)');
+                    break;
+                case 14:
+                    $this->step = 15;
+                    $this->ejecutarGeminiAvailabilities();
+                    $this->addBotMessage('Según tu experiencia, detectamos un nivel de seniority ' . $this->seniority . '. ¿Es correcto?');
+                    // Sugiere precios (placeholder)
+                    $this->buttonDisabled = true;
+                    $this->sessionPrices = [50, 75, 100];
+                    break;
+                case 15:
+                    $this->validate(['confirmSeniority' => 'required|in:yes,no'], 
+                    [
+                        'confirmSeniority.required' => 'Por favor, confirma si el seniority sugerido es correcto.',
+                        'confirmSeniority.in' => 'La respuesta debe ser "yes" o "no".'
+                    ]);
+                    if ($this->confirmSeniority === 'yes') {
+                        $this->step = 17;
+                        $this->addBotMessage('Con base en tu perfil, te proponemos estas opciones para el valor de tu hora. (Recuerda que puedes modificar este valor cuando lo desees.)');
+                    } else {
+                        $this->step = 16;
+                        $this->addBotMessage('Selecciona tu seniority:');
+                    }
+                    $this->buttonDisabled = false;
+                    break;
+                case 16:
+                    $this->validate(['seniority' => 'required'], 
+                    [
+                        'seniority.required' => 'Por favor, selecciona tu seniority.'
+                    ]);
                     $this->step = 17;
                     $this->addBotMessage('Con base en tu perfil, te proponemos estas opciones para el valor de tu hora. (Recuerda que puedes modificar este valor cuando lo desees.)');
-                } else {
-                    $this->step = 16;
-                    $this->addBotMessage('Selecciona tu seniority:');
-                }
-                $this->buttonDisabled = false;
-                break;
-            case 16:
-                $this->validate(['seniority' => 'required'], 
-                [
-                    'seniority.required' => 'Por favor, selecciona tu seniority.'
-                ]);
-                $this->step = 17;
-                $this->addBotMessage('Con base en tu perfil, te proponemos estas opciones para el valor de tu hora. (Recuerda que puedes modificar este valor cuando lo desees.)');
-                break;
-            case 17:
-                $this->validate(['selectedPrice' => 'required'], 
-                [
-                    'selectedPrice.required' => 'Por favor, selecciona un valor para tu hora de mentoría.'
-                ]);
-                $this->step = 18;
-                $this->addBotMessage('Ya casi terminamos. Para validar tu perfil y garantizar una comunidad segura, te pedimos: Tomarte una selfie y cargar una foto de tu documento.');
-                break;
-            case 18:
-                $this->validate(['selfie' => 'required|image', 'documentPhoto' => 'required|image'],
-                [
-                    'selfie.required' => 'Por favor, carga una selfie.',
-                    'selfie.image' => 'La selfie debe ser un archivo de imagen válido.',
-                    'documentPhoto.required' => 'Por favor, carga una foto de tu documento.',
-                    'documentPhoto.image' => 'La foto del documento debe ser un archivo de imagen válido.'
-                ]);
-                // Almacena archivos: $this->selfie->store('photos');
-                $this->step = 19;
-                $this->addBotMessage('¡Listo! Tu perfil fue enviado para validación. En breve recibirás una notificación para comenzar a mentorear en Pipol.');
-                // Aquí guarda todo en BD: Mentor::create([...]);
-                break;
+                    break;
+                case 17:
+                    $this->validate(['selectedPrice' => 'required'], 
+                    [
+                        'selectedPrice.required' => 'Por favor, selecciona un valor para tu hora de mentoría.'
+                    ]);
+                    $this->step = 18;
+                    $this->addBotMessage('Ya casi terminamos. Para validar tu perfil y garantizar una comunidad segura, te pedimos: Tomarte una selfie y cargar una foto de tu documento.');
+                    break;
+                case 18:
+                    $this->validate(['selfie' => 'required|image', 'documentPhoto' => 'required|image'],
+                    [
+                        'selfie.required' => 'Por favor, carga una selfie.',
+                        'selfie.image' => 'La selfie debe ser un archivo de imagen válido.',
+                        'documentPhoto.required' => 'Por favor, carga una foto de tu documento.',
+                        'documentPhoto.image' => 'La foto del documento debe ser un archivo de imagen válido.'
+                    ]);
+                    // Almacena archivos: $this->selfie->store('photos');
+                    $this->step = 19;
+                    $this->guardarInfo();
+                    
+                    $this->addBotMessage('¡Listo! Tu perfil fue enviado para validación. En breve recibirás una notificación para comenzar a mentorear en Pipol.');
+                    
+                    break;
+            }
         }
 
         $this->dispatchScrollEvent();
         $this->loading = false;
+    }
+
+    public function guardarInfo() {
+        $user = User::find(auth()->id());
+
+        $user->name = $this->name;
+        $user->birth_date = $this->birthDate;
+        $user->country = $this->country;
+        $user->city = $this->city;
+        $user->workingNow = $this->workingNow === 'yes' ? true : false;
+        $user->currentPosition = $this->currentPosition;
+        $user->lastPosition = $this->lastPosition;
+        $user->years_of_experience = $this->yearsExperience;
+        $user->companies = $this->companies;
+        $user->sectors = $this->sectors;
+
+        $user->education = $this->education;
+        $user->languages = $this->languages;
+        $user->skills = $this->skills;
+        $user->bio = $this->bio;
+        $user->seniority = $this->seniority;
+
+        $user->hourly_rate = str_replace('$', '', $this->selectedPrice);
+        $user->is_register_end = true;
+
+        if($this->selfie){
+            $selfiePath = $this->selfie->store('selfies', 'private');
+            $user->selfie = $selfiePath;
+        }
+        if($this->documentPhoto){
+            $documentPath = $this->documentPhoto->store('documents', 'private');
+            $user->documentPhoto = $documentPath;
+        }
+
+        $user->save();
+       
+        
     }
 
     public function goBack()
@@ -362,6 +480,17 @@ class MentorRegistrationChat extends Component
     {
         $this->dispatch('ejecutarGemini', data : $this->datoFromUser());
     }
+    function ejecutarGeminiAvailabilities()  {
+        $this->dispatch('ejecutarGeminiAvailabilities', data : $this->dataAvailabilities());
+    }
+
+    public function ejecutarGeminiSeniority()  {
+        $this->dispatch('ejecutarGeminiSeniority', data : $this->datoFromUser());
+    }
+
+    public function ejecutarCv($text) {
+        $this->dispatch('ejecutarCv', data : $text);
+    }
 
     private function getStepQuestion($step)
     {
@@ -413,6 +542,77 @@ class MentorRegistrationChat extends Component
             // 'selectedPrice' => $this->selectedPrice,
         ];
     }
+    function dataAvailabilities() {
+        return ['availability' => $this->availability];
+    }
+    public function recibirSeniorityGenerada($seniority)
+    {
+        $this->seniority = trim($seniority);
+    }
+    public function recibirAvailabilitiesGeneradas($availabilities)
+    {
+        // dd($this->cleanAiJson($availabilities));
+        if(!$availabilities){
+            return;
+        }
+        $dataavailability = $this->cleanAiJson($availabilities);
+        $data = $this->extractJson($dataavailability);
+
+        $availabilities = Availabilitie::where('mentor_id', auth()->id())->get();
+        if ($availabilities->count() > 0) {
+            // Si ya existen disponibilidades, las eliminamos antes de agregar las nuevas
+            Availabilitie::where('mentor_id', auth()->id())->delete();
+        }
+        foreach ($data as $slot) {
+            Availabilitie::create([
+                'mentor_id'   => auth()->id(),
+                'day_of_week' => $slot['day_of_week'],
+                'start_time'  => $slot['start_time'],
+                'end_time'    => $slot['end_time'],
+                'start_date'  => $slot['start_date'],
+                'end_date'    => $slot['end_date'],
+                'is_recurring'=> $slot['is_recurring'],
+                'active'      => true,
+            ]);
+        }
+        // $this->availability = $data;
+    }
+
+    public function recibirCvGenerado($cvData)
+    {
+        $clean = $this->cleanAiJson($cvData);
+        $data = json_decode($clean, true);
+
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new \Exception(
+                'Error parseando JSON de Gemini: ' . json_last_error_msg()
+            );
+        }
+        $this->saveDataFromCv($data);
+        // dd($data);
+        // Aquí puedes manejar la respuesta generada del CV si es necesario
+        // Por ejemplo, podrías almacenarla en una propiedad o procesarla de alguna manera
+    }
+
+    public function cleanAiJson(string $response): string
+    {
+        // Eliminar comillas triples
+        $response = trim($response, "\" \n");
+
+        // Eliminar bloques ```json y ```
+        $response = preg_replace('/```json|```/i', '', $response);
+
+        return trim($response);
+    }
+    function extractJson(string $text): ?array
+    {
+        if (preg_match('/\[[\s\S]*\]/', $text, $matches)) {
+            return json_decode($matches[0], true);
+        }
+
+        return null;
+    }
+
 
     public function recibirBioGenerada($bio)
     {
@@ -454,4 +654,55 @@ class MentorRegistrationChat extends Component
         $this->dispatchScrollEvent();
     }
 
+    public function saveDataFromCv($data) {
+        $user = User::find(auth()->id());
+
+        $user->name = $data['nombre_completo'] ?? '';
+        $user->birth_date = $data['birthDate'] ?? '';
+        $user->country = $data['country'] ?? '';
+        $user->city = $data['city'] ?? '';
+        $user->workingNow = $data['workingNow'] === 'yes' ? true : false;
+        $user->currentPosition = $data['currentPosition'] ?? '';
+        $user->lastPosition = $data['lastPosition'] ?? '';
+        $user->years_of_experience = $data['yearsExperience'] ?? '';
+        $user->companies = $data['companies'] ?? '';
+        $user->sectors = $data['sectors'] ?? '';
+
+        $user->education = $data['education'] ?? '';
+        $user->languages = $data['languages'] ?? '';
+        $user->skills = $data['skills'] ?? '';
+        $user->bio = $data['bio'] ?? '';
+        $user->seniority = $data['seniority'] ?? '';
+
+        $user->is_register_end = true;
+
+        $user->save();
+        $this->step = 3;
+        $this->addBotMessage('¡Listo! Tu CV fue enviado para validación.');
+        $this->dispatchScrollEvent();
+        // $this->submitResponse();
+        $this->step = 19;
+        $this->addBotMessage('Serás redirigido para completar tu perfil.');
+
+        return redirect()->route('chat-cv');
+    }
+    public function setPricesToUserCv($price) {
+        $user = User::find(auth()->id());
+        $user->hourly_rate = str_replace('$', '', $price);;
+        $user->save();
+
+      
+        $this->addBotMessage('Ya casi terminamos. Para validar tu perfil y garantizar una comunidad segura, te pedimos: Tomarte una selfie y cargar una foto de tu documento.');
+    }
+    public function saveImagesFromCv()  {
+        $user = User::find(auth()->id());
+        if($this->selfie){
+            $selfiePath = $this->selfie->store('selfies', 'private');
+            $user->selfie = $selfiePath;
+        }
+        if($this->documentPhoto){
+            $documentPath = $this->documentPhoto->store('documents', 'private');
+            $user->documentPhoto = $documentPath;
+        }
+    }
 }

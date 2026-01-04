@@ -1,5 +1,5 @@
 @extends('frontend.layout.app')
 @section('title', 'Pipol - Chat de Carga de Perfil')  
 @section('main_content')
-    @livewire('mentor-registration-chat')
+    @livewire('CvRegistrarionChat')
 @endsection

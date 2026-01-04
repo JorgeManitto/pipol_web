@@ -37,23 +37,44 @@ return new class extends Migration
             
             $table->string('session_complete')->nullable();
             $table->string('average_rating')->nullable();
-            $table->string('years_of_experience')->nullable();
-
+            
             // Configuración económica
             $table->decimal('hourly_rate', 10, 2)->nullable(); // precio hora
             $table->string('currency', 3)->default('USD');
-
+            
             // Métodos de pago (para transferencias a mentores)
             $table->string('paypal_email')->nullable();
             $table->string('stripe_connect_id')->nullable();
-
+            
             // Autenticación social
             $table->string('provider')->nullable(); // 'google', 'linkedin'
             $table->string('provider_id')->nullable();
-
+            
             // Estado
             $table->boolean('active')->default(true);
             $table->timestamp('email_verified_at')->nullable();
+            
+            $table->string('years_of_experience')->nullable();
+
+            $table->string('workingNow')->nullable();
+            $table->string('currentPosition')->nullable();
+            $table->string('lastPosition')->nullable();
+
+            $table->string('companies')->nullable();
+            $table->string('sectors')->nullable();
+            $table->string('education')->nullable();
+            $table->string('languages')->nullable();
+            $table->string('seniority')->nullable();
+            $table->string('profile_level')->nullable();
+
+            $table->boolean('is_register_end')->default(false);
+
+
+            $table->string('selfie')->nullable();
+            $table->string('documentPhoto')->nullable();
+            $table->string('birth_date')->nullable();
+            $table->string('skills')->nullable();
+            
             $table->rememberToken();
             $table->timestamps();
         });

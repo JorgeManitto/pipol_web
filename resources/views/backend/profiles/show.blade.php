@@ -1,6 +1,7 @@
 @extends('backend.layout.app')
 @section('page_title', 'Perfil de '.$user->name.' '.$user->last_name)
 
+
 @section('main_content')
     <style>
         * {
@@ -145,7 +146,14 @@
                         Habilidades
                     </h2>
                     <div class="flex flex-wrap gap-3">
-                        @if (($user->skills)->isNotEmpty())
+                        @php
+                            if(is_string($user->skills)){
+                                $user->skills = collect(explode(',', $user->skills))->map(function($skill) {
+                                    return (object) ['name' => trim($skill)];
+                                });
+                            }
+                        @endphp
+                        @if ($user->skills->isNotEmpty())
                             @foreach ($user->skills as $skill)
                                 <span class="skill-tag bg-emerald-100 text-emerald-800 px-4 py-2 rounded-full font-medium border border-emerald-200">{{ $skill->name }}</span>
                             @endforeach

@@ -32,6 +32,7 @@ class ProfileController extends Controller
     public function edit()
     {
         $user = Auth::user();
+        // dd($user->availabilities()->get());
         $skills = Skills::orderBy('name')->get();
 
         if($user->is_mentor){

@@ -95,13 +95,13 @@
                                         </svg>
                                         <span class="text-sm">Google</span>
                                     </a>
-                                    <button class="flex items-center justify-center gap-2 px-4 py-3 border border-gray-700 rounded-lg hover:bg-gray-800 transition-colors text-gray-200">
+                                    <a href="{{ url('/auth/linkedin') }}" class="flex items-center justify-center gap-2 px-4 py-3 border border-gray-700 rounded-lg hover:bg-gray-800 transition-colors text-gray-200">
                                         <!-- Linkedin -->
                                         <svg class="w-5 h-5" fill="#0A66C2" viewBox="0 0 24 24">
                                         <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.025-3.038-1.849-3.038-1.851 0-2.134 1.445-2.134 2.941v5.666h-3.554V9h3.414v1.561h.049c.476-.9 1.637-1.849 3.372-1.849 3.605 0 4.271 2.372 4.271 5.458v6.282zM5.337 7.433c-1.144 0-2.07-.928-2.07-2.073 0-1.146.926-2.073 2.07-2.073 1.143 0 2.069.927 2.069 2.073 0 1.145-.926 2.073-2.069 2.073zM6.518 20.452H4.156V9h2.362v11.452z"/>
                                         </svg>
                                         <span class="text-sm">Linkedin</span>
-                                    </button>
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -182,12 +182,12 @@
                                         </svg>
                                         <span class="text-sm">Google</span>
                                     </button>
-                                    <button class="flex items-center justify-center gap-2 px-4 py-3 border border-gray-700 rounded-lg hover:bg-gray-800 transition-colors text-gray-200">
+                                    <a  href="{{ url('/auth/linkedin') }}" class="flex items-center justify-center gap-2 px-4 py-3 border border-gray-700 rounded-lg hover:bg-gray-800 transition-colors text-gray-200">
                                         <svg class="w-5 h-5" fill="#0A66C2" viewBox="0 0 24 24">
                                         <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.025-3.038-1.849-3.038-1.851 0-2.134 1.445-2.134 2.941v5.666h-3.554V9h3.414v1.561h.049c.476-.9 1.637-1.849 3.372-1.849 3.605 0 4.271 2.372 4.271 5.458v6.282zM5.337 7.433c-1.144 0-2.07-.928-2.07-2.073 0-1.146.926-2.073 2.07-2.073 1.143 0 2.069.927 2.069 2.073 0 1.145-.926 2.073-2.069 2.073zM6.518 20.452H4.156V9h2.362v11.452z"/>
                                         </svg>
                                         <span class="text-sm">Linkedin</span>
-                                    </button>
+                                    </a>
                                 </div>
                             </div>
                         </div>

@@ -183,6 +183,13 @@
                 <div class="mb-4">
                     <p class="text-xs text-gray-500 mb-2">Especialidades:</p>
                     <div class="flex flex-wrap gap-2">
+                        @php
+                            if(is_string($mentor->skills)){
+                                $mentor->skills = collect(explode(',', $mentor->skills))->map(function($skill, $index) {
+                                    return (object) ['id' => $index,'name' => trim($skill)];
+                                });
+                            }
+                        @endphp
                         @foreach ($mentor->skills as $skill)
                             <a href="{{ route('mentors.index', ['skill'=>$skill->id]) }}" class="px-3 py-1 bg-[#f5f0e8] text-[#2d5a4a] text-xs rounded-full tag">{{ $skill->name }}</a>
                         @endforeach

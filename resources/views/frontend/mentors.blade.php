@@ -10,7 +10,7 @@
         <p class="text-md text-gray-300 mb-6 leading-relaxed">
             Compartila. Inspirá. Dejá tu huella.
         </p>
-        <a href="#soy-mentor" class="btn-primary text-white px-8 py-4 rounded-full text-md font-semibold inline-flex items-center justify-center gap-2 w-full sm:w-auto">
+        <a href="{{ route('login', ['is_mentor'=>1]) }}" class="btn-primary text-white px-8 py-4 rounded-full text-md font-semibold inline-flex items-center justify-center gap-2 w-full sm:w-auto">
             QUIERO SER MENTOR
         </a>
     </div>

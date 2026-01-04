@@ -89,6 +89,9 @@
     </form>
 </div> --}}
     <!-- Main Content -->
+    @php
+        // dd($user);
+    @endphp
     <style>
         * {
             font-family: 'Inter', sans-serif;
@@ -212,7 +215,7 @@
                                required>
                     </div>
 
-                    <div>
+                    {{-- <div>
                         <label for="nombre" class="block text-sm font-medium text-stone-700 mb-2">
                             Apellido *
                         </label>
@@ -221,7 +224,7 @@
                                name="last_name" value="{{ old('last_name', $user->last_name) }}"
                                class="w-full px-4 py-3 border border-stone-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent transition"
                                required>
-                    </div>
+                    </div> --}}
                     
                     <div>
                         <label for="email" class="block text-sm font-medium text-stone-700 mb-2">
@@ -300,20 +303,157 @@
                     {{-- <p class="text-sm text-stone-500 mt-2">Cuéntale a otros sobre tu experiencia, logros y qué puedes aportar como mentor.</p> --}}
                 </div>
             </div>
+            <div class="mt-6">
+                <label class="block text-sm font-medium text-stone-700 mb-2">
+                    Habilidades
+                </label>
+                <textarea name="skills"
+                        rows="3"
+                        class="w-full px-4 py-3 border rounded-lg">{{ old('skills', $user->skills) }}</textarea>
+            </div>
+          
 
-            @if ($user->is_mentor)
-                <div class="col-span-2">
-                    <label>Skills</label>
-                    <select name="skills[]" multiple class="w-full border rounded p-2">
-                        @foreach ($skills as $skill)
-                            <option value="{{ $skill->id }}" {{ $user->skills->contains($skill->id) ? 'selected' : '' }}>
-                                {{ $skill->name }}
-                            </option>
-                        @endforeach
+            <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                    <label class="block text-sm font-medium text-stone-700 mb-2">
+                        Años de experiencia
+                    </label>
+                    <input type="number"
+                        name="years_of_experience"
+                        min="0"
+                        value="{{ old('years_of_experience', $user->years_of_experience) }}"
+                        class="w-full px-4 py-3 border rounded-lg">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-stone-700 mb-2">
+                        ¿Trabajando actualmente?
+                    </label>
+                    <select name="workingNow" class="w-full px-4 py-3 border rounded-lg">
+                        <option value="1" {{ old('workingNow', $user->workingNow) == 1 ? 'selected' : '' }}>Sí</option>
+                        <option value="0" {{ old('workingNow', $user->workingNow) == 0 ? 'selected' : '' }}>No</option>
                     </select>
                 </div>
-            @endif
 
+                <div>
+                    <label class="block text-sm font-medium text-stone-700 mb-2">
+                        Puesto actual
+                    </label>
+                    <input type="text"
+                        name="currentPosition"
+                        value="{{ old('currentPosition', $user->currentPosition) }}"
+                        class="w-full px-4 py-3 border rounded-lg">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-stone-700 mb-2">
+                        Último puesto
+                    </label>
+                    <input type="text"
+                        name="lastPosition"
+                        value="{{ old('lastPosition', $user->lastPosition) }}"
+                        class="w-full px-4 py-3 border rounded-lg">
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6 mt-6">
+                <div>
+                    <label class="block text-sm font-medium text-stone-700 mb-2">
+                        Empresas (separadas por coma)
+                    </label>
+                    <input type="text"
+                        name="companies"
+                        value="{{ old('companies', $user->companies) }}"
+                        class="w-full px-4 py-3 border rounded-lg">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-stone-700 mb-2">
+                        Sectores
+                    </label>
+                    <input type="text"
+                        name="sectors"
+                        value="{{ old('sectors', $user->sectors) }}"
+                        class="w-full px-4 py-3 border rounded-lg">
+                </div>
+            </div>
+            <div class="grid md:grid-cols-2 gap-6 mt-6">
+                <div>
+                    <label class="block text-sm font-medium text-stone-700 mb-2">
+                        Educación
+                    </label>
+                    <input type="text"
+                        name="education"
+                        value="{{ old('education', $user->education) }}"
+                        class="w-full px-4 py-3 border rounded-lg">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-stone-700 mb-2">
+                        Idiomas
+                    </label>
+                    <input type="text"
+                        name="languages"
+                        value="{{ old('languages', $user->languages) }}"
+                        class="w-full px-4 py-3 border rounded-lg">
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6 mt-6">
+                <div>
+                    <label class="block text-sm font-medium text-stone-700 mb-2">
+                        Seniority
+                    </label>
+                    <select name="seniority" class="w-full px-4 py-3 border rounded-lg">
+                        <option value="">Seleccionar</option>
+                        <option value="junior" {{ old('seniority', $user->seniority) == 'junior' ? 'selected' : '' }}>Junior</option>
+                        <option value="semi-senior" {{ old('seniority', $user->seniority) == 'semi-senior' ? 'selected' : '' }}>Semi Senior</option>
+                        <option value="senior" {{ old('seniority', $user->seniority) == 'senior' ? 'selected' : '' }}>Senior</option>
+                    </select>
+                </div>
+
+                {{-- <div>
+                    <label class="block text-sm font-medium text-stone-700 mb-2">
+                        Nivel de perfil
+                    </label>
+                    <input type="number"
+                        name="profile_level"
+                        min="0"
+                        value="{{ old('profile_level', $user->profile_level) }}"
+                        class="w-full px-4 py-3 border rounded-lg">
+                </div> --}}
+            </div>
+
+            <div class="mt-6">
+                <label class="block text-sm font-medium text-stone-700 mb-2">
+                    Fecha de nacimiento
+                </label>
+                <input type="date"
+                    name="birth_date"
+                    value="{{ old('birth_date', $user->birth_date) }}"
+                    class="w-full px-4 py-3 border rounded-lg">
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6 mt-6">
+                <div>
+                    <label class="block text-sm font-medium text-stone-700 mb-2">
+                        Selfie
+                    </label>
+                    <input type="file" name="selfie" accept="image/*" class="w-full">
+                    @if ($user->selfie)
+                        {{-- <img src="{{ asset('storage/selfies/'.$user->selfie) }}" 
+                             alt="Selfie" 
+                             class="w-32 h-32 rounded-full object-cover border-4 border-amber-500 mt-4">  --}}
+                    @endif
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-stone-700 mb-2">
+                        Foto del documento
+                    </label>
+                    <input type="file" name="documentPhoto" accept="image/*" class="w-full">
+                </div>
+            </div>
             <!-- Skills -->
             {{-- <div class="pb-8">
                 <h2 class="text-xl font-semibold text-stone-800 mb-6">Habilidades</h2>

@@ -43,6 +43,20 @@ class User extends Authenticatable
         'session_complete',
         'average_rating',
         'years_of_experience',
+
+        'birth_date',
+        'workingNow',
+        'currentPosition',
+        'lastPosition',
+        'companies',
+        'sectors',
+        'education',
+        'languages',
+        'seniority',
+        'profile_level',
+        'is_register_end',
+        'skills',
+        'linkedin_id'
     ];
 
     /**
@@ -99,4 +113,11 @@ class User extends Authenticatable
         return $this->hasMany(Ticket::class);
     }
 
+    public function reviewsGiven() {
+        return $this->hasMany(Reviews::class, 'mentee_id');
+    }
+
+    public function reviewsReceived() {
+        return $this->hasMany(Reviews::class, 'mentor_id');
+    }
 }

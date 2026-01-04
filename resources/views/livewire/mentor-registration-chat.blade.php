@@ -86,12 +86,20 @@
     </div>
 
     <form wire:submit.prevent="submitResponse"  class="space-y-4 text-black flex flex-col justify-end" style="min-height: 100px;">
+        {{-- {{$step}}- {{$loadMethod}} --}}
         @if ($step == 1)
             <div class="flex space-x-4">
                 <button type="button" wire:click="$set('loadMethod', 'cv')" class="{{ $loadMethod == 'cv' ? 'bg-pink-600 hover:bg-pink-700' : 'bg-gray-600 hover:bg-gray-700 '}} cursor-pointer transition flex-1 px-4 py-2  text-white rounded-lg shadow" onclick="submitForm()">Cargar CV / LinkedIn</button>
                 <button type="button" wire:click="$set('loadMethod', 'manual')" class="{{ $loadMethod == 'manual' ? 'bg-pink-600 hover:bg-pink-700' : 'bg-gray-600 hover:bg-gray-700'}} cursor-pointer flex-1 px-4 py-2  text-white rounded-lg shadow  transition" onclick="submitForm()">Cargar datos manualmente</button>
             </div>
-        @elseif ($step == 2)
+        @elseif ($step == 2 && $loadMethod == 'cv')
+            <div class="flex flex-col space-y-2">
+                <p class="text-gray-700 text-sm">Por favor, subí tu CV en formato PDF.</p>
+                <input wire:model="cvFile" id="cvFile" type="file" accept=".pdf,.doc,.docx" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                @error('cvFile') <span class="text-red-500 text-sm">{{ $message }}</span>  @enderror
+            </div>
+    
+        @elseif ($step == 2 && $loadMethod == 'manual')
             <input wire:model="name" placeholder="Nombre y apellido" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
             <input wire:model="birthDate" type="date" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
             <input wire:model="country" placeholder="País" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
@@ -103,13 +111,83 @@
             @error('city') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                 
 
-        @elseif ($step == 3)
+        @elseif ($step == 3 && $loadMethod == 'cv')
+            <div class="flex space-x-4">
+                @foreach ($sessionPrices as $price)
+                    <button type="button" wire:click="setPricesToUserCv({{ $price }})" class="bg-gray-600 hover:bg-gray-700 cursor-pointer flex-1 px-4 py-2 text-white rounded-lg shadow  transition">${{ $price }}</button>
+                @endforeach
+            </div>
+        @elseif ($step == 3 && $loadMethod == 'manual')
             <div class="flex space-x-4">
                 <button type="button" wire:click="$set('workingNow', 'yes')" onclick="submitForm()" class="{{ $workingNow == 'yes' ? 'bg-pink-600 hover:bg-pink-700' : 'bg-gray-600 hover:bg-gray-700 '}} cursor-pointer flex-1 px-4 py-2 text-white rounded-lg shadow  transition">Sí</button>
                 <button type="button" wire:click="$set('workingNow', 'no')" onclick="submitForm()" class="{{ $workingNow == 'no' ? 'bg-pink-600 hover:bg-pink-700' : 'bg-gray-600 hover:bg-gray-700 '}} cursor-pointer flex-1 px-4 py-2 text-white rounded-lg shadow  transition">No</button>
             </div>
             @error('workingNow') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-        @elseif ($step == 4)
+
+        @elseif ($step == 4 && $loadMethod == 'cv')
+            <div class="">
+                  <input
+                    id="selfieInput"
+                    wire:model="selfie"
+                    type="file"
+                    accept="image/*"
+                    class="hidden"
+                >
+
+                <input
+                    id="documentInput"
+                    wire:model="documentPhoto"
+                    type="file"
+                    accept="image/*"
+                    class="hidden"
+                >
+
+                <!-- TARJETAS -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                    <!-- TARJETA SELFIE -->
+                    <div
+                        onclick="document.getElementById('selfieInput').click()"
+                        class="cursor-pointer border-2 border-dashed rounded-xl p-6 text-center
+                            hover:border-blue-500 hover:bg-blue-50 transition"
+                    >
+                        <div class="text-4xl mb-2">🤳</div>
+                        <p class="font-semibold">Subir selfie</p>
+                        <p class="text-sm text-gray-500">Foto de tu rostro</p>
+
+                        @if ($selfie)
+                            <p class="mt-2 text-green-600 text-sm">✔ Archivo seleccionado</p>
+                        @endif
+                    </div>
+
+                    <!-- TARJETA DOCUMENTO -->
+                    <div
+                        onclick="document.getElementById('documentInput').click()"
+                        class="cursor-pointer border-2 border-dashed rounded-xl p-6 text-center
+                            hover:border-blue-500 hover:bg-blue-50 transition"
+                    >
+                        <div class="text-4xl mb-2">🪪</div>
+                        <p class="font-semibold">Subir documento</p>
+                        <p class="text-sm text-gray-500">DNI / Pasaporte</p>
+
+                        @if ($documentPhoto)
+                            <p class="mt-2 text-green-600 text-sm">✔ Archivo seleccionado</p>
+                        @endif
+                    </div>
+
+                </div>
+
+                <!-- ERRORES -->
+                @error('selfie')
+                    <span class="text-red-500 text-sm block mt-2">{{ $message }}</span>
+                @enderror
+
+                @error('documentPhoto')
+                    <span class="text-red-500 text-sm block mt-1">{{ $message }}</span>
+                @enderror
+            </div>
+
+        @elseif ($step == 4 && $loadMethod == 'manual')
             @if ($workingNow == 'yes')
                 <input wire:model="currentPosition" placeholder="Cargo actual" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                 @error('currentPosition') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
@@ -117,7 +195,12 @@
                 <input wire:model="lastPosition" placeholder="Último cargo" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                 @error('lastPosition') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
             @endif
-        @elseif ($step == 5)
+
+        @elseif ($step == 5 && $loadMethod == 'cv')
+            <div class="flex space-x-4">
+            </div>
+
+        @elseif ($step == 5 && $loadMethod == 'manual')
             <input wire:model="yearsExperience" type="number" placeholder="Años de experiencia" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
             @error('yearsExperience') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
         @elseif ($step == 6)
@@ -180,10 +263,11 @@
         @elseif ($step == 16)
             <select wire:model="seniority" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                 <option>Jefe</option>
-                <option>Subgerente</option>
+                <option>Gerente</option>
                 <option>Director</option>
-                <option>Gerente General</option>
+                <option>CEO</option>
                 <option>Emprendedor</option>
+                <option>Director</option>
             </select>
             @error('seniority') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
         @elseif ($step == 17)
@@ -293,6 +377,18 @@
     window.addEventListener('ejecutarGemini', event => {
         
         ejecutarGemini(event.detail);
+    });
+    window.addEventListener('ejecutarGeminiSeniority', event => {
+        
+        ejecutarGeminiSeniority(event.detail);
+    });
+    window.addEventListener('ejecutarGeminiAvailabilities', event => {
+        
+        ejecutarGeminiAvailabilities(event.detail);
+    });
+    window.addEventListener('ejecutarCv', event => {
+        console.log(event.detail.data);
+        ejecutarCv(event.detail.data);
     });
     function submitForm() {
         const btnEnviar = document.getElementById('btn-enviar');

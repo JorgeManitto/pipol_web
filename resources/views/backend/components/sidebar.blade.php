@@ -2,7 +2,9 @@
 <aside class="hidden md:block fixed left-0 top-0 h-full w-64 hero-section text-white p-6 overflow-y-auto z-40">
   <div class="mb-8">
     {{-- <h1 class="text-3xl font-bold gradient-text-hero">Pipol</h1> --}}
-    <img src="{{ asset('/images/logo-v3.png') }}" alt="logo" style=" object-fit: contain;">
+    <a href="{{ route('dashboard') }}">
+      <img src="{{ asset('/images/logo-clea-recorte.png') }}" alt="logo" style=" object-fit: contain;height: 40px;">
+    </a>
   </div>
   {{-- @dd(auth()->user()) --}}
   <nav class="mb-8 space-y-4">
@@ -13,13 +15,6 @@
       </svg>
       <span>Dashboard</span>
     </a>
-    <a href="{{ route('mentors.index') }}" class="flex items-center gap-3 p-2 rounded  {{ request()->routeIs('mentors.index') ? 'bg-[#ffffff55]' : 'hover:bg-[#ffffff55]' }}  sidebar-icon">
-      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-          d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-      </svg>
-      <span>Profesionales</span>
-    </a>
     <a href="{{ route('sessions.index') }}"  class="flex items-center gap-3 p-2 rounded {{ request()->routeIs('sessions.index') ? 'bg-[#ffffff55]' : 'hover:bg-[#ffffff55]' }}  sidebar-icon">
       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -27,12 +22,26 @@
       </svg>
       <span>Mis Sesiones</span>
     </a>
-    <a href="#" class="flex items-center gap-3 p-2 rounded  sidebar-icon">
+    {{-- <a href="#" class="flex items-center gap-3 p-2 rounded  sidebar-icon">
       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
           d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
       </svg>
       <span>Favoritos</span>
+    </a> --}}
+    <a href="{{ route('mentors.index') }}" class="flex items-center gap-3 p-2 rounded  {{ request()->routeIs('mentors.index') ? 'bg-[#ffffff55]' : 'hover:bg-[#ffffff55]' }}  sidebar-icon">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+      </svg>
+      <span>Ir a Mentores</span>
+    </a>
+    <a href="{{ route('admin.chat.index') }}" class="flex items-center gap-3 p-2 rounded {{ request()->routeIs('admin.chat.index') ? 'bg-[#ffffff55]' : 'hover:bg-[#ffffff55]' }} sidebar-icon">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M8 10h8m-8 4h5m9-2a7 7 0 11-14 0 7 7 0 0114 0z" />
+      </svg>
+      <span>Mensajes</span>
     </a>
     @if (auth()->user()->role == 'admin' || auth()->user()->role == 'mentor')
      <a href="{{ route('admin.statistics') }}" class="flex items-center gap-3 p-2 rounded {{ request()->routeIs('admin.statistics') ? 'bg-[#ffffff55]' : 'hover:bg-[#ffffff55]' }} sidebar-icon">
@@ -64,10 +73,10 @@
 
       
       <div class="flex absolute bottom-16 items-center gap-3 p-2 rounded flex-col">
-        <div class="flex items-center cursor-pointer w-full gap-2" data-dropdown-toggle="userDropdown" data-dropdown-placement="bottom-start" style="padding: 0.2em 0.5em;background: #261848;border-radius: 23px;">
+        {{-- <div class="flex items-center cursor-pointer w-full gap-2" data-dropdown-toggle="userDropdown" data-dropdown-placement="bottom-start" style="padding: 0.2em 0.5em;background: #261848;border-radius: 23px;">
             <img src="{{ auth()->user()->avatar ? asset('storage/avatars/'.auth()->user()->avatar) : asset('images/default-avatar.png') }}" alt="Emí" class="w-10 h-10 rounded-full border-2 border-purple-500 object-cover">
             <span class="text-white font-medium"> {{ auth()->user()->name }}</span>
-        </div>
+        </div> --}}
         <a href="{{ route('logout') }}" class="sidebar-icon flex items-center gap-3 p-2 rounded hover:bg-[#ffffff55] w-full">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

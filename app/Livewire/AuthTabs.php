@@ -73,6 +73,7 @@ class AuthTabs extends Component
             'email' => $this->registerEmail,
             'password' => Hash::make($this->registerPassword),
             'is_mentor' => $this->is_mentor,
+            'active' => true,
         ]);
 
         Auth::login($user);
