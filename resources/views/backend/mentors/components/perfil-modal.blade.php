@@ -9,13 +9,14 @@
                     <img src="{{ asset('images/default-avatar.png') }}" class="w-14 h-14 rounded-full object-cover flex-shrink-0" id="avatar-modal-perfil">
                     <div class="flex-1">
                         <div class="flex items-baseline gap-2 mb-1">
-                            <div>
+                            <div class="flex gap-4">
                                 <h3 class="font-semibold text-lg text-gray-900 hover:text-[#2d5a4a] transition-colors" id="nombre-modal-perfil">Nombre del Mentor</h3>
                             </div>
                             <svg class="w-4 h-4 text-[#d4af6a]" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zM9 10.586l1.293 1.293a1 1 0 001.414 0l4-4a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2z" clip-rule="evenodd"/>
                             </svg>
                         </div>
+                        
                         <p class="text-sm text-gray-600 mb-2" id="profesion-modal-perfil">Profesión</p>
                         <div class="flex items-center gap-1 text-sm text-gray-500">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -23,6 +24,7 @@
                             </svg>
                             <span>Español</span>
                         </div>
+                        <a id="sendMessage" class="btn-primary text-white px-4 mt-2 py-2 rounded-full text-md font-semibold inline-flex items-center justify-center gap-2 w-full sm:w-auto">Enviar mensaje</a>
                        
                        
                     </div>
@@ -69,11 +71,13 @@
         let pivotMentor;
         let pivotCurrency;
         let pivotAvatar;
+        const sendMessage = document.getElementById('sendMessage');
 
         function openPerfilModal(mentorPerfil, avatar, currency) {
             console.log(mentorPerfil);
             
             const mentor = mentorPerfil;
+            sendMessage.href = '/new-conversation/' + mentor.id;
             pivotMentor = mentor;
             pivotCurrency = currency;
             pivotAvatar = avatar;

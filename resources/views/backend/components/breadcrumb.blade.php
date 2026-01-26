@@ -67,7 +67,7 @@
                 
     
         </div>
-        <div class="flex items-center cursor-pointer w-full gap-2" data-dropdown-toggle="userDropdown" data-dropdown-placement="bottom-start" style="padding: 0.2em 0.5em;background: #261848;border-radius: 23px;">
+        <div class="hidden md:flex items-center cursor-pointer w-full gap-2" data-dropdown-toggle="userDropdown" data-dropdown-placement="bottom-start" style="padding: 0.2em 0.5em;background: #261848;border-radius: 23px;">
             <img src="{{ auth()->user()->avatar ? asset('storage/avatars/'.auth()->user()->avatar) : asset('images/default-avatar.png') }}" alt="Emí" class="w-10 h-10 rounded-full border-2 border-purple-500 object-cover">
             <span class="text-white font-medium"> {{ auth()->user()->name }}</span>
         </div>

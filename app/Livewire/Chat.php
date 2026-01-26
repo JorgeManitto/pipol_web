@@ -30,6 +30,11 @@ class Chat extends Component
             ->orWhere('participant_2_id', auth()->id())
             ->orderByDesc('last_message_at')
             ->get();
+        $conversation = request()->query('conversation');
+        if ($conversation) {
+            $this->selectConversation($conversation);   
+        }
+
     }
 
     public function selectConversation($conversationId)
@@ -74,17 +79,24 @@ class Chat extends Component
     }
 
     public function getOrCreateConversation($userId)
-{
-    return Conversation::firstOrCreate(
-        [
-            ['participant_1_id', auth()->id()],
-            ['participant_2_id', $userId],
-        ],
-        [
-            'participant_1_id' => auth()->id(),
-            'participant_2_id' => $userId,
-        ]
-    );
-}
+    {
+        return Conversation::firstOrCreate(
+            [
+                ['participant_1_id', auth()->id()],
+                ['participant_2_id', $userId],
+            ],
+            [
+                'participant_1_id' => auth()->id(),
+                'participant_2_id' => $userId,
+            ]
+        );
+    }
+
+    public function createNewConversation($userId)
+    {
+        $conversation = $this->getOrCreateConversation($userId);
+        // $this->selectConversation($conversation->id);
+        return redirect()->route('admin.chat.index', ['conversation'=>$conversation->id]);
+    }
 
 }

@@ -49,22 +49,57 @@
                         <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-4">
                             <div>
                                 <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-2">{{ $user->name }} {{ $user->last_name }}</h1>
+                                <a href="{{ route('admin.chat.new.conversation', ['user'=> $user->id]) }}" class="btn-primary text-white px-4 py-2 rounded-full text-md font-semibold inline-flex items-center justify-center gap-2 w-full sm:w-auto">Enviar mensaje</a>
                                 <p class="text-xl text-emerald-800 font-semibold mb-3">{{ $user->profession }}</p>
-                                <div class="flex flex-wrap gap-4 text-gray-600">
-                                    @if ($user->country)
+                                <div class="flex flex-wrap gap-4 text-gray-600 flex-col">
+                                    <div class="flex items-center gap-4">
+
+                                        @if ($user->country)
+                                            <div class="flex items-center gap-2">
+                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                                </svg>
+                                                <span>{{ $user->country }}</span>
+                                            </div>
+                                        @endif
                                         <div class="flex items-center gap-2">
                                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
                                             </svg>
-                                            <span>{{ $user->country }}</span>
+                                            <span>{{ $user->email }}</span>
                                         </div>
-                                    @endif
-                                    <div class="flex items-center gap-2">
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                                        </svg>
-                                        <span>{{ $user->email }}</span>
+                                    </div>
+                                    @php
+                                        $rating = $ratingReviews; // ej: 4.9
+                                        $fullStars = floor($rating);
+                                        $maxStars = 5;
+                                    @endphp
+                            
+                                    <!-- Widget: Calificación promedio -->
+                                    <div class="bg-white ">
+                            
+                                        <div class="flex flex-col items-start">
+                                            <div class="flex items-start gap-1 mb-2">
+                                                @for ($i = 1; $i <= $maxStars; $i++)
+                                                    <svg
+                                                        class="w-8 h-8 {{ $i <= $fullStars ? 'text-yellow-400' : 'text-gray-300' }}"
+                                                        fill="currentColor"
+                                                        viewBox="0 0 20 20"
+                                                    >
+                                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.953a1 1 0 00.95.69h4.163c.969 0 1.371 1.24.588 1.81l-3.357 2.44a1 1 0 00-.364 1.118l1.287 3.953c.3.921-.755 1.688-1.54 1.118l-3.357-2.44a1 1 0 00-1.175 0l-3.357 2.44c-.784.57-1.838-.197-1.54-1.118l1.287-3.953a1 1 0 00-.364-1.118L2.316 9.38c-.784-.57-.38-1.81.588-1.81h4.163a1 1 0 00.95-.69l1.286-3.953z"/>
+                                                    </svg>
+                                                @endfor
+                                            </div>
+                            
+                                            <p class="text-2xl font-bold text-gray-800">
+                                                {{ number_format($rating, 1) }} / 5.0
+                                            </p>
+                            
+                                            <p class="text-sm text-gray-500 mt-1">
+                                                Basado en {{ $totalReviews }} {{ Str::plural('reseña', $totalReviews) }}
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -169,22 +204,13 @@
                     <div class="space-y-4">
                         <div class="stat-card bg-stone-50 rounded-lg p-4 border border-stone-200">
                             <p class="text-sm text-gray-600 mb-1">Sesiones completadas</p>
-                            <p class="text-3xl font-bold text-emerald-900"> {{ $user->session_complete ?? '0' }} </p>
+                            <p class="text-3xl font-bold text-emerald-900"> {{ $totalSessions ?? '0' }} </p>
                         </div>
                         <div class="stat-card bg-stone-50 rounded-lg p-4 border border-stone-200">
                             <p class="text-sm text-gray-600 mb-1">Calificación promedio</p>
                             <div class="flex items-center gap-2">
-                                <p class="text-3xl font-bold text-emerald-900"> {{$user->average_rating ?? '0'}} </p>
-                                <div class="flex text-yellow-500">
-                                    @php
-                                        $count = intval($user->average_rating ?? 0);
-                                    @endphp
-                                    @for ($i = 0; $i < $count; $i++)
-                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                                        </svg>
-                                    @endfor
-                                </div>
+                                <p class="text-3xl font-bold text-emerald-900"> {{ number_format($rating, 1) }} / 5.0 </p>
+                                
                             </div>
                         </div>
                         <div class="stat-card bg-stone-50 rounded-lg p-4 border border-stone-200">
@@ -198,9 +224,9 @@
                 <div class="bg-gradient-to-br from-emerald-800 to-emerald-900 rounded-xl shadow-md p-8 text-white">
                     <h3 class="text-xl font-bold mb-3">¿Listo para comenzar?</h3>
                     <p class="text-emerald-100 mb-6 leading-relaxed">Agenda una sesión de mentoría y da el siguiente paso en tu carrera profesional.</p>
-                    <button class="w-full bg-white text-emerald-900 px-6 py-3 rounded-lg hover:bg-stone-100 transition font-semibold">
+                    <a href="{{ route('mentors.index') }}" class="w-full bg-white text-emerald-900 px-6 py-3 rounded-lg hover:bg-stone-100 transition font-semibold">
                         Agendar Sesión
-                    </button>
+                    </a>
                 </div>
             </div>
         </div>

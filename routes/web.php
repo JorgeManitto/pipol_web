@@ -10,6 +10,7 @@ use App\Http\Controllers\Frontend\Home;
 use App\Http\Controllers\Backend\ProfileController;
 use App\Http\Controllers\Backend\Statistics;
 use App\Http\Controllers\PipolSessionController;
+use App\Livewire\Chat;
 use App\Livewire\MentorRegistrationChat;
 use App\Models\User;
 use Illuminate\Support\Facades\Artisan;
@@ -88,6 +89,7 @@ Route::middleware(['auth','profile.completed'])->group(function () {
     Route::get('/mensajes/{conversation}', [ChatController::class, 'show'])->name('admin.chat.show');
     Route::post('/mensajes/{conversation}',[ChatController::class, 'store'])->name('admin.chat.store');
 
+    Route::get('/new-conversation/{user}', [Chat::class, 'createNewConversation'])->name('admin.chat.new.conversation');
    
 });
 

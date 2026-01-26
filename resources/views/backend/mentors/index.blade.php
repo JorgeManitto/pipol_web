@@ -231,6 +231,7 @@
                             class="w-full py-3 bg-[#2d5a4a] text-white rounded-lg hover:bg-[#3d6a5a] transition-colors font-medium text-base mentor-btn">
                             Conóceme
                         </button>
+                        
 
                         {{-- <button 
                             onclick="openModal(

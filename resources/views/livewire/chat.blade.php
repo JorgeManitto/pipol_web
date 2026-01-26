@@ -67,19 +67,19 @@
 
 </div> --}}
 
-<div class="flex-1 flex p-2 md:p-4 lg:p-8 gap-2 md:gap-4 lg:gap-6 overflow-hidden">
+<div class="flex-1 flex flex-col md:flex-row p-2 md:p-4 lg:p-8 gap-2 md:gap-4 lg:gap-6 overflow-hidden">
 
     <!-- SIDEBAR -->
     <div
         id="chatList"
-        class="w-full md:w-80 bg-white rounded-2xl p-4 md:p-6 text-primary-dark
-               absolute md:static inset-0 z-30 md:z-auto hidden md:block">
+        class="w-full md:w-70  bg-white rounded-2xl p-2 md:p-4 text-primary-dark
+               static inset-0 md:z-auto block" style="height: 800px;">
 
         <div class="flex items-center justify-between mb-4">
             <h2 class="text-xl font-bold">Conversaciones</h2>
         </div>
 
-        <div class="space-y-3">
+        <div class="space-y-1">
             @foreach($conversations as $conversation)
                 @php
                     $user = $conversation->otherUser(auth()->id());
@@ -88,7 +88,7 @@
 
                 <div
                     wire:click="selectConversation({{ $conversation->id }})"
-                    class="flex items-center gap-3 p-3 rounded-xl cursor-pointer transition
+                    class="flex items-center gap-3 p-1 rounded-xl cursor-pointer transition
                     {{ optional($activeConversation)->id === $conversation->id
                         ? 'bg-purple-600/10 border-2 border-purple-500'
                         : 'hover:bg-gray-50' }}">
@@ -121,7 +121,7 @@
     </div>
 
     <!-- CHAT WINDOW -->
-    <div class="flex-1 bg-white rounded-2xl flex flex-col overflow-hidden">
+    <div class="flex-1 bg-white rounded-2xl flex flex-col overflow-auto" style="min-height: 800px;max-height: 800px;">
 
         @if($activeConversation)
             @php $user = $activeConversation->otherUser(auth()->id()); @endphp

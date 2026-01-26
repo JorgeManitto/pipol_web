@@ -20,7 +20,7 @@ class Dashboard extends Controller
             ->where('created_at', '>=', now()->startOfMonth())
             ->sum('amount');
         $totalSpent = auth()->user()->transactionsAsPayer()->sum('amount');
-        $testReviews = Reviews::all();
+        // $testReviews = Reviews::all();
         $totalReviews = auth()->user()->reviewsReceived()->count();
         $ratingReviews = (auth()->user()->reviewsReceived()->avg('rating')) ? round(auth()->user()->reviewsReceived()->avg('rating'), 2) : 0;
         

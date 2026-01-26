@@ -23,7 +23,12 @@ class ProfileController extends Controller
         if(!$user->is_mentor){
             return view('backend.profiles.show-not-mentor', compact('user'));
         }
-        return view('backend.profiles.show', compact('user'));
+        $mentor = User::where('id', $id)->first();
+        $ratingReviews = ( $mentor->reviewsReceived()->avg('rating')) ? round($mentor->reviewsReceived()->avg('rating'), 2) : 0;
+        $totalReviews = $mentor->reviewsReceived()->count();
+        $totalSessions = $mentor->sessionsAsMentor()->where('status', 'completed')->count();
+        
+        return view('backend.profiles.show', compact('user', 'ratingReviews','totalReviews', 'totalSessions'));
     }
 
     /**
