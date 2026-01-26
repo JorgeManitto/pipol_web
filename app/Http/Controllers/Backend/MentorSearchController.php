@@ -17,13 +17,25 @@ class MentorSearchController extends Controller
      */
     public function index(Request $request)
     {
+        // dd($request->input('params'));
         $query = User::query()
             ->where('is_mentor', true)
             ->where('active', true)
             ->with('skills');
 
+        if ($request->filled('params')) {
+            $params = $request->input('params'); // array
+
+            $query->where(function ($qBuilder) use ($params) {
+                foreach ($params as $param) {
+                    $qBuilder->orWhere('skills', 'like', "%{$param}%");
+                }
+            });
+        }
+ 
+
         // 🔍 Filtro: por nombre o profesión
-        if ($request->filled('q')) {
+        if ($request->filled('params')) {
             $q = trim($request->input('q'));
             $query->where(function ($qBuilder) use ($q) {
                 $qBuilder->where('name', 'like', "%{$q}%")
@@ -84,7 +96,7 @@ class MentorSearchController extends Controller
 
         $parameters = $request->all();
         
-        Pipol_sessions::create([
+        $session = Pipol_sessions::create([
             'mentor_id' => $parameters['mentor_id'],
             'mentee_id' => $parameters['mentee_id'],
             'scheduled_at' => Carbon::parse("{$parameters['selectedDate']} {$parameters['selectedTime']}"),
@@ -95,8 +107,8 @@ class MentorSearchController extends Controller
             'currency' => $parameters['currency'],
         ]);
 
-        $this->enviarNotificacion($parameters['mentor_id'], 'Tienes una nueva solicitud de sesión de mentoría.');
-        return response()->json(['message' => 'Sesión creada con exito.'], 200);
+        // $this->enviarNotificacion($parameters['mentor_id'], 'Tienes una nueva solicitud de sesión de mentoría.');
+        return response()->json(['message' => 'Sesión creada con exito.', 'session_id' => $session->id], 200);
         
     }
     public function enviarNotificacion($userId = 2, $mensaje = 'HOLA! wEsta es una notificación de prueba desde MentorSearchController.')

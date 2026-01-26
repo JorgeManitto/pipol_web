@@ -153,7 +153,7 @@
                                 });
                             }
                         @endphp
-                        @if ($user->skills->isNotEmpty())
+                        @if ($user->skills && $user->skills->isNotEmpty())
                             @foreach ($user->skills as $skill)
                                 <span class="skill-tag bg-emerald-100 text-emerald-800 px-4 py-2 rounded-full font-medium border border-emerald-200">{{ $skill->name }}</span>
                             @endforeach

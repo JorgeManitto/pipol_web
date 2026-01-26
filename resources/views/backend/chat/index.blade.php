@@ -4,7 +4,8 @@
 
 @section('main_content')
       <!-- Chat Container: Adjusted responsive layout and padding -->
-      <div class="flex-1 flex p-2 md:p-4 lg:p-8 gap-2 md:gap-4 lg:gap-6 overflow-hidden">
+      @livewire('chat')
+      {{-- <div class="flex-1 flex p-2 md:p-4 lg:p-8 gap-2 md:gap-4 lg:gap-6 overflow-hidden">
         
         <!-- Chat List: Added responsive width and mobile toggle button -->
         <div 
@@ -222,18 +223,18 @@
           
         </div>
         
-      </div>
+      </div> --}}
       
-        <script>
-    function toggleSidebar() {
-      const sidebar = document.getElementById('sidebar');
-      sidebar.classList.toggle('-translate-x-full');
-    }
-    
-    function toggleChatList() {
-      const chatList = document.getElementById('chatList');
-      chatList.classList.toggle('hidden');
-    }
+    <script>
+        function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('-translate-x-full');
+        }
+        
+        function toggleChatList() {
+        const chatList = document.getElementById('chatList');
+        chatList.classList.toggle('hidden');
+        }
   </script>
        <!-- Added JavaScript for mobile interactions: sidebar toggle and chat view switching -->
   {{-- <script>

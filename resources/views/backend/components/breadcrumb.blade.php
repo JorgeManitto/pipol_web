@@ -33,36 +33,46 @@
         </a>
     </p>
 </div> --}}
-<nav class="text-sm text-white mb-6 flex justify-between">
+<nav class="text-sm text-white mb-6 flex justify-between w-full items-center">
     <div>
         <a href="#" class="hover:text-[#2d5a4a]">Dashboard</a>
         <span class="mx-2">></span>
         <span class="text-white font-medium">{{ $routeLabels[$routeName] ?? $routeName }}</span>
     </div>
-
-    <div>
-    <div class="relative w-full max-w-sm mx-auto">
-        <!-- Botón de notificaciones -->
-        <button id="notifBtn" class="relative flex items-center gap-2 bg-white border rounded-full px-4 py-2 shadow-sm hover:bg-gray-100">
-            <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
-            </svg>
-            <span class="text-sm font-medium text-gray-700">Notificaciones</span>
-            <span id="notifCount" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full px-1.5">1</span>
-        </button>
-
-        <!-- Dropdown de notificaciones -->
-        <div id="notifDropdown" class="hidden absolute right-0 mt-2 w-80 bg-white rounded-xl shadow-lg border border-gray-200 z-50">
-            <div class="p-3 border-b border-gray-100 flex items-center justify-between">
-                <h3 class="text-sm font-semibold text-gray-700">Notificaciones</h3>
-                <button id="clearNotifs" class="text-xs text-blue-500 hover:underline">Marcar todas como leídas</button>
+    <div class="hidden md:block">
+        <a href="{{ route('mentors.index') }}" class="btn-primary text-white px-4 py-2 rounded-full text-md font-semibold inline-flex items-center justify-center gap-2 w-full sm:w-auto">Ir a mentores</a>
+    </div>
+    
+    <div class="flex gap-4 items-center">
+        <div class="relative">
+            <!-- Botón de notificaciones -->
+            <button id="notifBtn" class="relative flex items-center gap-2 bg-white border rounded-full px-4 py-2 shadow-sm hover:bg-gray-100">
+                <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+                </svg>
+                <span class="text-sm font-medium text-gray-700">Notificaciones</span>
+                <span id="notifCount" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full px-1.5">1</span>
+            </button>
+    
+            <!-- Dropdown de notificaciones -->
+            <div id="notifDropdown" class="hidden absolute right-0 mt-2 w-80 bg-white rounded-xl shadow-lg border border-gray-200 z-50">
+                <div class="p-3 border-b border-gray-100 flex items-center justify-between">
+                    <h3 class="text-sm font-semibold text-gray-700">Notificaciones</h3>
+                    <button id="clearNotifs" class="text-xs text-blue-500 hover:underline">Marcar todas como leídas</button>
+                </div>
+                <div id="notifList" class="max-h-80 overflow-y-auto divide-y divide-gray-100">
+                    <!-- Notificaciones se agregan aquí dinámicamente -->
+                </div>
             </div>
-            <div id="notifList" class="max-h-80 overflow-y-auto divide-y divide-gray-100">
-                <!-- Notificaciones se agregan aquí dinámicamente -->
-            </div>
+                
+    
+        </div>
+        <div class="flex items-center cursor-pointer w-full gap-2" data-dropdown-toggle="userDropdown" data-dropdown-placement="bottom-start" style="padding: 0.2em 0.5em;background: #261848;border-radius: 23px;">
+            <img src="{{ auth()->user()->avatar ? asset('storage/avatars/'.auth()->user()->avatar) : asset('images/default-avatar.png') }}" alt="Emí" class="w-10 h-10 rounded-full border-2 border-purple-500 object-cover">
+            <span class="text-white font-medium"> {{ auth()->user()->name }}</span>
         </div>
     </div>
-
+</nav>
 <script>
 
     // Notificaciones que vienen desde Laravel (array de strings JSON)

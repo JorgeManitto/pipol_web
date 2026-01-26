@@ -8,7 +8,14 @@ class Reviews extends Model
 {
     //
     protected $table = 'reviews';
-    // Review.php
+    protected $fillable = [
+        'session_id',
+        'mentee_id',
+        'mentor_id',
+        'rating',
+        'comment',
+        'visible',
+    ];
     public function session()
     {
         return $this->belongsTo(Pipol_sessions::class);

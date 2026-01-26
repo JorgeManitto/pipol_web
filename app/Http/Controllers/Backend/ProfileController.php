@@ -62,8 +62,7 @@ class ProfileController extends Controller
             'hourly_rate'    => 'nullable|numeric|min:0',
             'currency'       => 'nullable|string|size:3',
             'avatar'         => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-            'skills'         => 'array',
-            'skills.*'       => 'integer|exists:skills,id',
+            'skills'         => 'nullable',
             'paypal_email'  => 'nullable|email|max:255',
             
             'is_mentor'     => 'nullable|boolean',
@@ -82,12 +81,6 @@ class ProfileController extends Controller
 
         // Actualizar datos
         $user->update($validated);
-
-        // Actualizar skills si es mentor
-        if ($user->is_mentor && $request->has('skills')) {
-            // dd($request->skills);
-            $user->skills()->sync($request->skills);
-        }
 
         return redirect()
             ->route('profile.edit')

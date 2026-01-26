@@ -78,12 +78,12 @@ class AuthTabs extends Component
 
         Auth::login($user);
 
-        return redirect()->route('profile.show', ['id' => $user->id]);
-        // if ($this->is_mentor) {
-        //     return redirect()->route('profile.show', ['id' => $user->id]);
-        // }else{
-        //     return redirect()->route('dashboard');
-        // }
+        // return redirect()->route('profile.show', ['id' => $user->id]);
+        if ($this->is_mentor) {
+            return redirect()->route('profile.show', ['id' => $user->id]);
+        }else{
+            return redirect()->route('mentors.index');
+        }
     }
 
     public function render(Request $request)

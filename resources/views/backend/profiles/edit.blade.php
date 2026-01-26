@@ -245,7 +245,7 @@
                                id="rol" 
                                name="profession" value="{{ old('profession', $user->profession) }}"
                                class="w-full px-4 py-3 border border-stone-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent transition"
-                               required>
+                               >
                     </div>
                     
                     <div>
@@ -284,7 +284,7 @@
                     <textarea id="bio" 
                               rows="8" name="bio" 
                               class="w-full px-4 py-3 border border-stone-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent transition resize-none"
-                              required>{{ old('bio', $user->bio) }}</textarea>
+                              >{{ old('bio', $user->bio) }}</textarea>
                     <p class="text-sm text-stone-500 mt-2">Cuéntale a otros sobre tu experiencia, logros y qué puedes aportar como mentor.</p>
                 </div>
             </div>
@@ -299,7 +299,7 @@
                     <textarea id="bio_laboral" 
                               rows="8" name="bio_laboral" 
                               class="w-full px-4 py-3 border border-stone-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent transition resize-none"
-                              required>{{ old('bio', $user->bio_laboral) }}</textarea>
+                              >{{ old('bio', $user->bio_laboral) }}</textarea>
                     {{-- <p class="text-sm text-stone-500 mt-2">Cuéntale a otros sobre tu experiencia, logros y qué puedes aportar como mentor.</p> --}}
                 </div>
             </div>

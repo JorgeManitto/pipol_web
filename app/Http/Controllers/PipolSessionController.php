@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Pipol_sessions;
 use App\Models\Reviews;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,23 +16,50 @@ class PipolSessionController extends Controller
     public function index()
     {
         $user = Auth::user();
+        $proximas_sesiones = collect();
+        $pasadas_sesiones = collect();
+        $canceladas_sesiones = collect();
 
-
-        // dd($user);
         if ($user->is_mentor) {
-            $sessions = Pipol_sessions::where('mentor_id', $user->id)
+            $proximas_sesiones = Pipol_sessions::where('mentor_id', $user->id)
+                ->where('status', '!=', 'cancelled')
+                ->where('scheduled_at', '>=', now())
                 ->with(['mentee'])
-                ->orderBy('scheduled_at', 'desc')
-                ->paginate(10);
+                ->orderBy('id', 'desc')
+                ->get();
+            $pasadas_sesiones = Pipol_sessions::where('mentor_id', $user->id)
+                ->where('scheduled_at', '<', now())
+                ->with(['mentee'])
+                ->orderBy('id', 'desc')
+                ->get();
+            $canceladas_sesiones = Pipol_sessions::where('mentor_id', $user->id)
+                ->where('status', 'cancelled')
+                ->with(['mentee'])
+                ->orderBy('id', 'desc')
+                ->get();
+
         } else {
-            $sessions = Pipol_sessions::where('mentee_id', $user->id)
+            $proximas_sesiones = Pipol_sessions::where('mentee_id', $user->id)
+                ->where('status', '!=', 'cancelled')
+                ->where('scheduled_at', '>=', now())
                 ->with(['mentor'])
-                ->orderBy('scheduled_at', 'desc')
-                ->paginate(10);
+                ->orderBy('id', 'desc')
+                ->get();
+            $pasadas_sesiones = Pipol_sessions::where('mentee_id', $user->id)
+                // ->where('status', 'completed')
+                ->where('scheduled_at', '<', now())
+                ->with(['mentee'])
+                ->orderBy('id', 'desc')
+                ->get();
+            $canceladas_sesiones = Pipol_sessions::where('mentee_id', $user->id)
+                ->where('status', 'cancelled')
+                ->with(['mentee'])
+                ->orderBy('id', 'desc')
+                ->get();
         }
-        // dd($sessions);
-        // dd($sessions[0]->mentor);
-        return view('backend.sessions.index', compact('sessions', 'user'));
+        
+        
+        return view('backend.sessions.index', compact('proximas_sesiones', 'user', 'pasadas_sesiones', 'canceladas_sesiones'));
     }
 
     /**
@@ -121,9 +149,11 @@ class PipolSessionController extends Controller
     /**
      * Cancelar una sesión
      */
-    public function cancel($id)
+    public function cancel(Request $request)
     {
+        $id = $request->input('id');
         $session = Pipol_sessions::findOrFail($id);
+        // dd($session);
         $user = Auth::user();
 
         if ($session->status === 'completed') {
@@ -137,39 +167,62 @@ class PipolSessionController extends Controller
         $session->status = 'cancelled';
         $session->save();
 
-        return back()->with('success', 'Sesión cancelada correctamente.');
+        $transaction = Transaction::where('session_id', $session->id)->first();
+        if ($transaction && $transaction->status === 'paid') {
+            // Lógica para reembolsar el pago al mentee
+            $transaction->status = 'refunded';
+            $transaction->refunded_at = now();
+            $transaction->notes = 'Reembolso automático por cancelación de sesión.';
+            $transaction->save();
+        }
+
+        return response()->json(['status' => 'Sesión cancelada correctamente.']);
+        // return back()->with('success', 'Sesión cancelada correctamente.');
     }
 
     /**
      * Guardar valoración después de una sesión completada
      */
-    public function review(Request $request, $id)
+    public function review(Request $request)
     {
-        $session = Pipol_sessions::findOrFail($id);
+        $session = Pipol_sessions::findOrFail($request->session_id);
         $user = Auth::user();
 
         if ($session->mentee_id !== $user->id) {
-            abort(403, 'Solo el mentee puede valorar la sesión.');
+            return response()->json(['status' => 'Solo el mentee puede valorar la sesión.'], 403);
         }
 
-        if ($session->status !== 'completed') {
-            return back()->with('error', 'Solo se pueden valorar sesiones completadas.');
-        }
+        // if ($session->status !== 'completed') {
+        //     return response()->json(['status' => 'Solo se pueden valorar sesiones completadas.'], 403);
+        // }
 
+        // $validated = $request->validate([
+        //     'rating' => 'required|integer|min:1|max:5',
+        //     'comment' => 'nullable|string|max:1000',
+        // ]);
         $validated = $request->validate([
-            'rating' => 'required|integer|min:1|max:5',
+            'rating' => 'required|min:1|max:5',
             'comment' => 'nullable|string|max:1000',
+        ], [
+            'rating.required' => 'La calificación es obligatoria.',
+            'rating.min' => 'La calificación mínima es 1.',
+            'rating.max' => 'La calificación máxima es 5.',
+            'comment.string' => 'El comentario debe ser una cadena de texto.',
+            'comment.max' => 'El comentario no puede exceder los 1000 caracteres.',
         ]);
 
         Reviews::updateOrCreate(
             ['session_id' => $session->id, 'mentee_id' => $user->id],
             [
                 'mentor_id' => $session->mentor_id,
-                'rating' => $validated['rating'],
+                'rating' => intval($validated['rating']),
                 'comment' => $validated['comment'] ?? null,
             ]
         );
+        $session->status = 'completed';
+        $session->completed_at = now();
+        $session->save();
 
-        return back()->with('success', 'Gracias por valorar la sesión.');
+        return response()->json(['status' => 'Valoración guardada correctamente.'], 200);
     }
 }

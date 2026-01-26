@@ -215,13 +215,13 @@
         <!-- Tabs -->
         <div class="flex gap-2 mb-6 bg-white p-2 rounded-lg shadow-sm">
             <button class="tab-button active flex-1 py-2 px-4 rounded-lg font-medium" data-tab="proximas">
-                Próximas ({{ $sessions->count() }})
+                Próximas ({{ $proximas_sesiones->count() }})
             </button>
             <button class="tab-button flex-1 py-2 px-4 rounded-lg font-medium text-gray-600" data-tab="pasadas">
-                Pasadas (0)
+                Pasadas ({{ $pasadas_sesiones->count() }})
             </button>
             <button class="tab-button flex-1 py-2 px-4 rounded-lg font-medium text-gray-600" data-tab="canceladas">
-                Canceladas (0)
+                Canceladas ({{ $canceladas_sesiones->count() }})
             </button>
         </div>
 
@@ -229,211 +229,268 @@
         <div id="sessions-container">
             <!-- Próximas Sessions -->
             <div class="tab-content active" data-content="proximas">
-                
-            @foreach ($sessions as $session)
-                <!-- Session Card -->
-                <div class="session-card bg-white rounded-xl shadow-sm p-6 mb-4 border-l-4 border-yellow-500">
-                    <div class="flex items-start justify-between mb-4">
-                        <div class="flex items-start gap-4">
-                            @php
-                                if($user->is_mentor){
-                                    $name = $session->mentee->name;
-                                    $image = $session->mentee->avatar;
-                                    $profession = $session->mentee->profession;
-                                }else{
-                                    $name = $session->mentor->name;
-                                    $image = $session->mentor->avatar;
-                                    $profession = $session->mentor->profession;
-                                }
-                            @endphp
-                            <img src="{{ $image ? asset('storage/avatars/'.$image) : asset('images/default-avatar.png') }}" alt="{{ $name }}" class="w-16 h-16 rounded-full object-cover">
-                            <div>
-                                <h3 class="font-semibold text-lg text-[#2d5a4a] mb-1">{{ $name }}</h3>
-                                <p class="text-sm text-gray-600 mb-2">{{ $profession }}</p>
-                                <span class="status-badge status-{{ $session->status }}">
-                                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
-                                    </svg>
-                                    {{ $session->status }}
-                                </span>
+                @foreach ($proximas_sesiones as $session)
+                    <!-- Session Card -->
+                    <div class="session-card bg-white rounded-xl shadow-sm p-6 mb-4 border-l-4 border-blue-500">
+                        <div class="flex items-start justify-between mb-4">
+                            <div class="flex items-start gap-4">
+                                @php
+                                    if($user->is_mentor){
+                                        $name = $session->mentee->name;
+                                        $image = $session->mentee->avatar;
+                                        $profession = $session->mentee->profession;
+                                    }else{
+                                        $name = $session->mentor->name;
+                                        $image = $session->mentor->avatar;
+                                        $profession = $session->mentor->profession;
+                                    }
+                                @endphp
+                                <img src="{{ $image ? asset('storage/avatars/'.$image) : asset('images/default-avatar.png') }}" alt="{{ $name }}" class="w-16 h-16 rounded-full object-cover">
+                                <div>
+                                    <h3 class="font-semibold text-lg text-[#2d5a4a] mb-1">{{ $name }}</h3>
+                                    <p class="text-sm text-gray-600 mb-2">{{ $profession }}</p>
+                                    {{-- <span class="status-badge status-{{ $session->status }}">
+                                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
+                                        </svg>
+                                        {{ $session->status }}
+                                    </span> --}}
+                                    <span class="status-badge status-{{ $session->transaction ? 'confirmed' : 'pending' }}">
+                                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
+                                        </svg>
+                                        @if ($session->transaction)
+                                            {{$session->transaction->status == 'paid' ? 'Pago Confirmado' : 'Pendiente de Pago'}}
+                                        @else
+                                            Pendiente de Pago
+                                        @endif
+                                    </span>
+
+                                </div>
                             </div>
-                        </div>
-                        <button class="text-gray-400 hover:text-gray-600">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"/>
-                            </svg>
-                        </button>
-                    </div>
-                    
-                    <div class="grid grid-cols-2 gap-4 mb-4 p-4 bg-[#f5f0e8] rounded-lg">
-                        <div class="flex items-center gap-2">
-                            <svg class="w-5 h-5 text-[#2d5a4a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                            </svg>
-                            <div>
-                                <p class="text-xs text-gray-600">Fecha</p>
-                                <p class="font-semibold text-sm">
-                                    {{ \Carbon\Carbon::parse($session->scheduled_at)->format('d/m/Y') }}
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="flex items-center gap-2">
-                            <svg class="w-5 h-5 text-[#2d5a4a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                            </svg>
-                            <div>
-                                <p class="text-xs text-gray-600">Hora</p>
-                                <p class="font-semibold text-sm">
-                                    {{ \Carbon\Carbon::parse($session->scheduled_at)->format('H:i') }}
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="flex items-center gap-2">
-                            <svg class="w-5 h-5 text-[#2d5a4a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/>
-                            </svg>
-                            <div>
-                                <p class="text-xs text-gray-600">Modalidad</p>
-                                <p class="font-semibold text-sm">Online</p>
-                            </div>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <svg class="w-5 h-5 text-[#2d5a4a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                            </svg>
-                            <div>
-                                <p class="text-xs text-gray-600">Precio</p>
-                                <p class="font-semibold text-sm">{{ $session->mentor->currency}} {{ number_format($session->mentor->hourly_rate, 2) }}</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    @if ($session->status === 'pending')
-                        <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mb-3">
-                            <p class="text-sm text-yellow-800">
-                                <strong>Esperando confirmación del mentor.</strong> Te notificaremos cuando la sesión sea confirmada.
-                            </p>
-                        </div>
-                    @endif
-                    @if ($session->status === 'confirmed')
-                        <div class="bg-green-50 border border-green-200 rounded-lg p-3 mb-3">
-                            <p class="text-sm text-green-800">
-                                <strong>Sesión confirmada.</strong> ¡Prepárate para tu sesión con {{ $name }}!
-                            </p>
-                        </div>
-
-                        <div class="p-3 mb-3">
-                            <p class="text-sm text-blue-500">Url de la reunión: No disponible.</p>
-                        </div>
-
-                    @endif
-
-                    <div class="flex gap-3">
-                        @if($session->status === 'pending' && $session->mentee->id === auth()->id())
-                            <button class="flex-1 bg-gray-300 text-gray-500 py-2 px-4 rounded-lg cursor-not-allowed" disabled>
-                                Esperando Confirmación
+                            <button class="text-gray-400 hover:text-gray-600">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"/>
+                                </svg>
                             </button>
+                        </div>
                         
-                        @endif                
-                        @if ($session->status === 'pending' && $session->mentor->id === auth()->id())
-                            <button onclick="openConfirmModal({{ $session->id}} )" class="flex-1 bg-[#2d5a4a] text-white py-2 px-4 rounded-lg hover:bg-[#234539] transition-colors">
-                                Confirmar Sesión
-                            </button>
+                        <div class="grid grid-cols-2 gap-4 mb-4 p-4 bg-[#f5f0e8] rounded-lg">
+                            <div class="flex items-center gap-2">
+                                <svg class="w-5 h-5 text-[#2d5a4a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                </svg>
+                                <div>
+                                    <p class="text-xs text-gray-600">Fecha</p>
+                                    <p class="font-semibold text-sm">
+                                        {{ \Carbon\Carbon::parse($session->scheduled_at)->format('d/m/Y') }}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center gap-2">
+                                <svg class="w-5 h-5 text-[#2d5a4a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                                <div>
+                                    <p class="text-xs text-gray-600">Hora</p>
+                                    <p class="font-semibold text-sm">
+                                        {{ \Carbon\Carbon::parse($session->scheduled_at)->format('H:i') }}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center gap-2">
+                                <svg class="w-5 h-5 text-[#2d5a4a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/>
+                                </svg>
+                                <div>
+                                    <p class="text-xs text-gray-600">Modalidad</p>
+                                    <p class="font-semibold text-sm">Online</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <svg class="w-5 h-5 text-[#2d5a4a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                                <div>
+                                    <p class="text-xs text-gray-600">Precio</p>
+                                    <p class="font-semibold text-sm">{{ $session->mentor->currency}} {{ number_format($session->mentor->hourly_rate, 2) }}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        @if ($session->status === 'pending' && auth()->user()->role == 'mentee')
+                            <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mb-3">
+                                <p class="text-sm text-yellow-800">
+                                    <strong>Esperando confirmación del mentor.</strong> Te notificaremos cuando la sesión sea confirmada.
+                                </p>
+                            </div>
+                        @endif
+                        @if ($session->status === 'confirmed')
+                            <div class="bg-green-50 border border-green-200 rounded-lg p-3 mb-3">
+                                <p class="text-sm text-green-800">
+                                    <strong>Sesión confirmada.</strong> ¡Prepárate para tu sesión con {{ $name }}!
+                                </p>
+                            </div>
+
+                            <div class="p-3 mb-3">
+                                <p class="text-sm text-blue-500">Url de la reunión: No disponible.</p>
+                            </div>
+
                         @endif
 
-                        @if ($session->status === 'confirmed')
-                            <button class="flex-1 bg-gray-300 text-gray-500 py-2 px-4 rounded-lg cursor-not-allowed" disabled>
-                                Sesión Confirmada
-                            </button>
-                            @if ($session->mentor->id === auth()->id())
-                                
-                                <button class="flex-1 bg-[#1e40af] text-white py-2 px-4 rounded-lg cursor-pointer" onclick="generarUrlMeet()">
-                                    Generar Link de Reunión
+                        <div class="flex gap-3">
+                            @if($session->status === 'pending' && $session->mentee->id === auth()->id())
+                                <button class="flex-1 bg-gray-300 text-gray-500 py-2 px-4 rounded-lg cursor-not-allowed" disabled>
+                                    Esperando Confirmación
+                                </button>
+                            
+                            @endif                
+                            @if ($session->status === 'pending' && $session->mentor->id === auth()->id())
+                                <button onclick="openConfirmModal({{ $session->id}} )" class="flex-1 bg-[#2d5a4a] text-white py-2 px-4 rounded-lg hover:bg-[#234539] transition-colors">
+                                    Confirmar Sesión
                                 </button>
                             @endif
-                        @endif
-                        
 
-                        {{-- <button class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors" onclick="openRescheduleModal('Carina Mariani', 'Lun, 28 Oct 2025', '10:00 - 11:00')">
-                            Reprogramar
-                        </button> --}}
-                        <button class="flex-1 bg-[#2d5a4a] text-white py-2 px-4 rounded-lg hover:bg-[#234539] transition-colors flex items-center justify-center gap-2">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
-                            </svg>
-                            Unirse a la Sesión
-                        </button>
-                        @if ($session->status != 'confirmed')
-                            <button class="px-4 py-2 border border-red-300 text-red-600 rounded-lg hover:bg-red-50 transition-colors" onclick="openCancelModal('Melanie Bolter Salinas', 'Vie, 1 Nov 2025', '09:00 - 10:00')">
-                                Cancelar
+                            @if ($session->status === 'confirmed')
+                                <button class="flex-1 bg-gray-300 text-gray-500 py-2 px-4 rounded-lg cursor-not-allowed" disabled>
+                                    Sesión Confirmada
+                                </button>
+                                @if ($session->mentor->id === auth()->id())
+                                    
+                                    <button class="flex-1 bg-[#1e40af] text-white py-2 px-4 rounded-lg cursor-pointer" onclick="generarUrlMeet()">
+                                        Generar Link de Reunión
+                                    </button>
+                                @endif
+                            @endif
+                            
+                            <button class="flex-1 bg-[#2d5a4a] text-white py-2 px-4 rounded-lg hover:bg-[#234539] transition-colors flex items-center justify-center gap-2">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                                </svg>
+                                Unirse a la Sesión
                             </button>
-                        @endif
+                            @if ($session->status != 'confirmed')
+                                @if ($session->mentor->id == auth()->id())
+                                    <button class="px-4 py-2 border border-red-300 text-red-600 rounded-lg hover:bg-red-50 transition-colors" onclick="openCancelModal('{{ $session->id }}','{{ $session->mentee->name }}', '{{ \Carbon\Carbon::parse($session->scheduled_at)->format('D, d M Y') }}', '{{ \Carbon\Carbon::parse($session->scheduled_at)->format('H:i') }} - {{ \Carbon\Carbon::parse($session->scheduled_at)->addHour()->format('H:i') }}')">
+                                        Cancelar
+                                    </button>
+                                @else
+                                    <button class="px-4 py-2 border border-red-300 text-red-600 rounded-lg hover:bg-red-50 transition-colors" onclick="openCancelModal('{{ $session->id }}','{{ $session->mentor->name }}', '{{ \Carbon\Carbon::parse($session->scheduled_at)->format('D, d M Y') }}', '{{ \Carbon\Carbon::parse($session->scheduled_at)->format('H:i') }} - {{ \Carbon\Carbon::parse($session->scheduled_at)->addHour()->format('H:i') }}')">
+                                        Cancelar
+                                    </button>
+                                @endif
+                            @endif
+                        </div>
                     </div>
-                </div>
-            @endforeach                
+                @endforeach                
             </div>
 
             <!-- Pasadas Sessions -->
-            <div class="tab-content hidden" data-content="pasadas">
-                <div class="session-card bg-white rounded-xl shadow-sm p-6 mb-4 border-l-4 border-blue-500">
-                    <div class="flex items-start justify-between mb-4">
-                        <div class="flex items-start gap-4">
-                            <img src="/placeholder.svg?height=60&width=60" alt="Mentor" class="w-16 h-16 rounded-full object-cover">
-                            <div>
-                                <h3 class="font-semibold text-lg text-[#2d5a4a] mb-1">Agostina Rahal</h3>
-                                <p class="text-sm text-gray-600 mb-2">Cognitivo conductual</p>
-                                <span class="status-badge status-completed">
-                                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                                    </svg>
-                                    Completada
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="grid grid-cols-2 gap-4 mb-4 p-4 bg-[#f5f0e8] rounded-lg">
-                        <div class="flex items-center gap-2">
-                            <svg class="w-5 h-5 text-[#2d5a4a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                            </svg>
-                            <div>
-                                <p class="text-xs text-gray-600">Fecha</p>
-                                <p class="font-semibold text-sm">Lun, 21 Oct 2025</p>
-                            </div>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <svg class="w-5 h-5 text-[#2d5a4a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                            </svg>
-                            <div>
-                                <p class="text-xs text-gray-600">Hora</p>
-                                <p class="font-semibold text-sm">14:00 - 15:00</p>
-                            </div>
-                        </div>
-                    </div>
+            <div class="tab-content hidden" data-content="pasadas">  
+                @foreach ($pasadas_sesiones as $session)
+                    <div class="session-card bg-white rounded-xl shadow-sm p-6 mb-4 border-l-4 border-yellow-500">
+                        <div class="flex items-start justify-between mb-4">
+                            <div class="flex items-start gap-4">
+                                @php
+                                    if($user->is_mentor){
+                                        $name = $session->mentee->name;
+                                        $image = $session->mentee->avatar;
+                                        $profession = $session->mentee->profession;
+                                    }else{
+                                        $name = $session->mentor->name;
+                                        $image = $session->mentor->avatar;
+                                        $profession = $session->mentor->profession;
+                                    }
+                                @endphp
+                                <img src="{{ $image ? asset('storage/avatars/'.$image) : asset('images/default-avatar.png') }}" alt="{{ $name }}" class="w-16 h-16 rounded-full object-cover">
+                                <div>
+                                    <h3 class="font-semibold text-lg text-[#2d5a4a] mb-1">{{ $name }}</h3>
+                                    <p class="text-sm text-gray-600 mb-2">{{ $profession }}</p>
+                                    
+                                    <span class="status-badge status-{{ $session->transaction ? 'confirmed' : 'pending' }}">
+                                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
+                                        </svg>
+                                        @if ($session->transaction)
+                                            {{$session->transaction->status == 'paid' ? 'Pago Confirmado' : 'Pendiente de Pago'}}
+                                        @else
+                                            Pendiente de Pago
+                                        @endif
+                                    </span>
 
-                    <div class="flex gap-3">
-                        <button class="flex-1 bg-[#2d5a4a] text-white py-2 px-4 rounded-lg hover:bg-[#234539] transition-colors">
-                            Dejar Reseña
-                        </button>
-                        <button class="px-4 py-2 border border-[#2d5a4a] text-[#2d5a4a] rounded-lg hover:bg-[#f5f0e8] transition-colors">
-                            Agendar Nuevamente
-                        </button>
-                    </div>
-                </div>
+                                </div>
+                            </div>
+                            <button class="text-gray-400 hover:text-gray-600">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"/>
+                                </svg>
+                            </button>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-4 mb-4 p-4 bg-[#f5f0e8] rounded-lg">
+                            <div class="flex items-center gap-2">
+                                <svg class="w-5 h-5 text-[#2d5a4a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                </svg>
+                                <div>
+                                    <p class="text-xs text-gray-600">Fecha</p>
+                                    <p class="font-semibold text-sm">
+                                        {{ \Carbon\Carbon::parse($session->scheduled_at)->format('d/m/Y') }}
+                                    </p>
+                                </div>
+                            </div>
 
-                <div class="text-center py-8 text-gray-500">
-                    <p>Mostrando 1 de 12 sesiones pasadas</p>
-                    <button class="mt-4 text-[#2d5a4a] hover:underline">Ver todas las sesiones pasadas</button>
-                </div>
+                            <div class="flex items-center gap-2">
+                                <svg class="w-5 h-5 text-[#2d5a4a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                                <div>
+                                    <p class="text-xs text-gray-600">Hora</p>
+                                    <p class="font-semibold text-sm">
+                                        {{ \Carbon\Carbon::parse($session->scheduled_at)->format('H:i') }}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center gap-2">
+                                <svg class="w-5 h-5 text-[#2d5a4a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/>
+                                </svg>
+                                <div>
+                                    <p class="text-xs text-gray-600">Modalidad</p>
+                                    <p class="font-semibold text-sm">Online</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <svg class="w-5 h-5 text-[#2d5a4a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                                <div>
+                                    <p class="text-xs text-gray-600">Precio</p>
+                                    <p class="font-semibold text-sm">{{ $session->mentor->currency}} {{ number_format($session->mentor->hourly_rate, 2) }}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-3">
+                            @if (!$session->review)
+                            <button onclick="openReviewModal('{{ $session->id }}', '{{ $image ? asset('storage/avatars/'.$image) : asset('images/default-avatar.png') }}', '{{ $name }}')" class="flex-1 bg-[#2d5a4a] text-white py-2 px-4 rounded-lg hover:bg-[#234539] transition-colors">
+                                Dejar Reseña
+                            </button>
+                            @endif
+                            <button class="px-4 py-2 border border-[#2d5a4a] text-[#2d5a4a] rounded-lg hover:bg-[#f5f0e8] transition-colors">
+                                Tuve un problema con la sesión
+                            </button>
+                        </div>
+                    </div>
+                @endforeach     
             </div>
 
             <!-- Canceladas Sessions -->
             <div class="tab-content hidden" data-content="canceladas">
-                <div class="session-card bg-white rounded-xl shadow-sm p-6 mb-4 border-l-4 border-red-500">
+                {{-- <div class="session-card bg-white rounded-xl shadow-sm p-6 mb-4 border-l-4 border-red-500">
                     <div class="flex items-start justify-between mb-4">
                         <div class="flex items-start gap-4">
                             <img src="/placeholder.svg?height=60&width=60" alt="Mentor" class="w-16 h-16 rounded-full object-cover">
@@ -482,7 +539,102 @@
                             Agendar Nuevamente
                         </button>
                     </div>
-                </div>
+                </div> --}}
+                @foreach ($canceladas_sesiones as $session)
+                    <div class="session-card bg-white rounded-xl shadow-sm p-6 mb-4 border-l-4 border-red-500">
+                        <div class="flex items-start justify-between mb-4">
+                            <div class="flex items-start gap-4">
+                                @php
+                                    if($user->is_mentor){
+                                        $name = $session->mentee->name;
+                                        $image = $session->mentee->avatar;
+                                        $profession = $session->mentee->profession;
+                                    }else{
+                                        $name = $session->mentor->name;
+                                        $image = $session->mentor->avatar;
+                                        $profession = $session->mentor->profession;
+                                    }
+                                @endphp
+                                <img src="{{ $image ? asset('storage/avatars/'.$image) : asset('images/default-avatar.png') }}" alt="{{ $name }}" class="w-16 h-16 rounded-full object-cover">
+                                <div>
+                                    <h3 class="font-semibold text-lg text-[#2d5a4a] mb-1">{{ $name }}</h3>
+                                    <p class="text-sm text-gray-600 mb-2">{{ $profession }}</p>
+                                    
+                                    <span class="status-badge status-{{ $session->transaction ? 'confirmed' : 'pending' }}">
+                                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
+                                        </svg>
+                                        @if ($session->transaction)
+                                            {{$session->transaction->status == 'paid' ? 'Pago Confirmado' : 'Pendiente de Pago'}}
+                                        @else
+                                            Pendiente de Pago
+                                        @endif
+                                    </span>
+
+                                </div>
+                            </div>
+                            <button class="text-gray-400 hover:text-gray-600">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"/>
+                                </svg>
+                            </button>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-4 mb-4 p-4 bg-[#f5f0e8] rounded-lg">
+                            <div class="flex items-center gap-2">
+                                <svg class="w-5 h-5 text-[#2d5a4a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                </svg>
+                                <div>
+                                    <p class="text-xs text-gray-600">Fecha</p>
+                                    <p class="font-semibold text-sm">
+                                        {{ \Carbon\Carbon::parse($session->scheduled_at)->format('d/m/Y') }}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center gap-2">
+                                <svg class="w-5 h-5 text-[#2d5a4a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                                <div>
+                                    <p class="text-xs text-gray-600">Hora</p>
+                                    <p class="font-semibold text-sm">
+                                        {{ \Carbon\Carbon::parse($session->scheduled_at)->format('H:i') }}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center gap-2">
+                                <svg class="w-5 h-5 text-[#2d5a4a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/>
+                                </svg>
+                                <div>
+                                    <p class="text-xs text-gray-600">Modalidad</p>
+                                    <p class="font-semibold text-sm">Online</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <svg class="w-5 h-5 text-[#2d5a4a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                                <div>
+                                    <p class="text-xs text-gray-600">Precio</p>
+                                    <p class="font-semibold text-sm">{{ $session->mentor->currency}} {{ number_format($session->mentor->hourly_rate, 2) }}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-3">
+                            <button class="flex-1 bg-[#2d5a4a] text-white py-2 px-4 rounded-lg hover:bg-[#234539] transition-colors">
+                                Dejar Reseña
+                            </button>
+                            <button class="px-4 py-2 border border-[#2d5a4a] text-[#2d5a4a] rounded-lg hover:bg-[#f5f0e8] transition-colors">
+                                Tuve un problema con la sesión
+                            </button>
+                        </div>
+                    </div>
+                @endforeach    
             </div>
         </div>
     </div>
@@ -630,6 +782,8 @@
     </div>
     {{-- generateMeetForm Modal --}}
 
+    @include('backend.sessions.components.review-modal')
+
     <div id="generateMeetForm" class="modal">
         <div class="modal-content">
             <div class="p-6">
@@ -679,6 +833,7 @@
                     <p class="text-sm text-red-800 mb-1">¿Estás seguro que deseas cancelar esta sesión?</p>
                     <p class="font-semibold text-[#2d5a4a] mt-2" id="cancel-mentor-name"></p>
                     <p class="text-sm text-gray-600" id="cancel-session-time"></p>
+                    <input type="hidden" name="session_id" id="cancel-session-id" value="">
                 </div>
 
                 <div class="mb-6">
@@ -772,7 +927,8 @@
             closeRescheduleModal();
         }
 
-        function openCancelModal(mentorName, date, time) {
+        function openCancelModal(id,mentorName, date, time) {
+            document.getElementById('cancel-session-id').value = id;
             document.getElementById('cancel-mentor-name').textContent = mentorName;
             document.getElementById('cancel-session-time').textContent = `${date} • ${time}`;
             document.getElementById('cancelModal').classList.add('active');
@@ -816,7 +972,21 @@
         }
 
         function confirmCancel() {
-            alert('Sesión cancelada. Se procesará el reembolso según nuestra política.');
+            // window.location.href = '{{route("sessions.cancel")}}' + '?id=' + document.getElementById('cancel-session-id').value;
+            fetch('{{route("sessions.cancel")}}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({ id: document.getElementById('cancel-session-id').value }) // Replace with actual session ID
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                window.location.reload();
+            });
+            // alert('Sesión cancelada. Se procesará el reembolso según nuestra política.');
             closeCancelModal();
         }
 

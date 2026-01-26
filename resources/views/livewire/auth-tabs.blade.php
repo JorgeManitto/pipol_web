@@ -4,8 +4,16 @@
             <div class="grid lg:grid-cols-1 gap-12 items-center">
                 <!-- Left: Branding / Intro (tomado del estilo de index.blade.php) -->
                 <div class="text-white space-y-4">
-                    <div class="inline-block px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full text-sm text-gray-300">
-                        Conectando experiencia con talento
+                    <div class="flex items-start flex-col gap-2">
+                        <a href="{{ route('home') }}" class="flex items-center px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full text-sm text-gray-300">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                              <path d="M15 18l-6-6 6-6" />
+                            </svg>
+                            Volver al sitio principal
+                        </a>
+                        <div class="inline-block px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full text-sm text-gray-300">
+                            Conectando experiencia con talento
+                        </div>
                     </div>
 
                     <h1 class="text-4xl font-black leading-tight">
@@ -14,7 +22,7 @@
                     </h1>
 
                     <p class="text-md text-gray-300 leading-relaxed max-w-xl">
-                        Compartí y aprendé de la experiencia real. Entrá con tu cuenta o creá una para empezar a conectar con mentores y consultantes.
+                        Compartí y aprendé de la experiencia real. Entrá con tu cuenta o creá una para empezar a conectar con mentores y mentee.
                     </p>
 
                 
@@ -22,11 +30,11 @@
 
                 <!-- Right: Auth Card (estética adaptada de index.blade.php) -->
                 <div class="relative">
-                    <div class="bg-white/5 backdrop-blur-sm rounded-3xl p-8 shadow-2xl">
-                        <div class="flex items-center justify-center mb-6">
+                    <div class="bg-white/5 backdrop-blur-sm rounded-3xl p-3 md:p-8 shadow-2xl">
+                        {{-- <div class="flex items-center justify-center mb-6">
                             <a href="{{ route('home') }}" class="text-2xl font-bold text-white"><img style="display: inline-block;height: 40px;" src="{{ asset('/images/logo-clea-recorte.png') }}" alt="Pipol" /></a>
-                            {{-- <div class="text-sm text-gray-300">¿Nuevo? <button wire:click="showRegister" class="text-purple-300 underline ml-2">Crear cuenta</button></div> --}}
-                        </div>
+                            <div class="text-sm text-gray-300">¿Nuevo? <button wire:click="showRegister" class="text-purple-300 underline ml-2">Crear cuenta</button></div>
+                        </div> --}}
 
                         <!-- Tabs -->
                         <div class="flex bg-gray-800/30 rounded-xl p-1 mb-6">
@@ -117,7 +125,7 @@
                                 <div class="grid grid-cols-2 gap-4">
                                     <label class="flex items-center gap-2 bg-gray-800/40 p-3 rounded-lg">
                                         <input type="radio" id="consultante" wire:model.defer="is_mentor" value="0" class="w-4 h-4">
-                                        <span class="text-gray-200">Soy Consultante</span>
+                                        <span class="text-gray-200">Soy Mentee</span>
                                     </label>
                                     <label class="flex items-center gap-2 bg-gray-800/40 p-3 rounded-lg">
                                         <input type="radio" id="mentor" wire:model.defer="is_mentor" value="1" class="w-4 h-4">

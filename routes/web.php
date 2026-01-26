@@ -8,6 +8,7 @@ use App\Http\Controllers\Backend\MentorSearchController;
 use App\Http\Controllers\Backend\PaymentController;
 use App\Http\Controllers\Frontend\Home;
 use App\Http\Controllers\Backend\ProfileController;
+use App\Http\Controllers\Backend\Statistics;
 use App\Http\Controllers\PipolSessionController;
 use App\Livewire\MentorRegistrationChat;
 use App\Models\User;
@@ -55,6 +56,7 @@ Route::middleware(['auth','profile.completed'])->group(function () {
 
     Route::get('/mentors', [MentorSearchController::class, 'index'])->name('mentors.index');
 
+    Route::post('/stripe/payment-intent', [PaymentController::class, 'createPaymentIntent'])->name('createPaymentIntent');
 
     Route::get('/sessions', [PipolSessionController::class, 'index'])->name('sessions.index');
     Route::get('/sessions/{id}', [PipolSessionController::class, 'show'])->name('sessions.show');
@@ -62,9 +64,9 @@ Route::middleware(['auth','profile.completed'])->group(function () {
     Route::post('/sessions/{id}/confirm', [PipolSessionController::class, 'confirm'])->name('sessions.confirm');
     Route::post('/sessions/confirmjson', [PipolSessionController::class, 'confirmJson'])->name('sessions.confirmjson');
     Route::post('/sessions/{id}/complete', [PipolSessionController::class, 'complete'])->name('sessions.complete');
-    Route::post('/sessions/{id}/cancel', [PipolSessionController::class, 'cancel'])->name('sessions.cancel');
+    Route::post('/sessions/cancel', [PipolSessionController::class, 'cancel'])->name('sessions.cancel');
 
-    Route::post('/sessions/{id}/review', [PipolSessionController::class, 'review'])->name('sessions.review');
+    Route::post('/sessions/review', [PipolSessionController::class, 'review'])->name('sessions.review');
 
 
     Route::get('/profile/{id}', [ProfileController::class, 'show'])->name('profile.show');
@@ -76,12 +78,17 @@ Route::middleware(['auth','profile.completed'])->group(function () {
 
     Route::post('/notifications/mark-as-read', [Dashboard::class, 'makeNotificationRead'])->name('notifications.markAsRead');
 
-    Route::get('/statistics', [Dashboard::class, 'statistics'])->name('admin.statistics');
+    Route::get('/statistics', [Statistics::class, 'index'])->name('admin.statistics');
 
 
     Route::get('/crear-link', [PaymentController::class, 'generarLink']);
-    Route::get('/mensajes', [ChatController::class, 'index'])->name('admin.chat.index');
+    // Route::get('/mensajes', [ChatController::class, 'index'])->name('admin.chat.index');
 
+    Route::get('/mensajes',             [ChatController::class, 'index'])->name('admin.chat.index');
+    Route::get('/mensajes/{conversation}', [ChatController::class, 'show'])->name('admin.chat.show');
+    Route::post('/mensajes/{conversation}',[ChatController::class, 'store'])->name('admin.chat.store');
+
+   
 });
 
 
@@ -127,6 +134,7 @@ Route::get('/auth/google/callback', function () {
 
     // dd($googleUser);
     // Buscar o crear usuario
+    $isUserExist = User::where('email', $googleUser->getEmail)->first();
     $user = User::updateOrCreate([
         'email' => $googleUser->getEmail(),
     ], [
@@ -155,9 +163,14 @@ Route::get('/auth/google/callback', function () {
         $user->avatar = $filename;
         $user->save();
     }
-    Auth::login($user);
-
-    return redirect('/dashboard');
+        Auth::login($user);
+     
+        if ($isUserExist) {
+            return redirect()->route('dashboard');
+        }
+        else{
+            return redirect()->route('linkedin.redirect.view');
+        }
 });
 
 Route::middleware(['auth',

@@ -27,7 +27,7 @@ class Pipol_sessions extends Model
         return $this->hasOne(Reviews::class,'session_id');
     }
     public function transaction() {
-        return $this->hasOne(Transaction::class);
+        return $this->hasOne(Transaction::class, 'session_id');
     }
     public function tickets() {
         return $this->hasMany(Ticket::class);

@@ -41,8 +41,8 @@ class CvRegistrarionChat extends Component
 
     public function submitResponse()
     {
-        $this->loading = true;
-        $this->buttonDisabled = true;
+        // $this->loading = true;
+        // $this->buttonDisabled = true;
 
         $this->stepHistory[] = $this->step;
 
@@ -97,8 +97,6 @@ class CvRegistrarionChat extends Component
                 break;
         }
 
-        $this->loading = false;
-        $this->buttonDisabled = false;
     }
 
     public function render()

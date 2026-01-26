@@ -280,7 +280,7 @@ class MentorRegistrationChat extends Component
                         $this->addBotMessage('Escríbelos e indica dónde los realizaste.');
                     } else {
                         $this->step = 11;
-                        $this->addBotMessage('¿Qué idiomas hablas de manera fluida? (Campo libre + sugerencias automáticas)');
+                        $this->addBotMessage('¿Qué idiomas hablas de manera fluida?');
                     }
                     $this->buttonDisabled = false;
                     break;
@@ -290,7 +290,7 @@ class MentorRegistrationChat extends Component
                         'education.required' => 'Por favor, ingresa tus estudios formales y/o certificaciones relevantes.'
                     ]);
                     $this->step = 11;
-                    $this->addBotMessage('¿Qué idiomas hablas de manera fluida? (Campo libre + sugerencias automáticas)');
+                    $this->addBotMessage('¿Qué idiomas hablas de manera fluida?');
                     break;
                 case 11:
                     $this->step = 12;
@@ -322,7 +322,7 @@ class MentorRegistrationChat extends Component
                    
                     $this->addBotMessage('Excelente. Una buena bio aumenta tus oportunidades de recibir solicitudes.');
                     $this->step = 14;
-                    $this->addBotMessage('Vamos a configurar tu disponibilidad de agenda. Indica qué días y en qué franjas horarias estás disponible. (Respuesta libre o con chips sugeridos)');
+                    $this->addBotMessage('Vamos a configurar tu disponibilidad de agenda. Indica qué días y en qué franjas horarias estás disponible');
                     break;
                 case 14:
                     $this->step = 15;

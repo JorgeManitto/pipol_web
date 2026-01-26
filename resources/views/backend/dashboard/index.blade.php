@@ -179,7 +179,7 @@
                 </div>
             </div>
             @php
-                $rating = round($ratingReviews ?? 0, 1); // ej: 4.9
+                $rating = $ratingReviews; // ej: 4.9
                 $fullStars = floor($rating);
                 $maxStars = 5;
             @endphp

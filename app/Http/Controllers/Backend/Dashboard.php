@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Reviews;
 use Illuminate\Http\Request;
 use Nette\Utils\Json;
 
@@ -19,10 +20,10 @@ class Dashboard extends Controller
             ->where('created_at', '>=', now()->startOfMonth())
             ->sum('amount');
         $totalSpent = auth()->user()->transactionsAsPayer()->sum('amount');
-
+        $testReviews = Reviews::all();
         $totalReviews = auth()->user()->reviewsReceived()->count();
-        $ratingRevieews = auth()->user()->reviewsReceived()->avg('rating');
-
+        $ratingReviews = (auth()->user()->reviewsReceived()->avg('rating')) ? round(auth()->user()->reviewsReceived()->avg('rating'), 2) : 0;
+        
         // $totalSessionLast30Days = auth()->user()->sessionsAsMentor()
         //     ->where('status', 'completed')
         //     ->where('completed_at', '>=', now()->subDays(30))
@@ -49,6 +50,8 @@ class Dashboard extends Controller
             ->where('status', 'completed')
             ->where('completed_at', '>=', now()->startOfMonth())
             ->count();
+        //     dd($sessionsThisMonth);
+        // dd(now()->startOfMonth()-> toDateTimeString());
         $sessionsPerDay = $user->sessionsAsMentor()
             ->selectRaw('DATE(completed_at) as date, COUNT(*) as total')
             ->where('status', 'completed')
@@ -77,7 +80,7 @@ class Dashboard extends Controller
             'totalEarningsThisMonth',
             'totalSpent',
             'totalReviews',
-            'ratingRevieews',
+            'ratingReviews',
             'totalSessionsLast30Days',
             'sessionsToday',
             'sessionsThisWeek',

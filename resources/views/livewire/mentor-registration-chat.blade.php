@@ -221,7 +221,7 @@
             </div>
             @error('hasEducation') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
         @elseif ($step == 10)
-            <textarea wire:model="education" placeholder="Estudios y dónde los realizaste" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 h-24"></textarea>
+            <textarea wire:model="education" placeholder="Licenciatura en XXX en UBA, Magister en XXX en San Andrés" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 h-24"></textarea>
             @error('education') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
         @elseif ($step == 11)
             <input wire:model="languages" placeholder="Idiomas (ej. Español, Inglés)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">

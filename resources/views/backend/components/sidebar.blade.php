@@ -3,7 +3,7 @@
   <div class="mb-8">
     {{-- <h1 class="text-3xl font-bold gradient-text-hero">Pipol</h1> --}}
     <a href="{{ route('dashboard') }}">
-      <img src="{{ asset('/images/logo-clea-recorte.png') }}" alt="logo" style=" object-fit: contain;height: 40px;">
+      <img src="{{ asset('/images/logo-v3-recorte.png') }}" alt="logo" style=" object-fit: contain;height: 72px;">
     </a>
   </div>
   {{-- @dd(auth()->user()) --}}
@@ -29,13 +29,13 @@
       </svg>
       <span>Favoritos</span>
     </a> --}}
-    <a href="{{ route('mentors.index') }}" class="flex items-center gap-3 p-2 rounded  {{ request()->routeIs('mentors.index') ? 'bg-[#ffffff55]' : 'hover:bg-[#ffffff55]' }}  sidebar-icon">
+    {{-- <a href="{{ route('mentors.index') }}" class="flex items-center gap-3 p-2 rounded  {{ request()->routeIs('mentors.index') ? 'bg-[#ffffff55]' : 'hover:bg-[#ffffff55]' }}  sidebar-icon">
       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
           d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
       </svg>
       <span>Ir a Mentores</span>
-    </a>
+    </a> --}}
     <a href="{{ route('admin.chat.index') }}" class="flex items-center gap-3 p-2 rounded {{ request()->routeIs('admin.chat.index') ? 'bg-[#ffffff55]' : 'hover:bg-[#ffffff55]' }} sidebar-icon">
       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -43,15 +43,15 @@
       </svg>
       <span>Mensajes</span>
     </a>
-    @if (auth()->user()->role == 'admin' || auth()->user()->role == 'mentor')
-     <a href="{{ route('admin.statistics') }}" class="flex items-center gap-3 p-2 rounded {{ request()->routeIs('admin.statistics') ? 'bg-[#ffffff55]' : 'hover:bg-[#ffffff55]' }} sidebar-icon">
-         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                 d="M9 17v-6m4 6V7m4 10v-3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-         </svg>
-         <span>Mis estadísticas</span>
-       </a>
-    @endif
+    {{-- @if (auth()->user()->role == 'admin' || auth()->user()->role == 'mentor') --}}
+    <a href="{{ route('admin.statistics') }}" class="flex items-center gap-3 p-2 rounded {{ request()->routeIs('admin.statistics') ? 'bg-[#ffffff55]' : 'hover:bg-[#ffffff55]' }} sidebar-icon">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9 17v-6m4 6V7m4 10v-3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+        </svg>
+        <span>{{  auth()->user()->role == 'mentor' ? 'Mis estadísticas' : 'Mis transacciones' }}</span>
+      </a>
+    {{-- @endif --}}
         
     <a href="{{ route('profile.show', ['id'=>auth()->id()]) }}" class="flex items-center gap-3 p-2 rounded {{ request()->routeIs('profile.show') ? 'bg-[#ffffff55]' : 'hover:bg-[#ffffff55]' }}  sidebar-icon">
     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

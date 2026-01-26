@@ -123,16 +123,17 @@
         </div>
         <p class="text-gray-600 mb-6">Diseñado para quienes están en la búsqueda de un profesional adecuado a tus necesidades.</p>
         
-        <div class="relative">
+        {{-- <div class="relative">
             <form action="">
                 <input type="text" name="q" value="{{ request('q')}}" placeholder="¿Encontremos a tu próximo terapeuta?" class="w-full px-6 py-4 rounded-xl border-2 border-gray-200 focus:border-[#2d5a4a] focus:outline-none text-gray-700">
                 <button class="absolute right-2 top-1/2 -translate-y-1/2 px-6 py-2 bg-[#2d5a4a] text-white rounded-lg hover:bg-[#3d6a5a] transition-colors">
                     Buscar
                 </button>
             </form>
-        </div>
-        
-        <p class="text-xs text-gray-500 mt-3">Pipol no te sugiere ningún tratamiento médico.</p>
+        </div> --}}
+
+        @livewire('buscador')
+        {{-- <p class="text-xs text-gray-500 mt-3">Pipol no te sugiere ningún tratamiento médico.</p> --}}
     </div>
 
     <div class="flex items-center justify-center gap-4 mb-8">
@@ -152,89 +153,121 @@
     @endif
 
     @if ($mentors->count())
-    <!-- Professional Cards Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        
-        @foreach ($mentors as $mentor)
-        <!-- Card 1 -->
-        <div class="bg-white rounded-xl shadow-sm overflow-hidden professional-card">
-            <div class="p-6">
-                <div class="flex items-start gap-4 mb-4">
-                    <img src="{{ $mentor->avatar ? asset('storage/avatars/'.$mentor->avatar) : asset('images/default-avatar.png') }}" alt="Carina Mariani" class="w-20 h-20 rounded-full object-cover">
-                    <div class="flex-1">
-                        <div class="flex items-center gap-2 mb-1">
-                            <a href="{{ route('profile.show', ['id'=>$mentor->id]) }}">
-                                <h3 class="font-semibold text-lg text-gray-900">{{ $mentor->name }} {{ $mentor->last_name }}</h3>
-                            </a>
-                            <svg class="w-4 h-4 text-[#d4af6a]" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                            </svg>
+    <div class="container">
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
+            @foreach ($mentors as $mentor)
+            <!-- Card -->
+            <div class="bg-white rounded-xl shadow-sm overflow-hidden flex flex-col h-full min-h-[480px] lg:min-h-[520px]">
+
+                <!-- Contenido principal (flexible) -->
+                <div class="p-4 flex flex-col flex-grow">
+
+                    <!-- Avatar + nombre + profesión + idioma -->
+                    <div class="flex items-start gap-4 mb-5">
+                        <img 
+                            src="{{ $mentor->avatar ? asset('storage/avatars/'.$mentor->avatar) : asset('images/default-avatar.png') }}" 
+                            alt="{{ $mentor->name }} {{ $mentor->last_name }}"
+                            class="w-14 h-14 rounded-full object-cover flex-shrink-0"
+                        >
+                        <div class="flex-1">
+                            <div class="flex items-baseline gap-2 mb-1">
+                                <a href="{{ route('profile.show', ['id' => $mentor->id]) }}">
+                                    <h3 class="font-semibold text-lg text-gray-900 hover:text-[#2d5a4a] transition-colors">
+                                        {{ $mentor->name }} {{ $mentor->last_name }}
+                                    </h3>
+                                </a>
+                                <svg class="w-4 h-4 text-[#d4af6a]" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zM9 10.586l1.293 1.293a1 1 0 001.414 0l4-4a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2z" clip-rule="evenodd"/>
+                                </svg>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-2">{{ $mentor->profession }}</p>
+                            <div class="flex items-center gap-1 text-sm text-gray-500">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"/>
+                                </svg>
+                                <span>Español</span>
+                            </div>
                         </div>
-                        <p class="text-sm text-gray-600 mb-2">{{ $mentor->profession }}</p>
-                        <div class="flex items-center gap-1 text-sm text-gray-500">
+                    </div>
+
+                    <!-- Especialidades -->
+                    <div class="mb-5">
+                        <p class="text-xs text-gray-500 mb-2">Especialidades:</p>
+                        <div class="flex flex-wrap gap-2">
+                            @if ($mentor->skills)
+                                @php
+                                    if (is_string($mentor->skills)) {
+                                        $mentor->skills = collect(explode(',', $mentor->skills))
+                                            ->map(fn($skill, $index) => (object)['id' => $index, 'name' => trim($skill)]);
+                                    }
+                                @endphp
+                                @foreach ($mentor->skills as $skill)
+                                    <a href="{{ route('mentors.index', ['skill' => $skill->id]) }}"
+                                    class="px-3 py-1 bg-[#f5f0e8] text-[#2d5a4a] text-xs rounded-full hover:bg-[#e8dfcc] transition-colors tag">
+                                        {{ $skill->name }}
+                                    </a>
+                                @endforeach
+                            @endif
+                        </div>
+                    </div>
+                    <div class="">
+                        <p class="text-xs text-gray-500 mb-2">Modalidad de atención</p>
+                        <div class="flex items-center gap-2 text-sm text-gray-700">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
                             </svg>
-                            <span>Español</span>
+                            <span>Online</span>
                         </div>
                     </div>
-                </div>
-                
-                <div class="mb-4">
-                    <p class="text-xs text-gray-500 mb-2">Especialidades:</p>
-                    <div class="flex flex-wrap gap-2">
-                        @php
-                            if(is_string($mentor->skills)){
-                                $mentor->skills = collect(explode(',', $mentor->skills))->map(function($skill, $index) {
-                                    return (object) ['id' => $index,'name' => trim($skill)];
-                                });
-                            }
-                        @endphp
-                        @foreach ($mentor->skills as $skill)
-                            <a href="{{ route('mentors.index', ['skill'=>$skill->id]) }}" class="px-3 py-1 bg-[#f5f0e8] text-[#2d5a4a] text-xs rounded-full tag">{{ $skill->name }}</a>
-                        @endforeach
-                        {{-- <span class="px-3 py-1 bg-[#f5f0e8] text-[#2d5a4a] text-xs rounded-full tag">Autoestima</span>
-                        <span class="px-3 py-1 bg-[#f5f0e8] text-[#2d5a4a] text-xs rounded-full tag">Desarrollo personal</span>
-                        <span class="px-3 py-1 bg-[#f5f0e8] text-[#2d5a4a] text-xs rounded-full tag">Duelo</span>
-                        <span class="px-3 py-1 bg-[#f5f0e8] text-[#2d5a4a] text-xs rounded-full tag">Dificultades en relaciones</span>
-                        <span class="px-3 py-1 bg-[#f5f0e8] text-[#2d5a4a] text-xs rounded-full tag">Miedo</span>
-                        <span class="px-3 py-1 bg-[#f5f0e8] text-[#2d5a4a] text-xs rounded-full tag">Desmotivación</span>
-                        <span class="px-3 py-1 bg-[#f5f0e8] text-[#2d5a4a] text-xs rounded-full tag">Depresión</span>
-                        <span class="px-3 py-1 bg-[#f5f0e8] text-[#2d5a4a] text-xs rounded-full tag">Crisis existencial</span>
-                        <span class="px-3 py-1 bg-[#f5f0e8] text-[#2d5a4a] text-xs rounded-full tag">Ataque de pánico</span> --}}
+                    <div class="border-t mt-auto">
+                        <p class="text-2xl font-bold text-[#2d5a4a] mb-4 pt-2 text-left">
+                            {{ $mentor->currency }} {{ number_format($mentor->hourly_rate, 2) }}/h
+                        </p>
+                        <button  data-mentor='@json($mentor)'
+                            data-avatar="{{ $mentor->avatar ? asset("storage/avatars/".$mentor->avatar) : asset("images/default-avatar.png") }}"
+                            data-price="{{ $mentor->currency }} {{ number_format($mentor->hourly_rate, 2) }}"
+                            
+                            class="w-full py-3 bg-[#2d5a4a] text-white rounded-lg hover:bg-[#3d6a5a] transition-colors font-medium text-base mentor-btn">
+                            Conóceme
+                        </button>
+
+                        {{-- <button 
+                            onclick="openModal(
+                                '{{ $mentor->id }}',
+                                '{{ $mentor->name }} {{ $mentor->last_name }}',
+                                '{{ $mentor->profession }}',
+                                '{{ $mentor->currency }} {{ number_format($mentor->hourly_rate, 2) }}',
+                                '{{ $mentor->avatar ? asset('storage/avatars/'.$mentor->avatar) : asset('images/default-avatar.png') }}',
+                                '{{ auth()->id() }}',
+                                '{{ $mentor->hourly_rate }}',
+                                '{{ $mentor->currency }}'
+                            )"
+                            class="w-full py-3 bg-[#2d5a4a] text-white rounded-lg hover:bg-[#3d6a5a] transition-colors font-medium text-base">
+                            Conóceme
+                        </button> --}}
                     </div>
-                </div>
-                
-                <div class="mb-4">
-                    <p class="text-xs text-gray-500 mb-2">Modalidad de atención</p>
-                    <div class="flex items-center gap-2 text-sm text-gray-700">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                        </svg>
-                        <span>Online</span>
-                    </div>
-                </div>
-                
-                <div  class="border-t pt-4 w-full">
-                    <p class="text-2xl font-bold text-[#2d5a4a] mb-3">{{ $mentor->currency }} {{ number_format($mentor->hourly_rate, 2) }}</p>
-                    <button onclick="openModal(
-                        '{{$mentor->id}}', // mentor_id
-                        '{{ $mentor->name }} {{ $mentor->last_name }}', // name
-                        '{{ $mentor->profession }}', // specialty
-                        '{{ $mentor->currency }} {{ number_format($mentor->hourly_rate, 2) }}',  // price
-                        '{{ $mentor->avatar ? asset('storage/avatars/'.$mentor->avatar) : asset('images/default-avatar.png') }}',  // image
-                        '{{auth()->id()}}',  // mentee_id
-                        '{{$mentor->hourly_rate}}',  // hourly_rate
-                        '{{ $mentor->currency }}'  // currency
-                    )" 
-                    class="w-full block text-center py-3 w-full bg-[#2d5a4a] text-white rounded-lg hover:bg-[#3d6a5a] transition-colors font-medium">
-                        Conocer más
-                    </button>
+
                 </div>
             </div>
+            @endforeach
+            <script>
+                document.querySelectorAll('.mentor-btn').forEach(btn => {
+                    btn.addEventListener('click', function () {
+
+                        const mentor = JSON.parse(this.dataset.mentor);
+                        const avatar = this.dataset.avatar;
+                        const price = this.dataset.price;
+
+                        console.log(mentor); // ✅ ahora sí
+                        openPerfilModal(mentor, avatar, price);
+                    });
+                });
+
+            </script>
         </div>
-        @endforeach
     </div>
+    
     @else
     <div class="flex justify-between items-center">
         <p class="text-gray-600 text-white">No se encontraron profesionales que coincidan con tu búsqueda.</p>
@@ -267,6 +300,7 @@
         {{ $mentors->links() }}
     </div>
     
+    @include('backend.mentors.components.perfil-modal')
     <!-- Appointment booking modal -->
     <div id="appointmentModal" class="modal">
         <div class="modal-content">
@@ -285,7 +319,6 @@
                     </svg>
                 </button>
             </div>
-            
             <!-- Modal Body -->
             <div class="p-6">
                 <div class="grid md:grid-cols-2 gap-8">
@@ -348,7 +381,7 @@
                     Cancelar
                 </button>
                 <button id="confirmButton" onclick="confirmAppointment()" class="px-6 py-3 bg-[#2d5a4a] text-white rounded-lg hover:bg-[#3d6a5a] transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed" disabled>
-                    Confirmar cita
+                    Ir al pago
                 </button>
             </div>
         </div>
@@ -358,20 +391,67 @@
             <div class="flex justify-center p-6">
                 <h2 class="text-2xl font-bold text-[#2d5a4a] text-center">Notificación de pipol</h2>
             </div>
-            <div class="p-6">
-                <p id="message" class="text-gray-600"></p>
+            <div id="content-payment">
+                <div class="p-6">
+                    <div id="message"></div>
+                    <div class="my-4">
+                        <h3 class="text-lg font-semibold text-[#2d5a4a] mb-4">Realiza tu pago para asegurar tu mentoría</h3>
+                    </div>
+                    <script src="https://js.stripe.com/v3/"></script>
+                    <form id="payment-form">
+                        <div class="mb-6">
+                            <div id="card-element"></div>
+                        </div>
+                        
+                        <button id="submit" class="px-6 py-3 bg-[#2d5a4a] text-white rounded-lg hover:bg-[#3d6a5a] transition-colors font-medium w-full">Pagar</button>
+                    </form>
+    
+                </div>
+                <div class="flex items-center gap-4 flex-col md:flex-row p-6">
+                    <button onclick="closeMessageModal()" class="px-6 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors font-medium w-full">
+                        Cerrar
+                    </button>
+                    <a href="{{ route('sessions.index') }}" class="px-6 py-3 bg-[#2d5a4a] text-white rounded-lg hover:bg-[#3d6a5a] transition-colors font-medium w-full">Ir a mis Sesiones </a>
+                </div>
             </div>
-            <div class="flex items-center gap-4 flex-col md:flex-row p-6">
-                <button onclick="closeMessageModal()" class="px-6 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors font-medium w-full">
-                    Cerrar
-                </button>
-                <a href="{{ route('sessions.index') }}" class="px-6 py-3 bg-[#2d5a4a] text-white rounded-lg hover:bg-[#3d6a5a] transition-colors font-medium w-full">Ir a mis Sesiones </a>
+            <div id="container-loader" style="display: none;">
+                <div class="flex justify-center p-6">
+                    <div style="width: 150px;height: 150px;">
+
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 150">
+                            <path fill="none" stroke="#1A0A3E" stroke-width="15" stroke-linecap="round" stroke-dasharray="300 385" stroke-dashoffset="0" d="M275 75c0 31-27 50-50 50-58 0-92-100-150-100-28 0-50 22-50 50s23 50 50 50c58 0 92-100 150-100 24 0 50 19 50 50Z">
+                                <animate attributeName="stroke-dashoffset" calcMode="spline" dur="2" values="685;-685" keySplines="0 0 1 1" repeatCount="indefinite"></animate>
+                            </path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+            <div style="display: none;" id="response-message">
+                <div class="flex justify-start p-6">
+                    <h2 class="text-2xl font-bold text-[#000000] text-center" id="response-message-text"></h2>
+                </div>
+                <div class="flex items-center gap-4 flex-col md:flex-row p-6">
+                    <button onclick="closeMessageModal()" class="px-6 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors font-medium w-full">
+                        Cerrar
+                    </button>
+                    <a href="{{ route('sessions.index') }}" class="px-6 py-3 bg-[#2d5a4a] text-white rounded-lg hover:bg-[#3d6a5a] transition-colors font-medium w-full">Ir a mis Sesiones </a>
+                </div>
             </div>
         </div>
     </div>
+
+   
     
     <!-- Added JavaScript for modal functionality -->
     <script>
+        const contentPayment = document.getElementById('content-payment');
+        const appointmentMessage = document.getElementById('appointmentMessage');
+        const messageDiv = document.getElementById('message');
+        const containerLoader = document.getElementById('container-loader');
+        const responseMessageDiv = document.getElementById('response-message');
+        const responseMessageText = document.getElementById('response-message-text');
+
+        let idSession = null;
         let currentDate = new Date();
         let selectedDate = null;
         let selectedTime = null;
@@ -401,10 +481,14 @@
             currentProfessional = { mentor_id ,name, specialty, price, image, mentee_id, hourly_rate ,currency};
             console.log(currentProfessional);
             
-            document.getElementById('modalProfessionalName').textContent = name;
-            document.getElementById('modalProfessionalSpecialty').textContent = specialty;
-            document.getElementById('modalProfessionalImage').src = image;
-            document.getElementById('appointmentModal').classList.add('active');
+            const modalProfessionalName  = document.getElementById('modalProfessionalName')
+            const modalProfessionalSpecialty  = document.getElementById('modalProfessionalSpecialty')
+            const modalProfessionalImage  = document.getElementById('modalProfessionalImage')
+            const appointmentModal  = document.getElementById('appointmentModal')
+            if (modalProfessionalName)modalProfessionalName.textContent = name;
+            if(modalProfessionalSpecialty)modalProfessionalSpecialty.textContent = specialty;
+            if(modalProfessionalImage)modalProfessionalImage.src = image;
+            if(appointmentModal)appointmentModal.classList.add('active');
             document.body.style.overflow = 'hidden';
             renderCalendar();
         }
@@ -622,6 +706,7 @@
             .then(data => {
                 openMessageModal(data.message);
                 console.log('Appointment saved:', data);
+                idSession = data.session_id;
             })
             .catch((error) => {
                 openMessageModal('Ocurrió un error al guardar la cita. Por favor, inténtalo de nuevo.');
@@ -629,13 +714,72 @@
             });
         }
         function openMessageModal(message) {
-            document.getElementById('message').textContent = message;
+            // document.getElementById('message').textContent = message;
             document.getElementById('appointmentMessage').classList.add('active');
             document.body.style.overflow = 'hidden';
         }
         function closeMessageModal() {
             document.getElementById('appointmentMessage').classList.remove('active');
+
+            document.getElementById('message').textContent = '';
+            document.getElementById('response-message-text').textContent = '';
+
+            responseMessageDiv.style.display = 'none';
+
             document.body.style.overflow = 'auto';
+             contentPayment.style.display = 'block';
         }
+    </script>
+
+     <script>
+
+
+        const stripe = Stripe("{{ config('services.stripe.key') }}");
+        const elements = stripe.elements();
+        const cardElement = elements.create('card');
+        cardElement.mount('#card-element');
+
+        document.getElementById('payment-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            console.log(parseInt(currentProfessional.hourly_rate));
+            contentPayment.style.display = 'none';
+            containerLoader.style.display = 'block';
+
+            const response = await fetch('{{route('createPaymentIntent')}}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({
+                    amount: parseInt(currentProfessional.hourly_rate), // $75.00
+                    profesionalId: currentProfessional.mentor_id,
+                    idSession : idSession,
+                })
+            });
+
+            const data = await response.json();
+
+            const result = await stripe.confirmCardPayment(data.clientSecret, {
+                payment_method: {
+                    card: cardElement
+                }
+
+            });
+
+            if (result.error) {
+                containerLoader.style.display = 'none';
+                responseMessageDiv.style.display = 'block';
+                responseMessageText.textContent = 'Error en el pago: ' + result.error.message;
+                idSession = null;
+                console.log(result.error.message);
+            } else if (result.paymentIntent.status === 'succeeded') {
+                console.log('Pago exitoso 🎉');
+                idSession = null;
+                containerLoader.style.display = 'none';
+                responseMessageDiv.style.display = 'block';
+                responseMessageText.textContent = 'Pago realizado con éxito. ¡Gracias!';
+            }
+        });
     </script>
 @endsection

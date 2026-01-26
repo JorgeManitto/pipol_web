@@ -34,12 +34,12 @@ class NuevaNotificacion extends Notification
     /**
      * Get the mail representation of the notification.
      */
-    public function toMail(object $notifiable): MailMessage
+    public function toMail(object $notifiable)
     {
-        return (new MailMessage)
-            ->subject('Nueva notificación')
-            ->line($this->mensaje)
-            ->action('Ver más', url('/dashboard'));
+        // return (new MailMessage)
+        //     ->subject('Nueva notificación')
+        //     ->line($this->mensaje)
+        //     ->action('Ver más', url('/dashboard'));
     }
 
     /**

@@ -89,7 +89,7 @@
                 try {
                     const model = genAI.getGenerativeModel({ model: "gemini-flash-lite-latest" });
 
-                    const prompt = 'Analiza el siguiente CV y devuelve EXCLUSIVAMENTE un JSON válido. No incluyas explicaciones, texto adicional ni markdown. No uses ```json. Si un dato no está presente, usa null. No inventes información. Las claves deben llamarse EXACTAMENTE así:{"nombre_completo": string|null,"birthDate": "YYYY-MM-DD"|null,"country": string|null,"city": string|null,"workingNow": "yes"|"no"|null,"currentPosition": string|null,"lastPosition": string|null,"yearsExperience": number|null,"companies": string|null,"sectors": string|null,"education": string|null,"languages": string|null,"skills": string|null,"bio": string|null,"seniority": "Junior"|"Semi Senior"|"Senior"|"Lead"|null}REGLAS IMPORTANTES:- workingNow = "yes" si tiene un puesto actual o dice "Presente".- currentPosition = el cargo actual si existe.- lastPosition = el cargo anterior inmediato.- yearsExperience = estimar según fechas laborales (solo número).- companies = lista separada por comas.- sectors = inferir sectores profesionales principales.- education = resumir en una sola frase.- languages = lista separada por comas.- skills = solo hard skills técnicas separadas por comas.- bio = resumen profesional corto (máx 3 líneas).- seniority: Jefe, Gerente , Director, CEO, Emprendedor , Director.  CV:' + text;
+                    const prompt = 'Analiza el siguiente CV y devuelve EXCLUSIVAMENTE un JSON válido. No incluyas explicaciones, texto adicional ni markdown. No uses ```json. Si un dato no está presente, usa null. No inventes información. Las claves deben llamarse EXACTAMENTE así:{"nombre_completo": string|null,"birthDate": "YYYY-MM-DD"|null,"country": string|null,"city": string|null,"workingNow": "yes"|"no"|null,"currentPosition": string|null,"lastPosition": string|null,"yearsExperience": number|null,"companies": string|null,"sectors": string|null,"education": string|null,"languages": string|null,"skills": string|null,"bio": string|null,"seniority": "Junior"|"Semi Senior"|"Senior"|"Lead"|null}REGLAS IMPORTANTES:- workingNow = "yes" si tiene un puesto actual o dice "Presente".- currentPosition = el cargo actual si existe.- lastPosition = el cargo anterior inmediato.- yearsExperience = estimar según fechas laborales (solo número).- companies = lista separada por comas.- sectors = inferir sectores profesionales principales.- education = resumir en una sola frase.- languages = lista separada por comas.- skills = solo hard skills técnicas separadas por comas y que no pase de 200 letras.- bio = resumen profesional corto (máx 3 líneas).- seniority: Jefe, Gerente , Director, CEO, Emprendedor , Director.  CV:' + text;
                     const result = await model.generateContent(prompt);
                     const response = result.response.text();
                     // const response = '{"nombre_completo": "Jorge Oscar Manitto", "birthDate": null, "country": "Argentina", "city": "Pilar, Provincia de Buenos Aires", "workingNow": "yes", "currentPosition": "Desarrollador web", "lastPosition": "Desarrollador web", "yearsExperience": 5, "companies": "Workana, Upwork freelance, Pupila\u00ae", "sectors": "Desarrollo de software, Servicios freelance", "education": "Ingenier\u00eda en Electr\u00f3nica y Administraci\u00f3n/Administrador de redes en Universidad Nacional de Moreno (2018 - 2024)", "languages": null, "skills": "PHP, Laravel, JavaScript, Desarrollo web, Dise\u00f1o web, Dise\u00f1os adaptativos, Optimizaciones en buscadores", "bio": "Desarrollador web con m\u00e1s de 4 a\u00f1os de experiencia en PHP, Laravel y JavaScript. Especializado en crear soluciones escalables y optimizadas para mejorar la experiencia del usuario.", "seniority": "Senior"}';
@@ -105,6 +105,25 @@
                     Livewire.dispatch('cvProcesado', { cvData: 'Hubo un error al procesar el CV.' });
                 }
 
+            }
+
+            window.ejecutarBusqueda = async function(text, tags){
+                console.log([text, tags]);
+                return;
+                try {
+                    const model = genAI.getGenerativeModel({ model: "gemini-flash-lite-latest" });
+                    const promt = "";
+                    const result = await model.generateContent(prompt);
+                    const response = result.response.text();
+                    console.log(response);
+                    
+                    // 🔁 Volver a Livewire con el CV procesado
+                    Livewire.dispatch('busquedaGenerada', { cvData: response });
+                } catch (error) {
+                    console.error(error);
+                    alert('Error al procesar el CV: ' + error.message);
+                    Livewire.dispatch('busquedaGenerada', { cvData: 'Hubo un error al hacer tu busqueda.' });
+                }
             }
 
         </script>
