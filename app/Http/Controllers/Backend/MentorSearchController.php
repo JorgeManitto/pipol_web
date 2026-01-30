@@ -17,11 +17,18 @@ class MentorSearchController extends Controller
      */
     public function index(Request $request)
     {
-        // dd($request->input('params'));
+        // $sectors = User::pluck('sectors')
+        //     ->flatMap(fn ($s) => array_map('trim', explode(',', $s)))
+        //     ->map(fn ($s) => mb_strtolower($s))
+        //     ->unique()
+        //     ->map(fn ($s) => mb_convert_case($s, MB_CASE_TITLE))
+        //     ->values();
+
         $query = User::query()
             ->where('is_mentor', true)
             ->where('active', true)
-            ->with('skills');
+            ->with('skills')
+            ->withCount('sessionsAsMentor');
 
         if ($request->filled('params')) {
             $params = $request->input('params'); // array
@@ -35,13 +42,27 @@ class MentorSearchController extends Controller
  
 
         // 🔍 Filtro: por nombre o profesión
-        if ($request->filled('params')) {
+        if ($request->filled('q')) {
             $q = trim($request->input('q'));
             $query->where(function ($qBuilder) use ($q) {
-                $qBuilder->where('name', 'like', "%{$q}%")
-                         ->orWhere('last_name', 'like', "%{$q}%")
-                         ->orWhere('profession', 'like', "%{$q}%")
-                         ->orWhere('bio', 'like', "%{$q}%");
+                $qBuilder->where('name', 'like', "%{$q}%");
+                        //  ->orWhere('last_name', 'like', "%{$q}%")
+                        //  ->orWhere('profession', 'like', "%{$q}%")
+                        //  ->orWhere('bio', 'like', "%{$q}%");
+            });
+        }
+        if ($request->filled('seniority')) {
+            $query->where('seniority', $request->input('seniority'));
+        }
+        if ($request->filled('price')) {
+            $query->orderBy('hourly_rate', $request->input('price'));
+        }else{
+            $query->latest();
+        }
+
+        if ($request->filled('stars')) {
+            $query->whereHas('reviewsReceived', function ($q) use ($request) {
+                $q->where('rating', '>=', $request->stars);
             });
         }
 
@@ -53,38 +74,35 @@ class MentorSearchController extends Controller
             });
         }
 
-        // 🌍 Filtro: país
-        if ($request->filled('country')) {
-            $query->where('country', $request->input('country'));
+        $rangos = [
+            'BRONZE'   => 0,
+            'SILVER'   => 5,
+            'GOLD'     => 10,
+            'PLATINUM' => 20,
+            'HERO'     => 30,
+            'GOD'     => 50,
+        ];
+        if ($request->filled('lvl')) {
+            $niveles = array_keys($rangos);
+            $nivel = $request->lvl;
+            $index = array_search($nivel, $niveles);
+
+            $min = $rangos[$nivel];
+            $max = $rangos[$niveles[$index + 1]] ?? null;
+
+            // dd($min, $max);
+            $query->having('sessions_as_mentor_count', '>=', $min);
+
+            if ($max !== null) {
+                $query->having('sessions_as_mentor_count', '<', $max);
+            }
         }
 
-        // 💰 Filtro: rango de precios
-        if ($request->filled('min_rate')) {
-            $query->where('hourly_rate', '>=', (float) $request->input('min_rate'));
-        }
-        if ($request->filled('max_rate')) {
-            $query->where('hourly_rate', '<=', (float) $request->input('max_rate'));
-        }
 
-        // 🔽 Orden
-        switch ($request->input('sort')) {
-            case 'price_asc':
-                $query->orderBy('hourly_rate', 'asc');
-                break;
-            case 'price_desc':
-                $query->orderBy('hourly_rate', 'desc');
-                break;
-            case 'name':
-                $query->orderBy('name', 'asc');
-                break;
-            case 'recent':
-            default:
-                $query->latest();
-        }
 
         // 📄 Paginación
         $mentors = $query->paginate(12)->withQueryString();
-
+        // dd($mentors);
         // Todas las skills para el filtro lateral
         $skills = Skills::orderBy('name')->get();
 

@@ -34,16 +34,16 @@
     </p>
 </div> --}}
 <nav class="text-sm text-white mb-6 flex justify-between w-full items-center">
-    <div>
-        <a href="#" class="hover:text-[#2d5a4a]">Dashboard</a>
+    <div class="hidden md:block">
+        <a href="#" class="hover:text-[#1a0a3e]">Dashboard</a>
         <span class="mx-2">></span>
         <span class="text-white font-medium">{{ $routeLabels[$routeName] ?? $routeName }}</span>
     </div>
     <div class="hidden md:block">
-        <a href="{{ route('mentors.index') }}" class="btn-primary text-white px-4 py-2 rounded-full text-md font-semibold inline-flex items-center justify-center gap-2 w-full sm:w-auto">Ir a mentores</a>
+        <a href="{{ route('mentors.index') }}" class="btn-primary text-white px-4 py-2 rounded-xl text-md font-semibold inline-flex items-center justify-center gap-2 w-full sm:w-auto">Ir a mentores</a>
     </div>
     
-    <div class="flex gap-4 items-center">
+    <div class="flex gap-4 items-center justify-end w-full md:w-auto">
         <div class="relative">
             <!-- Botón de notificaciones -->
             <button id="notifBtn" class="relative flex items-center gap-2 bg-white border rounded-full px-4 py-2 shadow-sm hover:bg-gray-100">

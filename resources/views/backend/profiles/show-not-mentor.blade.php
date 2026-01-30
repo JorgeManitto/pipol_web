@@ -40,7 +40,7 @@
                     <div class="flex-shrink-0">
                         <img src="{{ $user->avatar ? asset('storage/avatars/'.$user->avatar) : asset('images/default-avatar.png') }}" 
                              alt="{{ $user->name }} {{ $user->last_name }}'s Avatar" 
-                             class="w-32 h-32 md:w-48 md:h-48 rounded-full object-cover border-4 border-emerald-100">
+                             class="w-32 h-32 md:w-48 md:h-48 rounded-full object-cover border-4 border-gray-900">
                     </div>
                     
                     <!-- Profile Info -->

@@ -2,8 +2,8 @@
     <div class="relative">
         {{-- {{$loader ? 'hola': 'flase'}} --}}
         <form wire:submit.prevent="busqueda">
-            <input type="text" wire:model="searchText" placeholder="tengo problemas para pedir un aumento a mi jefe" class="w-full px-6 py-4 rounded-xl border-2 border-gray-200 focus:border-[#2d5a4a] focus:outline-none text-gray-700">
-            <button class="absolute right-2 top-1/2 -translate-y-1/2 px-6 py-2 bg-[#2d5a4a] text-white rounded-lg hover:bg-[#3d6a5a] transition-colors" style="cursor: pointer;">
+            <input type="text" wire:model="searchText" placeholder="tengo problemas para pedir un aumento a mi jefe" class="w-full px-6 py-4 rounded-xl border-2 border-gray-200 focus:border-[#1a0a3e] focus:outline-none text-gray-700">
+            <button class="absolute right-2 top-1/2 -translate-y-1/2 px-6 py-2 bg-[#1a0a3e] text-white rounded-lg hover:bg-[#1a0a3ee8] transition-colors" style="cursor: pointer;">
                Buscar
             </button>
         </form>

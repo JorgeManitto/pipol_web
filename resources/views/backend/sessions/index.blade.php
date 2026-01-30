@@ -34,7 +34,7 @@
         }
         
         .tab-button.active {
-            background-color: #2d5a4a;
+            background-color: #1a0a3e;
             color: white;
         }
         
@@ -49,8 +49,8 @@
         }
         
         .status-confirmed {
-            background-color: #d1fae5;
-            color: #065f46;
+            background-color: #1a0a3ee8;
+            color: #fff;
         }
         
         .status-pending {
@@ -90,7 +90,7 @@
         }
         
         .calendar-day.has-session {
-            background-color: #2d5a4a;
+            background-color: #1a0a3e;
             color: white;
             font-weight: 600;
         }
@@ -189,12 +189,12 @@
             <h1 class="text-3xl font-bold text-white mb-2">Mis Sesiones</h1>
             <p class="text-white">Gestiona tus sesiones programadas con mentores</p>
         </div>
-        <button class="bg-[#2d5a4a] text-white px-6 py-3 rounded-lg hover:bg-[#234539] transition-colors flex items-center gap-2">
+        {{-- <button class="bg-[#1a0a3e] text-white px-6 py-3 rounded-lg hover:bg-[#1a0a3ee8] transition-colors flex items-center gap-2">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
             </svg>
             Agendar Nueva Sesión
-        </button>
+        </button> --}}
     </div>
 </div>
     @if(session('success'))
@@ -247,7 +247,7 @@
                                 @endphp
                                 <img src="{{ $image ? asset('storage/avatars/'.$image) : asset('images/default-avatar.png') }}" alt="{{ $name }}" class="w-16 h-16 rounded-full object-cover">
                                 <div>
-                                    <h3 class="font-semibold text-lg text-[#2d5a4a] mb-1">{{ $name }}</h3>
+                                    <h3 class="font-semibold text-lg text-[#1a0a3e] mb-1">{{ $name }}</h3>
                                     <p class="text-sm text-gray-600 mb-2">{{ $profession }}</p>
                                     {{-- <span class="status-badge status-{{ $session->status }}">
                                         <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
@@ -277,7 +277,7 @@
                         
                         <div class="grid grid-cols-2 gap-4 mb-4 p-4 bg-[#f5f0e8] rounded-lg">
                             <div class="flex items-center gap-2">
-                                <svg class="w-5 h-5 text-[#2d5a4a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-5 h-5 text-[#1a0a3e]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                                 </svg>
                                 <div>
@@ -289,7 +289,7 @@
                             </div>
 
                             <div class="flex items-center gap-2">
-                                <svg class="w-5 h-5 text-[#2d5a4a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-5 h-5 text-[#1a0a3e]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                 </svg>
                                 <div>
@@ -301,7 +301,7 @@
                             </div>
 
                             <div class="flex items-center gap-2">
-                                <svg class="w-5 h-5 text-[#2d5a4a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-5 h-5 text-[#1a0a3e]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/>
                                 </svg>
                                 <div>
@@ -310,7 +310,7 @@
                                 </div>
                             </div>
                             <div class="flex items-center gap-2">
-                                <svg class="w-5 h-5 text-[#2d5a4a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-5 h-5 text-[#1a0a3e]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                 </svg>
                                 <div>
@@ -340,7 +340,7 @@
 
                         @endif
 
-                        <div class="flex gap-3">
+                        <div class="flex flex-col lg:flex-row gap-3">
                             @if($session->status === 'pending' && $session->mentee->id === auth()->id())
                                 <button class="flex-1 bg-gray-300 text-gray-500 py-2 px-4 rounded-lg cursor-not-allowed" disabled>
                                     Esperando Confirmación
@@ -348,7 +348,7 @@
                             
                             @endif                
                             @if ($session->status === 'pending' && $session->mentor->id === auth()->id())
-                                <button onclick="openConfirmModal({{ $session->id}} )" class="flex-1 bg-[#2d5a4a] text-white py-2 px-4 rounded-lg hover:bg-[#234539] transition-colors">
+                                <button onclick="openConfirmModal({{ $session->id}} )" class="flex-1 bg-[#1a0a3e] text-white py-2 px-4 rounded-lg hover:bg-[#1a0a3ee8] transition-colors">
                                     Confirmar Sesión
                                 </button>
                             @endif
@@ -365,7 +365,7 @@
                                 @endif
                             @endif
                             
-                            <button class="flex-1 bg-[#2d5a4a] text-white py-2 px-4 rounded-lg hover:bg-[#234539] transition-colors flex items-center justify-center gap-2">
+                            <button class="flex-1 bg-[#1a0a3e] text-white py-2 px-4 rounded-lg hover:bg-[#1a0a3ee8] transition-colors flex items-center justify-center gap-2">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
                                 </svg>
@@ -406,7 +406,7 @@
                                 @endphp
                                 <img src="{{ $image ? asset('storage/avatars/'.$image) : asset('images/default-avatar.png') }}" alt="{{ $name }}" class="w-16 h-16 rounded-full object-cover">
                                 <div>
-                                    <h3 class="font-semibold text-lg text-[#2d5a4a] mb-1">{{ $name }}</h3>
+                                    <h3 class="font-semibold text-lg text-[#1a0a3e] mb-1">{{ $name }}</h3>
                                     <p class="text-sm text-gray-600 mb-2">{{ $profession }}</p>
                                     
                                     <span class="status-badge status-{{ $session->transaction ? 'confirmed' : 'pending' }}">
@@ -431,7 +431,7 @@
                         
                         <div class="grid grid-cols-2 gap-4 mb-4 p-4 bg-[#f5f0e8] rounded-lg">
                             <div class="flex items-center gap-2">
-                                <svg class="w-5 h-5 text-[#2d5a4a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-5 h-5 text-[#1a0a3e]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                                 </svg>
                                 <div>
@@ -443,7 +443,7 @@
                             </div>
 
                             <div class="flex items-center gap-2">
-                                <svg class="w-5 h-5 text-[#2d5a4a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-5 h-5 text-[#1a0a3e]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                 </svg>
                                 <div>
@@ -455,7 +455,7 @@
                             </div>
 
                             <div class="flex items-center gap-2">
-                                <svg class="w-5 h-5 text-[#2d5a4a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-5 h-5 text-[#1a0a3e]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/>
                                 </svg>
                                 <div>
@@ -464,7 +464,7 @@
                                 </div>
                             </div>
                             <div class="flex items-center gap-2">
-                                <svg class="w-5 h-5 text-[#2d5a4a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-5 h-5 text-[#1a0a3e]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                 </svg>
                                 <div>
@@ -474,13 +474,13 @@
                             </div>
                         </div>
 
-                        <div class="flex gap-3">
+                        <div class="flex flex-col lg:flex-row gap-3">
                             @if (!$session->review)
-                            <button onclick="openReviewModal('{{ $session->id }}', '{{ $image ? asset('storage/avatars/'.$image) : asset('images/default-avatar.png') }}', '{{ $name }}')" class="flex-1 bg-[#2d5a4a] text-white py-2 px-4 rounded-lg hover:bg-[#234539] transition-colors">
+                            <button onclick="openReviewModal('{{ $session->id }}', '{{ $image ? asset('storage/avatars/'.$image) : asset('images/default-avatar.png') }}', '{{ $name }}')" class="flex-1 bg-[#1a0a3e] text-white py-2 px-4 rounded-lg hover:bg-[#1a0a3ee8] transition-colors">
                                 Dejar Reseña
                             </button>
                             @endif
-                            <button class="px-4 py-2 border border-[#2d5a4a] text-[#2d5a4a] rounded-lg hover:bg-[#f5f0e8] transition-colors">
+                            <button class="px-4 py-2 border border-[#1a0a3e] text-[#1a0a3e] rounded-lg hover:bg-[#f5f0e8] transition-colors">
                                 Tuve un problema con la sesión
                             </button>
                         </div>
@@ -495,7 +495,7 @@
                         <div class="flex items-start gap-4">
                             <img src="/placeholder.svg?height=60&width=60" alt="Mentor" class="w-16 h-16 rounded-full object-cover">
                             <div>
-                                <h3 class="font-semibold text-lg text-[#2d5a4a] mb-1">Angeles Cascales</h3>
+                                <h3 class="font-semibold text-lg text-[#1a0a3e] mb-1">Angeles Cascales</h3>
                                 <p class="text-sm text-gray-600 mb-2">Cognitivo Conductual</p>
                                 <span class="status-badge status-cancelled">
                                     <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
@@ -509,7 +509,7 @@
                     
                     <div class="grid grid-cols-2 gap-4 mb-4 p-4 bg-[#f5f0e8] rounded-lg">
                         <div class="flex items-center gap-2">
-                            <svg class="w-5 h-5 text-[#2d5a4a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-5 h-5 text-[#1a0a3e]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                             </svg>
                             <div>
@@ -518,7 +518,7 @@
                             </div>
                         </div>
                         <div class="flex items-center gap-2">
-                            <svg class="w-5 h-5 text-[#2d5a4a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-5 h-5 text-[#1a0a3e]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
                             </svg>
                             <div>
@@ -535,7 +535,7 @@
                     </div>
 
                     <div class="flex gap-3">
-                        <button class="flex-1 bg-[#2d5a4a] text-white py-2 px-4 rounded-lg hover:bg-[#234539] transition-colors">
+                        <button class="flex-1 bg-[#1a0a3e] text-white py-2 px-4 rounded-lg hover:bg-[#1a0a3ee8] transition-colors">
                             Agendar Nuevamente
                         </button>
                     </div>
@@ -557,7 +557,7 @@
                                 @endphp
                                 <img src="{{ $image ? asset('storage/avatars/'.$image) : asset('images/default-avatar.png') }}" alt="{{ $name }}" class="w-16 h-16 rounded-full object-cover">
                                 <div>
-                                    <h3 class="font-semibold text-lg text-[#2d5a4a] mb-1">{{ $name }}</h3>
+                                    <h3 class="font-semibold text-lg text-[#1a0a3e] mb-1">{{ $name }}</h3>
                                     <p class="text-sm text-gray-600 mb-2">{{ $profession }}</p>
                                     
                                     <span class="status-badge status-{{ $session->transaction ? 'confirmed' : 'pending' }}">
@@ -582,7 +582,7 @@
                         
                         <div class="grid grid-cols-2 gap-4 mb-4 p-4 bg-[#f5f0e8] rounded-lg">
                             <div class="flex items-center gap-2">
-                                <svg class="w-5 h-5 text-[#2d5a4a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-5 h-5 text-[#1a0a3e]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                                 </svg>
                                 <div>
@@ -594,7 +594,7 @@
                             </div>
 
                             <div class="flex items-center gap-2">
-                                <svg class="w-5 h-5 text-[#2d5a4a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-5 h-5 text-[#1a0a3e]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                 </svg>
                                 <div>
@@ -606,7 +606,7 @@
                             </div>
 
                             <div class="flex items-center gap-2">
-                                <svg class="w-5 h-5 text-[#2d5a4a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-5 h-5 text-[#1a0a3e]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/>
                                 </svg>
                                 <div>
@@ -615,7 +615,7 @@
                                 </div>
                             </div>
                             <div class="flex items-center gap-2">
-                                <svg class="w-5 h-5 text-[#2d5a4a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-5 h-5 text-[#1a0a3e]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                 </svg>
                                 <div>
@@ -625,11 +625,11 @@
                             </div>
                         </div>
 
-                        <div class="flex gap-3">
-                            <button class="flex-1 bg-[#2d5a4a] text-white py-2 px-4 rounded-lg hover:bg-[#234539] transition-colors">
+                        <div class="flex flex-col lg:flex-row gap-3">
+                            <button class="flex-1 bg-[#1a0a3e] text-white py-2 px-4 rounded-lg hover:bg-[#1a0a3ee8] transition-colors">
                                 Dejar Reseña
                             </button>
-                            <button class="px-4 py-2 border border-[#2d5a4a] text-[#2d5a4a] rounded-lg hover:bg-[#f5f0e8] transition-colors">
+                            <button class="px-4 py-2 border border-[#1a0a3e] text-[#1a0a3e] rounded-lg hover:bg-[#f5f0e8] transition-colors">
                                 Tuve un problema con la sesión
                             </button>
                         </div>
@@ -644,7 +644,7 @@
         <!-- Calendar Widget -->
         <div class="bg-white rounded-xl shadow-sm p-6 mb-6">
             <div class="flex items-center justify-between mb-4">
-                <h3 class="font-semibold text-lg text-[#2d5a4a]">Octubre 2025</h3>
+                <h3 class="font-semibold text-lg text-[#1a0a3e]">Octubre 2025</h3>
                 <div class="flex gap-2">
                     <button class="p-1 hover:bg-gray-100 rounded">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -675,7 +675,7 @@
             
             <div class="mt-4 pt-4 border-t">
                 <div class="flex items-center gap-2 text-sm mb-2">
-                    <div class="w-3 h-3 rounded-full bg-[#2d5a4a]"></div>
+                    <div class="w-3 h-3 rounded-full bg-[#1a0a3e]"></div>
                     <span class="text-gray-600">Sesiones programadas</span>
                 </div>
                 <div class="flex items-center gap-2 text-sm">
@@ -690,10 +690,10 @@
         @endif
 
         <!-- Quick Actions -->
-        <div class="bg-gradient-to-br from-[#2d5a4a] to-[#234539] rounded-xl shadow-sm p-6 text-white">
+        <div class="bg-gradient-to-br from-[#1a0a3e] to-[#1a0a3ee8] rounded-xl shadow-sm p-6 text-white">
             <h3 class="font-semibold text-lg mb-2">¿Necesitas ayuda?</h3>
             <p class="text-sm text-white/80 mb-4">Nuestro equipo está disponible para asistirte con cualquier consulta.</p>
-            <button class="w-full bg-white text-[#2d5a4a] py-2 px-4 rounded-lg hover:bg-gray-100 transition-colors font-medium">
+            <button class="w-full bg-white text-[#1a0a3e] py-2 px-4 rounded-lg hover:bg-gray-100 transition-colors font-medium">
                 Contactar Soporte
             </button>
         </div>
@@ -704,7 +704,7 @@
         <div class="modal-content">
             <div class="p-6">
                 <div class="flex items-center justify-between mb-4">
-                    <h3 class="text-xl font-bold text-[#2d5a4a]">Reprogramar Sesión</h3>
+                    <h3 class="text-xl font-bold text-[#1a0a3e]">Reprogramar Sesión</h3>
                     <button onclick="closeRescheduleModal()" class="text-gray-400 hover:text-gray-600">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
@@ -714,18 +714,18 @@
                 
                 <div class="mb-4 p-4 bg-[#f5f0e8] rounded-lg">
                     <p class="text-sm text-gray-600 mb-1">Sesión actual con</p>
-                    <p class="font-semibold text-[#2d5a4a]" id="reschedule-mentor-name"></p>
+                    <p class="font-semibold text-[#1a0a3e]" id="reschedule-mentor-name"></p>
                     <p class="text-sm text-gray-600 mt-2" id="reschedule-current-time"></p>
                 </div>
 
                 <div class="mb-4">
                     <label class="block text-sm font-medium text-gray-700 mb-2">Nueva fecha</label>
-                    <input type="date" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2d5a4a] focus:border-transparent">
+                    <input type="date" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1a0a3e] focus:border-transparent">
                 </div>
 
                 <div class="mb-6">
                     <label class="block text-sm font-medium text-gray-700 mb-2">Nuevo horario</label>
-                    <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2d5a4a] focus:border-transparent">
+                    <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1a0a3e] focus:border-transparent">
                         <option>09:00 - 10:00</option>
                         <option>10:00 - 11:00</option>
                         <option>11:00 - 12:00</option>
@@ -739,7 +739,7 @@
                     <button onclick="closeRescheduleModal()" class="flex-1 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
                         Cancelar
                     </button>
-                    <button onclick="confirmReschedule()" class="flex-1 bg-[#2d5a4a] text-white px-4 py-2 rounded-lg hover:bg-[#234539] transition-colors">
+                    <button onclick="confirmReschedule()" class="flex-1 bg-[#1a0a3e] text-white px-4 py-2 rounded-lg hover:bg-[#1a0a3ee8] transition-colors">
                         Confirmar Cambio
                     </button>
                 </div>
@@ -753,7 +753,7 @@
         <div class="modal-content">
             <div class="p-6">
                 <div class="flex items-center justify-between mb-4">
-                    <h3 class="text-xl font-bold text-[#2d5a4a]">Confirmar Sesión</h3>
+                    <h3 class="text-xl font-bold text-[#1a0a3e]">Confirmar Sesión</h3>
                     <button onclick="closeConfirmModal()" class="text-gray-400 hover:text-gray-600">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
@@ -788,7 +788,7 @@
         <div class="modal-content">
             <div class="p-6">
                 <div class="flex items-center justify-between mb-4">
-                    <h3 class="text-xl font-bold text-[#2d5a4a]">Generar Link de Reunión</h3>
+                    <h3 class="text-xl font-bold text-[#1a0a3e]">Generar Link de Reunión</h3>
                     <button onclick="closeGenerateMeetForm()" class="text-gray-400 hover:text-gray-600">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
@@ -821,7 +821,7 @@
         <div class="modal-content">
             <div class="p-6">
                 <div class="flex items-center justify-between mb-4">
-                    <h3 class="text-xl font-bold text-[#2d5a4a]">Cancelar Sesión</h3>
+                    <h3 class="text-xl font-bold text-[#1a0a3e]">Cancelar Sesión</h3>
                     <button onclick="closeCancelModal()" class="text-gray-400 hover:text-gray-600">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
@@ -831,14 +831,14 @@
                 
                 <div class="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg">
                     <p class="text-sm text-red-800 mb-1">¿Estás seguro que deseas cancelar esta sesión?</p>
-                    <p class="font-semibold text-[#2d5a4a] mt-2" id="cancel-mentor-name"></p>
+                    <p class="font-semibold text-[#1a0a3e] mt-2" id="cancel-mentor-name"></p>
                     <p class="text-sm text-gray-600" id="cancel-session-time"></p>
                     <input type="hidden" name="session_id" id="cancel-session-id" value="">
                 </div>
 
                 <div class="mb-6">
                     <label class="block text-sm font-medium text-gray-700 mb-2">Motivo de cancelación (opcional)</label>
-                    <textarea class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2d5a4a] focus:border-transparent" rows="3" placeholder="Cuéntanos por qué cancelas esta sesión..."></textarea>
+                    <textarea class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1a0a3e] focus:border-transparent" rows="3" placeholder="Cuéntanos por qué cancelas esta sesión..."></textarea>
                 </div>
 
                 <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mb-4">

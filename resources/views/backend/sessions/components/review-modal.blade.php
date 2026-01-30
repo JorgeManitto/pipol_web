@@ -1,13 +1,13 @@
     <div class="modal" id="review-modal">
         <div class="modal-content m-auto">
             <div class="flex justify-center p-6">
-                <h2 class="text-2xl font-bold text-[#2d5a4a] text-center">Deja tu Review</h2>
+                <h2 class="text-2xl font-bold text-[#1a0a3e] text-center">Deja tu Review</h2>
             </div>
             <div class="p-6 border-t border-b border-gray-200">
                 <div class="flex items-center mb-4">
                     <img src="" alt="Avatar" class="w-16 h-16 rounded-full mr-4" id="avatar-modal-review">
                     <div>
-                        <h3 class="text-xl font-semibold text-[#2d5a4a]" id="name-modal-review"></h3>
+                        <h3 class="text-xl font-semibold text-[#1a0a3e]" id="name-modal-review"></h3>
                         
                     </div>
                 </div>
@@ -33,7 +33,7 @@
                 <button onclick="closeReviewModal()" class="px-6 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors font-medium w-full">
                     Cerrar
                 </button>
-                <button class="px-6 py-3 bg-[#2d5a4a] text-white rounded-lg hover:bg-[#3d6a5a] transition-colors font-medium w-full" onclick="setReview()">Enviar</button>
+                <button class="px-6 py-3 bg-[#1a0a3e] text-white rounded-lg hover:bg-[#1a0a3ee8] transition-colors font-medium w-full" onclick="setReview()">Enviar</button>
             </div>
             
         </div>

@@ -41,7 +41,7 @@
                     <div class="flex-shrink-0">
                         <img src="{{ $user->avatar ? asset('storage/avatars/'.$user->avatar) : asset('images/default-avatar.png') }}" 
                              alt="{{ $user->name }} {{ $user->last_name }}'s Avatar" 
-                             class="w-32 h-32 md:w-48 md:h-48 rounded-full object-cover border-4 border-emerald-100">
+                             class="w-32 h-32 md:w-48 md:h-48 rounded-full object-cover border-4 border-gray-900">
                     </div>
                     
                     <!-- Profile Info -->
@@ -49,8 +49,8 @@
                         <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-4">
                             <div>
                                 <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-2">{{ $user->name }} {{ $user->last_name }}</h1>
-                                <a href="{{ route('admin.chat.new.conversation', ['user'=> $user->id]) }}" class="btn-primary text-white px-4 py-2 rounded-full text-md font-semibold inline-flex items-center justify-center gap-2 w-full sm:w-auto">Enviar mensaje</a>
-                                <p class="text-xl text-emerald-800 font-semibold mb-3">{{ $user->profession }}</p>
+                               
+                                <p class="text-xl text-gray-800 font-semibold mb-3">{{ $user->profession }}</p>
                                 <div class="flex flex-wrap gap-4 text-gray-600 flex-col">
                                     <div class="flex items-center gap-4">
 
@@ -105,18 +105,19 @@
                             </div>
                             
                             <div class="flex flex-col gap-3">
-                                <div class="bg-emerald-50 border-2 border-emerald-800 rounded-lg px-6 py-3 text-center">
+                                <div class="bg-gray-50 border-2 border-gray-800 rounded-lg px-6 py-3 text-center">
                                     <p class="text-sm text-gray-600 mb-1">Tarifa por hora</p>
-                                    <p class="text-2xl font-bold text-emerald-900">{{ $user->currency }} {{ number_format($user->hourly_rate, 2) }}</p>
+                                    <p class="text-2xl font-bold text-gray-900">{{ $user->currency }} {{ number_format($user->hourly_rate, 2) }}</p>
                                 </div>
+                                 <a href="{{ route('admin.chat.new.conversation', ['user'=> $user->id]) }}" class="btn-primary text-white px-4 py-2 rounded-xl text-md font-semibold inline-flex items-center justify-center gap-2 w-full sm:w-auto">Enviar mensaje</a>
                             @auth
                                 @if (auth()->id() === $user->id)
-                                    <a href="{{ route('profile.edit') }}" class="bg-emerald-800 text-white px-6 py-3 rounded-lg hover:bg-emerald-900 transition font-semibold">
+                                    <a href="{{ route('profile.edit') }}" class="bg-gray-800 text-white px-6 py-3 rounded-lg hover:bg-gray-900 transition font-semibold">
                                         Editar Perfil
                                     </a>
                                 @endif
                                 @else
-                                <button class="bg-emerald-800 text-white px-6 py-3 rounded-lg hover:bg-emerald-900 transition font-semibold">
+                                <button class="bg-gray-800 text-white px-6 py-3 rounded-lg hover:bg-gray-900 transition font-semibold">
                                     Agendar Sesión
                                 </button>    
                             @endauth
@@ -136,7 +137,7 @@
                 <!-- About Section -->
                 <div class="bg-white rounded-xl shadow-md p-8">
                     <h2 class="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
-                        <svg class="w-6 h-6 text-emerald-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
                         </svg>
                         Sobre mí
@@ -159,7 +160,7 @@
                 <!-- Experience Section -->
                 <div class="bg-white rounded-xl shadow-md p-8">
                     <h2 class="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
-                        <svg class="w-6 h-6 text-emerald-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
                         </svg>
                         Experiencia Profesional
@@ -175,7 +176,7 @@
                 <!-- Skills Section -->
                 <div class="bg-white rounded-xl shadow-md p-8">
                     <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-3">
-                        <svg class="w-6 h-6 text-emerald-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
                         </svg>
                         Habilidades
@@ -190,7 +191,7 @@
                         @endphp
                         @if ($user->skills && $user->skills->isNotEmpty())
                             @foreach ($user->skills as $skill)
-                                <span class="skill-tag bg-emerald-100 text-emerald-800 px-4 py-2 rounded-full font-medium border border-emerald-200">{{ $skill->name }}</span>
+                                <span class="skill-tag bg-gray-100 text-gray-800 px-4 py-2 rounded-full font-medium border border-gray-200">{{ $skill->name }}</span>
                             @endforeach
                         @else
                             <p>No hay habilidades disponibles.</p>
@@ -204,27 +205,27 @@
                     <div class="space-y-4">
                         <div class="stat-card bg-stone-50 rounded-lg p-4 border border-stone-200">
                             <p class="text-sm text-gray-600 mb-1">Sesiones completadas</p>
-                            <p class="text-3xl font-bold text-emerald-900"> {{ $totalSessions ?? '0' }} </p>
+                            <p class="text-3xl font-bold text-gray-900"> {{ $totalSessions ?? '0' }} </p>
                         </div>
                         <div class="stat-card bg-stone-50 rounded-lg p-4 border border-stone-200">
                             <p class="text-sm text-gray-600 mb-1">Calificación promedio</p>
                             <div class="flex items-center gap-2">
-                                <p class="text-3xl font-bold text-emerald-900"> {{ number_format($rating, 1) }} / 5.0 </p>
+                                <p class="text-3xl font-bold text-gray-900"> {{ number_format($rating, 1) }} / 5.0 </p>
                                 
                             </div>
                         </div>
                         <div class="stat-card bg-stone-50 rounded-lg p-4 border border-stone-200">
                             <p class="text-sm text-gray-600 mb-1">Años de experiencia</p>
-                            <p class="text-3xl font-bold text-emerald-900"> {{ $user->years_of_experience ?? '0' }} </p>
+                            <p class="text-3xl font-bold text-gray-900"> {{ $user->years_of_experience ?? '0' }} </p>
                         </div>
                     </div>
                 </div>
 
                 <!-- CTA Section -->
-                <div class="bg-gradient-to-br from-emerald-800 to-emerald-900 rounded-xl shadow-md p-8 text-white">
+                <div class="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl shadow-md p-8 text-white">
                     <h3 class="text-xl font-bold mb-3">¿Listo para comenzar?</h3>
-                    <p class="text-emerald-100 mb-6 leading-relaxed">Agenda una sesión de mentoría y da el siguiente paso en tu carrera profesional.</p>
-                    <a href="{{ route('mentors.index') }}" class="w-full bg-white text-emerald-900 px-6 py-3 rounded-lg hover:bg-stone-100 transition font-semibold">
+                    <p class="text-gray-100 mb-6 leading-relaxed">Agenda una sesión de mentoría y da el siguiente paso en tu carrera profesional.</p>
+                    <a href="{{ route('mentors.index') }}" class="w-full bg-white text-gray-900 px-6 py-3 rounded-lg hover:bg-stone-100 transition font-semibold">
                         Agendar Sesión
                     </a>
                 </div>
