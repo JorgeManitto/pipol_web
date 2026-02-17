@@ -87,7 +87,7 @@
             <div class="hidden md:flex items-center gap-8">
                 <a href="{{ route('home').'#que-es' }}" class="nav-link text-white hover:text-gray-200">Qué es Pipol</a>
                 <a href="{{ route('home.mentors') }}" class="nav-link text-white hover:text-gray-200">Quiero ser mentor</a>
-                <a href="#" class="nav-link text-white hover:text-gray-200">Encontrá tu mentor</a>
+                <a href="{{ route('mentors.index') }}" class="nav-link text-white hover:text-gray-200">Encontrá tu mentor</a>
                 {{-- <a href="#como-funciona" class="nav-link text-white hover:text-gray-200">Cómo funciona</a> --}}
                 {{-- <a href="#faq" class="nav-link text-white hover:text-gray-200">Preguntas</a> --}}
                 {{-- <a href="#contacto" class="nav-link text-white hover:text-gray-200">Contacto</a> --}}
@@ -184,7 +184,7 @@
 
     <a href="{{ route('home').'#que-es' }}" class="flex items-center gap-3 p-2 rounded hover:bg-[#ffffff55] sidebar-icon close-menu">Qué es Pipol</a>
     <a href="{{ route('home.mentors') }}" class="flex items-center gap-3 p-2 rounded hover:bg-[#ffffff55] sidebar-icon close-menu">Quiero ser mentor</a>
-    <a href="#" class="flex items-center gap-3 p-2 rounded hover:bg-[#ffffff55] sidebar-icon close-menu"><span>Encontrá tu mentor</span></a>
+    <a href="{{ route('mentors.index') }}" class="flex items-center gap-3 p-2 rounded hover:bg-[#ffffff55] sidebar-icon close-menu"><span>Encontrá tu mentor</span></a>
    
   </nav>
 

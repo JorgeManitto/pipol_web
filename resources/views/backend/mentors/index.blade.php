@@ -113,40 +113,36 @@
             border-color: #1a0a3e;
         }
     </style>
+    
+    
+
+    <div class=" justify-center flex flex-col lg:flex-row gap-8">
+        @include('backend.mentors.components.filters-sidebar')
+        <div class="flex flex-col gap-4">
             <!-- Header Section -->
-    <div class="bg-white rounded-2xl shadow-sm p-8 mb-8">
-        <div class="flex items-center gap-3 mb-4">
-            <h1 class="text-3xl font-bold text-[#1a0a3e]">Pipol</h1>
-            <svg class="w-6 h-6 text-[#d4af6a]" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-            </svg>
-        </div>
-        <p class="text-gray-600 mb-6">Diseñado para quienes están en la búsqueda de un profesional adecuado a tus necesidades.</p>
-        
-        {{--  --}}
+            <div class="bg-white rounded-2xl shadow-sm p-4 mb-2">
+                <div class="flex items-center gap-3 mb-4">
+                    <h1 class="text-3xl font-bold text-[#1a0a3e]">Pipol</h1>
+                    <svg class="w-6 h-6 text-[#d4af6a]" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                    </svg>
+                </div>
+                <p class="text-gray-600 mb-6">Diseñado para quienes están en la búsqueda de un profesional adecuado a tus necesidades.</p>
+                @livewire('buscador')
+            </div>
 
-        @livewire('buscador')
-    </div>
+            <div class="flex items-center justify-center gap-4 mb-2">
+                <div class="h-px bg-white flex-1"></div>
+                <p class="text-white">Conecta de manera fácil, segura y privada con un mentor en línea.</p>
+                <div class="h-px bg-white flex-1"></div>
+            </div>
 
-    <div class="flex items-center justify-center gap-4 mb-8">
-        <div class="h-px bg-white flex-1"></div>
-        <p class="text-white">Conecta de manera fácil, segura y privada con un mentor en línea.</p>
-        <div class="h-px bg-white flex-1"></div>
-    </div>
-
-    @if ($mentors->count())
-        <!-- Results Count -->
-        <div class="flex justify-between items-center">
-            <p class="text-white mb-6">{{ $mentors->count() }} resultados encontrados</p>
-            {{-- @if (request('q'))
-                <a href="{{ route('mentors.index') }}" class="px-6 py-2 bg-[#1a0a3e] text-white rounded-lg hover:bg-[#1a0a3ee8] transition-colors">Limpiar filtros</a>
-            @endif --}}
-        </div>
-    @endif
-
-    <div class="container">
-        <div class="flex flex-col lg:flex-row gap-4">
-            @include('backend.mentors.components.filters-sidebar')
+            @if ($mentors->count())
+                <!-- Results Count -->
+                <div class="flex justify-between items-center">
+                    <p class="text-white ">{{ $mentors->count() }} resultados encontrados</p>
+                </div>
+            @endif
             @if ($mentors->count())
                 <div>
                     @foreach ($mentors as $mentor)

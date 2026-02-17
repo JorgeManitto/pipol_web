@@ -45,6 +45,7 @@ Broadcast::routes(['middleware' => ['auth']]);
 Route::middleware(['auth','profile.completed', 'check.active'])->group(function () {
     Route::get('/test-meet', [AdminUserController::class, 'testMeet'])->name('test.meet');
 });
+Route::get('/mentors', [MentorSearchController::class, 'index'])->name('mentors.index');
 Route::middleware(['auth','profile.completed'])->group(function () {
     
 
@@ -55,7 +56,7 @@ Route::middleware(['auth','profile.completed'])->group(function () {
     Route::delete('/profile/avatar', [ProfileController::class, 'deleteAvatar'])->name('profile.avatar.delete');
 
 
-    Route::get('/mentors', [MentorSearchController::class, 'index'])->name('mentors.index');
+    
 
     Route::post('/stripe/payment-intent', [PaymentController::class, 'createPaymentIntent'])->name('createPaymentIntent');
 
@@ -66,6 +67,7 @@ Route::middleware(['auth','profile.completed'])->group(function () {
     Route::post('/sessions/confirmjson', [PipolSessionController::class, 'confirmJson'])->name('sessions.confirmjson');
     Route::post('/sessions/{id}/complete', [PipolSessionController::class, 'complete'])->name('sessions.complete');
     Route::post('/sessions/cancel', [PipolSessionController::class, 'cancel'])->name('sessions.cancel');
+    Route::post('/sessions/reschedule', [PipolSessionController::class, 'reschedule'])->name('sessions.reschedule');
 
     Route::post('/sessions/review', [PipolSessionController::class, 'review'])->name('sessions.review');
 

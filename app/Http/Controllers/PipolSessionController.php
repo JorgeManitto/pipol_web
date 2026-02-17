@@ -5,11 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Pipol_sessions;
 use App\Models\Reviews;
 use App\Models\Transaction;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class PipolSessionController extends Controller
 {
+    private const MENTOR_MODIFICATION_DEADLINE_HOURS = 48;
+
     /**
      * Mostrar lista de sesiones del usuario (mentor o mentee)
      */
@@ -57,9 +60,47 @@ class PipolSessionController extends Controller
                 ->orderBy('id', 'desc')
                 ->get();
         }
-        
-        
-        return view('backend.sessions.index', compact('proximas_sesiones', 'user', 'pasadas_sesiones', 'canceladas_sesiones'));
+
+        // Preparar datos del calendario
+        $calendarData = $this->prepareCalendarData($proximas_sesiones, $pasadas_sesiones);
+
+        return view('backend.sessions.index', compact(
+            'proximas_sesiones',
+            'user',
+            'pasadas_sesiones',
+            'canceladas_sesiones',
+            'calendarData'
+        ));
+    }
+
+    /**
+     * Preparar datos del calendario con las sesiones
+     */
+    private function prepareCalendarData($proximas_sesiones, $pasadas_sesiones)
+    {
+        $allSessions = $proximas_sesiones->concat($pasadas_sesiones);
+
+        // Agrupar sesiones por fecha
+        $sessionsByDate = [];
+        foreach ($allSessions as $session) {
+            $date = Carbon::parse($session->scheduled_at)->format('Y-m-d');
+            if (!isset($sessionsByDate[$date])) {
+                $sessionsByDate[$date] = [];
+            }
+            $sessionsByDate[$date][] = [
+                'id' => $session->id,
+                'time' => Carbon::parse($session->scheduled_at)->format('H:i'),
+                'status' => $session->status,
+                'is_upcoming' => Carbon::parse($session->scheduled_at)->isFuture(),
+            ];
+        }
+
+        return [
+            'sessionsByDate' => $sessionsByDate,
+            'currentMonth' => now()->month,
+            'currentYear' => now()->year,
+            'today' => now()->format('Y-m-d'),
+        ];
     }
 
     /**
@@ -67,7 +108,6 @@ class PipolSessionController extends Controller
      */
     public function show($id)
     {
-        
         $session = Pipol_sessions::with(['mentor', 'mentee', 'review'])->findOrFail($id);
         $user = Auth::user();
 
@@ -94,7 +134,7 @@ class PipolSessionController extends Controller
         $session->status = 'confirmed';
         $session->mentor_confirmed = true;
         $session->save();
-        // dd($session);
+
         return back()->with('success', 'Sesión confirmada correctamente.');
     }
 
@@ -153,15 +193,20 @@ class PipolSessionController extends Controller
     {
         $id = $request->input('id');
         $session = Pipol_sessions::findOrFail($id);
-        // dd($session);
         $user = Auth::user();
 
         if ($session->status === 'completed') {
-            return back()->with('error', 'No se puede cancelar una sesión completada.');
+            return response()->json(['status' => 'No se puede cancelar una sesión completada.'], 422);
         }
 
         if ($user->id !== $session->mentor_id && $user->id !== $session->mentee_id) {
             abort(403);
+        }
+
+        if ($user->id === $session->mentor_id && !$this->mentorCanModifySession($session)) {
+            return response()->json([
+                'status' => 'Como mentor, solo puedes cancelar la sesión con al menos 48 horas de anticipación.'
+            ], 422);
         }
 
         $session->status = 'cancelled';
@@ -177,7 +222,48 @@ class PipolSessionController extends Controller
         }
 
         return response()->json(['status' => 'Sesión cancelada correctamente.']);
-        // return back()->with('success', 'Sesión cancelada correctamente.');
+    }
+
+    /**
+     * Reprogramar una sesión
+     */
+    public function reschedule(Request $request)
+    {
+        $validated = $request->validate([
+            'id' => 'required|integer|exists:pipol_sessions,id',
+            'scheduled_at' => 'required|date|after:now',
+        ], [
+            'scheduled_at.after' => 'La nueva fecha y hora debe ser futura.',
+        ]);
+
+        $session = Pipol_sessions::findOrFail($validated['id']);
+        $user = Auth::user();
+
+        if ($user->id !== $session->mentor_id) {
+            return response()->json(['status' => 'Solo el mentor puede reprogramar la sesión.'], 403);
+        }
+
+        if (in_array($session->status, ['cancelled', 'completed'])) {
+            return response()->json(['status' => 'No se puede reprogramar una sesión cancelada o completada.'], 422);
+        }
+
+        if (!$this->mentorCanModifySession($session)) {
+            return response()->json([
+                'status' => 'Como mentor, solo puedes reprogramar la sesión con al menos 48 horas de anticipación.'
+            ], 422);
+        }
+
+        $session->scheduled_at = Carbon::parse($validated['scheduled_at']);
+        $session->save();
+
+        return response()->json(['status' => 'Sesión reprogramada correctamente.']);
+    }
+
+    private function mentorCanModifySession(Pipol_sessions $session): bool
+    {
+        return Carbon::parse($session->scheduled_at)->greaterThanOrEqualTo(
+            now()->addHours(self::MENTOR_MODIFICATION_DEADLINE_HOURS)
+        );
     }
 
     /**
@@ -192,14 +278,6 @@ class PipolSessionController extends Controller
             return response()->json(['status' => 'Solo el mentee puede valorar la sesión.'], 403);
         }
 
-        // if ($session->status !== 'completed') {
-        //     return response()->json(['status' => 'Solo se pueden valorar sesiones completadas.'], 403);
-        // }
-
-        // $validated = $request->validate([
-        //     'rating' => 'required|integer|min:1|max:5',
-        //     'comment' => 'nullable|string|max:1000',
-        // ]);
         $validated = $request->validate([
             'rating' => 'required|min:1|max:5',
             'comment' => 'nullable|string|max:1000',

@@ -1,7 +1,8 @@
-<div class="session-card bg-white rounded-xl shadow-sm p-6 mb-4 border-l-4 border-blue-500 max-w-3xl">
+<div class="session-card bg-white rounded-xl shadow-sm p-4 mb-4 border-l-4 border-blue-500 flex flex-col lg:flex-row gap-4 items-start max-w-3xl">
     {{-- <div class="flex items-start justify-between mb-4">
     </div> --}}
-
+    <div>
+        
     <div class="flex items-start gap-4 mb-5 ">
         <img 
             src="{{ $mentor->avatar ? asset('storage/avatars/'.$mentor->avatar) : asset('images/default-avatar.png') }}" 
@@ -29,7 +30,7 @@
         </div>
     </div>
     <div class="mb-4">
-        <p class="text-gray-700 text-sm">
+        <p class="text-gray-700 text-sm ">
             {{ Str::limit($mentor->bio, 150, '...') }}
         </p>
     </div>
@@ -63,9 +64,12 @@
             <span>Online</span>
         </div>
     </div>
+    </div>
 
-    <div class="border-t mt-auto">
-        <p class="text-2xl font-bold text-[#1a0a3e] mb-4 pt-2 text-left">
+    <div class="min-w-2xs">
+        
+        <p class="text-xs text-gray-500 mb-2">Valor hora</p>
+        <p class="text-2xl font-bold text-[#1a0a3e] mb-4 text-left">
             {{ $mentor->currency }} {{ number_format($mentor->hourly_rate, 2) }}/h
         </p>
         <button  data-mentor='@json($mentor)'

@@ -24,7 +24,12 @@
                             </svg>
                             <span>Español</span>
                         </div>
-                        <a id="sendMessage" class="btn-primary text-white px-4 mt-2 py-2 rounded-full text-md font-semibold inline-flex items-center justify-center gap-2 w-full sm:w-auto">Enviar mensaje</a>
+                        @auth
+                            <a id="sendMessage" class="btn-primary text-white px-4 mt-2 py-2 rounded-full text-md font-semibold inline-flex items-center justify-center gap-2 w-full sm:w-auto">Enviar mensaje</a>
+
+                        @else
+                            <a href="{{ route('dashboard') }}" disabled id="sendMessage"  class="btn-primary text-white px-4 mt-2 py-2 rounded-full text-md font-semibold inline-flex items-center justify-center gap-2 w-full sm:w-auto">Enviar mensaje</a>
+                        @endauth
                        
                        
                     </div>
@@ -57,7 +62,12 @@
                 <button onclick="closePerfilModal()" class="px-6 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors font-medium w-full">
                     Cerrar
                 </button>
-                <button class="px-6 py-3 bg-[#1a0a3e] text-white rounded-lg hover:bg-[#1a0a3ee8] transition-colors font-medium w-full" onclick="setSession()">Agendar sesión</button>
+                @auth
+                    <button class="px-6 py-3 bg-[#1a0a3e] text-white rounded-lg hover:bg-[#1a0a3ee8] transition-colors font-medium w-full" onclick="setSession()">Agendar sesión</button>
+                @else
+                 <a href="{{ route('dashboard') }}" class="px-6 text-center py-3 bg-[#1a0a3e] text-white rounded-lg hover:bg-[#1a0a3ee8] transition-colors font-medium w-full">Agendar sesión</a>
+
+                @endauth
             </div>
             
         </div>
