@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Pipol_sessions extends Model
@@ -9,8 +10,17 @@ class Pipol_sessions extends Model
     protected $table = 'pipol_sessions';
     protected $fillable = [
         'mentor_id', 'mentee_id', 'scheduled_at', 'duration_minutes',
-        'status', 'payment_status', 'price', 'currency'
+        'status', 'payment_status', 'price', 'currency',
+        'reschedule_pending', 'original_scheduled_at',
     ];
+
+    protected $casts = [
+        'scheduled_at'          => 'datetime',
+        'original_scheduled_at' => 'datetime',
+        'reschedule_pending'    => 'boolean',
+    ];
+
+    /* ── Relaciones ── */
 
     public function mentor()
     {
@@ -24,13 +34,27 @@ class Pipol_sessions extends Model
 
     public function review()
     {
-        return $this->hasOne(Reviews::class,'session_id');
+        return $this->hasOne(Reviews::class, 'session_id');
     }
-    public function transaction() {
+
+    public function transaction()
+    {
         return $this->hasOne(Transaction::class, 'session_id');
     }
-    public function tickets() {
+
+    public function tickets()
+    {
         return $this->hasMany(Ticket::class);
     }
-   
+
+    /* ── Helpers ── */
+
+    /**
+     * ¿Queda más de 48 h para el inicio de la sesión?
+     */
+    public function isModifiableByMentor(): bool
+    {
+        return Carbon::parse($this->scheduled_at)
+            ->greaterThanOrEqualTo(now()->addHours(48));
+    }
 }

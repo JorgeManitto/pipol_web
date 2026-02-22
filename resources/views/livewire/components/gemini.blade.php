@@ -126,6 +126,120 @@
                 }
             }
 
+            window.mejorarBioConIA = async function() {
+            const bioTextarea = document.getElementById('bio');
+            const bioActual = bioTextarea.value.trim();
+            
+            if (!bioActual || bioActual.length < 50) {
+                alert('Por favor, escribe al menos 50 caracteres en tu biografía antes de mejorarla con IA.');
+                return;
+            }
+
+            const btn = document.getElementById('btnMejorarBio');
+            const btnText = document.getElementById('btnMejorarBioText');
+            const processing = document.getElementById('bioProcessing');
+            
+            btn.disabled = true;
+            btn.classList.add('opacity-50', 'cursor-not-allowed');
+            btnText.textContent = 'Procesando...';
+            processing.classList.remove('hidden');
+
+            try {
+                // Recopilar datos del perfil para contexto
+                const contexto = {
+                    bio: bioActual,
+                    profesion: document.getElementById('profession')?.value || '',
+                    aniosExperiencia: document.getElementById('years_of_experience')?.value || '',
+                    seniority: document.getElementById('seniority')?.value || '',
+                    habilidades: document.getElementById('skills')?.value || '',
+                    puestoActual: document.getElementById('currentPosition')?.value || '',
+                    empresas: document.getElementById('companies')?.value || '',
+                    sectores: document.getElementById('sectors')?.value || '',
+                };
+
+                const model = genAI.getGenerativeModel({ model: "gemini-flash-lite-latest" });
+
+                const prompt = `Eres un experto en redacción de perfiles profesionales ejecutivos. Mejora la siguiente biografía profesional considerando el contexto del perfil.
+
+        CONTEXTO DEL PERFIL:
+        - Profesión: ${contexto.profesion || 'No especificada'}
+        - Años de experiencia: ${contexto.aniosExperiencia || 'No especificado'}
+        - Nivel: ${contexto.seniority || 'No especificado'}
+        - Puesto actual: ${contexto.puestoActual || 'No especificado'}
+        - Empresas: ${contexto.empresas || 'No especificado'}
+        - Sectores: ${contexto.sectores || 'No especificado'}
+        - Habilidades clave: ${contexto.habilidades || 'No especificado'}
+
+        BIOGRAFÍA ACTUAL:
+        "${bioActual}"
+
+        INSTRUCCIONES CRÍTICAS:
+        1. Mantén TODA la información relevante del texto original
+        2. Integra sutilmente el contexto del perfil si complementa la biografía
+        3. Primera persona, tono ejecutivo pero accesible
+        4. Estructura: [Presentación] → [Experiencia/Logros] → [Especialización] → [Valor que aportas]
+        5. Destaca impacto, resultados y capacidades únicas
+        6. Elimina clichés genéricos ("apasionado por...", "orientado a resultados")
+        7. Máximo 180 palabras
+        8. Corrige errores sin cambiar el sentido
+        9. NO inventes logros, empresas o datos que no estén en el original
+
+        Devuelve ÚNICAMENTE el texto mejorado, sin formato, sin comillas, sin explicaciones:`;
+
+                const result = await model.generateContent(prompt);
+                const bioMejorada = result.response.text().trim();
+                
+                // Efecto de escritura gradual (opcional)
+                bioTextarea.classList.add('typing');
+                bioTextarea.value = '';
+                
+                let i = 0;
+                const intervalo = setInterval(() => {
+                    if (i < bioMejorada.length) {
+                        bioTextarea.value += bioMejorada.charAt(i);
+                        i++;
+                    } else {
+                        clearInterval(intervalo);
+                        bioTextarea.classList.remove('typing');
+                    }
+                }, 10);
+                
+                mostrarNotificacion('success', '¡Biografía mejorada con IA! Revisa y ajusta si es necesario.');
+                
+            } catch (error) {
+                console.error('Error:', error);
+                mostrarNotificacion('error', 'Error al mejorar la biografía. Intenta nuevamente.');
+            } finally {
+                btn.disabled = false;
+                btn.classList.remove('opacity-50', 'cursor-not-allowed');
+                btnText.textContent = 'Mejorar con IA';
+                processing.classList.add('hidden');
+            }
+        }
+
+        function mostrarNotificacion(tipo, mensaje) {
+            const notification = document.createElement('div');
+            const bgColor = tipo === 'success' ? 'bg-green-500' : 'bg-red-500';
+            
+            notification.className = `fixed top-4 right-4 ${bgColor} text-white px-6 py-4 rounded-lg shadow-lg z-50 transform transition-all duration-300`;
+            notification.innerHTML = `
+                <div class="flex items-center gap-3">
+                    ${tipo === 'success' ? 
+                        '<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>' :
+                        '<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>'
+                    }
+                    <span class="font-medium">${mensaje}</span>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                setTimeout(() => notification.remove(), 300);
+            }, 5000);
+        }
+
         </script>
         
 </div>

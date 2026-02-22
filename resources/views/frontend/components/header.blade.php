@@ -109,9 +109,16 @@
                         <div class="font-medium truncate">{{ auth()->user()->email }}</div>
                       </div>
                       <ul class="py-2 text-sm text-gray-200 dark:text-gray-200" aria-labelledby="avatarButton">
-                        <li>
-                          <a href="{{ route('mentors.index') }}" class="block px-4 py-2  hover:bg-[#261848]/80 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</a>
-                        </li>
+                        @if (auth()->user()->is_mentor)
+                          <li>
+                            <a href="{{ route('dashboard') }}" class="block px-4 py-2  hover:bg-[#261848]/80 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</a>
+                          </li>
+                        @else
+                            
+                          <li>
+                            <a href="{{ route('mentors.index') }}" class="block px-4 py-2  hover:bg-[#261848]/80 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</a>
+                          </li>
+                        @endif
                         <li>
                           <a href="{{ route('profile.show', ['id'=> auth()->id()]) }}" class="block px-4 py-2  hover:bg-[#261848]/80 dark:hover:bg-gray-600 dark:hover:text-white">Mi perfil</a>
                         </li>

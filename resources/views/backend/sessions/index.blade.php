@@ -1,4 +1,4 @@
-@extends('backend.layout.app')
+﻿@extends('backend.layout.app')
 @section('page_title', 'Mis Sesiones')
  
 @section('main_content')
@@ -30,7 +30,7 @@
             <!-- Tabs -->
             <div class="flex gap-2 mb-6 bg-white p-2 rounded-lg shadow-sm">
                 <button class="tab-button active flex-1 py-2 px-4 rounded-lg font-medium" data-tab="proximas">
-                    PrÃ³ximas ({{ $proximas_sesiones->count() }})
+                    Próximas ({{ $proximas_sesiones->count() }})
                 </button>
                 <button class="tab-button flex-1 py-2 px-4 rounded-lg font-medium text-gray-600" data-tab="pasadas">
                     Pasadas ({{ $pasadas_sesiones->count() }})
@@ -42,7 +42,7 @@
 
             <!-- Sessions Container -->
             <div id="sessions-container">
-                <!-- PrÃ³ximas Sessions -->
+                <!-- Próximas Sessions -->
                 <div class="tab-content active" data-content="proximas">
                     @foreach ($proximas_sesiones as $session)
                         @include('backend.sessions.partials.session-card', [
@@ -127,8 +127,8 @@
 
             <!-- Quick Actions -->
             <div class="bg-gradient-to-br from-[#1a0a3e] to-[#1a0a3ee8] rounded-xl shadow-sm p-6 text-white">
-                <h3 class="font-semibold text-lg mb-2">Â¿Necesitas ayuda?</h3>
-                <p class="text-sm text-white/80 mb-4">Nuestro equipo estÃ¡ disponible para asistirte con cualquier consulta.</p>
+                <h3 class="font-semibold text-lg mb-2">¿Necesitas ayuda?</h3>
+                <p class="text-sm text-white/80 mb-4">Nuestro equipo está disponible para asistirte con cualquier consulta.</p>
                 <button class="w-full bg-white text-[#1a0a3e] py-2 px-4 rounded-lg hover:bg-gray-100 transition-colors font-medium">
                     Contactar Soporte
                 </button>
@@ -448,8 +448,55 @@
                 closeCancelModal();
             }
         });
-
         // Initialize calendar on page load
         generateCalendar();
+        // ── Aprobar reprogramación (mentee acepta nuevo horario) ──
+        function approveReschedule(id) {
+            if (! confirm('¿Confirmas el nuevo horario propuesto por el mentor?')) return;
+
+            fetch('{{ route("sessions.approveReschedule") }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({ id })
+            })
+            .then(async response => {
+                const data = await response.json();
+                if (! response.ok) throw new Error(data.status || 'Error al aceptar el cambio.');
+                return data;
+            })
+            .then(data => {
+                alert(data.status);
+                window.location.reload();
+            })
+            .catch(error => alert(error.message));
+        }
+
+        // ── Rechazar reprogramación (mentee cancela por cambio) ──
+        function rejectReschedule(id) {
+            if (! confirm('¿Seguro que quieres rechazar el nuevo horario? La sesión quedará cancelada y recibirás un reembolso.')) return;
+
+            fetch('{{ route("sessions.rejectReschedule") }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({ id })
+            })
+            .then(async response => {
+                const data = await response.json();
+                if (! response.ok) throw new Error(data.status || 'Error al rechazar el cambio.');
+                return data;
+            })
+            .then(data => {
+                alert(data.status);
+                window.location.reload();
+            })
+            .catch(error => alert(error.message));
+        }
+
     </script>
 @endsection

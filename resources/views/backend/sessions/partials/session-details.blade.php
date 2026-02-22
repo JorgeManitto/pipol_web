@@ -25,7 +25,7 @@
         <div>
             <p class="text-xs text-gray-600">Hora</p>
             <p class="font-semibold text-sm">
-                {{ \Carbon\Carbon::parse($session->scheduled_at)->format('H:i') }}
+                {{ \Carbon\Carbon::parse($session->scheduled_at)->format('H:i') }} - {{ \Carbon\Carbon::parse($session->scheduled_at)->addHour()->format('H:i') }}
             </p>
         </div>
     </div>

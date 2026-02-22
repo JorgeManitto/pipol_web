@@ -13,12 +13,14 @@ class NuevaNotificacion extends Notification
     use Queueable;
 
     public $mensaje;
+    public $url;
     /**
      * Create a new notification instance.
      */
-    public function __construct($mensaje)
+    public function __construct($mensaje, $url = null)
     {
         $this->mensaje = $mensaje;
+        $this->url = $url ?? url('/dashboard');
     }
 
     /**
@@ -36,10 +38,10 @@ class NuevaNotificacion extends Notification
      */
     public function toMail(object $notifiable)
     {
-        // return (new MailMessage)
-        //     ->subject('Nueva notificación')
-        //     ->line($this->mensaje)
-        //     ->action('Ver más', url('/dashboard'));
+        return (new MailMessage)
+            ->subject('Nueva notificación')
+            ->line($this->mensaje)
+            ->action('Ver más', $this->url);
     }
 
     /**
@@ -51,7 +53,7 @@ class NuevaNotificacion extends Notification
     {
         return [
             'mensaje' => $this->mensaje,
-            'url' => url('/dashboard'),
+            'url' => $this->url,
         ];
     }
 
@@ -59,7 +61,7 @@ class NuevaNotificacion extends Notification
     {
         return new BroadcastMessage([
             'mensaje' => $this->mensaje,
-            'url' => url('/dashboard'),
+            'url' => $this->url,
             'created_at' => now()->toDateTimeString(),
         ]);
     }

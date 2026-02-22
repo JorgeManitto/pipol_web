@@ -1,73 +1,6 @@
 @extends('backend.layout.app')
 @section('page_title', 'Profesionales - Pipol')
 @section('main_content')
-{{-- <div class="p-6 bg-white rounded-lg shadow-md">
-    <h2 class="text-2xl font-semibold mb-4">Bienvenido al Panel de Profesionales</h2>
-    <p class="text-gray-700">Desde aquí puedes gestionar tus sesiones, ver tus favoritos y actualizar tu perfil.</p>
-</div> --}}
-  {{-- <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div class="bg-white rounded-2xl shadow-sm p-8 mb-8">
-          <div class="flex items-center gap-3 mb-4">
-              <h1 class="text-3xl font-bold text-[#1a0a3e]">Pipol</h1>
-              <svg class="w-6 h-6 text-[#d4af6a]" fill="currentColor" viewBox="0 0 20 20">
-                  <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-              </svg>
-          </div>
-          <p class="text-gray-600 mb-6">Bienvenido al Panel de Profesionales</p>
-      
-          
-          <p class="text-xs text-gray-500 mt-3">Desde aquí puedes gestionar tus sesiones, ver tus favoritos y actualizar tu perfil.</p>
-        </div>
-
-        <div class="bg-white rounded-2xl shadow-sm p-6">
-            <p class="text-sm text-gray-500">Sesiones realizadas</p>
-            <h2 class="text-3xl font-bold text-[#1a0a3e] mt-2">128</h2>
-
-            <div class="mt-4 space-y-1 text-sm text-gray-600">
-                <p>📅 Hoy: <span class="font-semibold">3</span></p>
-                <p>📆 Semana: <span class="font-semibold">18</span></p>
-                <p>🗓️ Mes: <span class="font-semibold">62</span></p>
-                <p>📈 Año: <span class="font-semibold">128</span></p>
-            </div>
-        </div>
-        <div class="bg-white rounded-2xl shadow-sm p-6">
-            <p class="text-sm text-gray-500">Dinero ganado</p>
-            <h2 class="text-3xl font-bold text-[#1a0a3e] mt-2">$2.450</h2>
-
-            <p class="text-sm text-gray-600 mt-4">
-                Este mes: <span class="font-semibold text-green-600">$620</span>
-            </p>
-        </div>
-
-        <div class="bg-white rounded-2xl shadow-sm p-6">
-            <p class="text-sm text-gray-500 mb-2">Calificación</p>
-
-            <div class="flex items-center gap-2">
-                <div class="flex text-yellow-400">
-                    ★ ★ ★ ★ ☆
-                </div>
-                <span class="text-sm text-gray-600">(4.6)</span>
-            </div>
-
-            <p class="text-xs text-gray-500 mt-3">
-                Basado en 54 reseñas
-            </p>
-        </div>
-        <div class="bg-gradient-to-br from-[#1a0a3e] to-[#3b7a63] text-white rounded-2xl shadow-sm p-6">
-            <p class="text-sm opacity-80">Nivel del mentor</p>
-
-            <h2 class="text-2xl font-bold mt-2">Mentor Pro</h2>
-
-            <div class="mt-4 text-sm opacity-90">
-                <p>✔ +100 sesiones</p>
-                <p>✔ Calificación ≥ 4.5</p>
-            </div>
-        </div>
-
-
-
-
-  </div> --}}
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <!-- Widget de Bienvenida (el que ya tenías) -->
@@ -212,6 +145,26 @@
                     </p>
                 </div>
             </div>
+            <div class="bg-white rounded-xl shadow-md p-8">
+                <h2 class="text-2xl font-bold text-gray-900 mb-6">Estadísticas</h2>
+                <div class="space-y-4">
+                    <div class="stat-card bg-stone-50 rounded-lg p-4 border border-stone-200">
+                        <p class="text-sm text-gray-600 mb-1">Sesiones completadas</p>
+                        <p class="text-3xl font-bold text-gray-900"> {{ $totalSessions ?? '0' }} </p>
+                    </div>
+                    <div class="stat-card bg-stone-50 rounded-lg p-4 border border-stone-200">
+                        <p class="text-sm text-gray-600 mb-1">Calificación promedio</p>
+                        <div class="flex items-center gap-2">
+                            <p class="text-3xl font-bold text-gray-900"> {{ number_format($rating, 1) }} / 5.0 </p>
+                            
+                        </div>
+                    </div>
+                    <div class="stat-card bg-stone-50 rounded-lg p-4 border border-stone-200">
+                        <p class="text-sm text-gray-600 mb-1">Años de experiencia</p>
+                        <p class="text-3xl font-bold text-gray-900"> {{ $user->years_of_experience ?? '0' }} </p>
+                    </div>
+                </div>
+            </div>
         @endif
 
 
@@ -242,6 +195,7 @@
                 </div>
             </div>
         </div>
+        
 
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -285,5 +239,191 @@
             });
         </script>
 
+    </div>
+    <style >
+    * {
+        font-family: 'Inter', sans-serif;
+    }
+    
+    .section-card {
+        background: white;
+        border-radius: 1rem;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        padding: 2rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .section-title {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #1f2937;
+        margin-bottom: 1.5rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 2px solid #f3f4f6;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+    
+    .form-group {
+        margin-bottom: 1.25rem;
+    }
+    
+    .form-label {
+        display: block;
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: #374151;
+        margin-bottom: 0.5rem;
+    }
+    
+    .form-label.required::after {
+        content: " *";
+        color: #ef4444;
+    }
+    
+    .form-input {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border: 1px solid #d1d5db;
+        border-radius: 0.5rem;
+        font-size: 0.875rem;
+        transition: all 0.2s;
+    }
+    
+    .form-input:focus {
+        outline: none;
+        border-color: #2d5a4a;
+        box-shadow: 0 0 0 3px rgba(45, 90, 74, 0.1);
+    }
+    
+    .form-textarea {
+        min-height: 100px;
+        resize: vertical;
+    }
+    
+    .image-preview-container {
+        position: relative;
+        display: inline-block;
+    }
+    
+    .image-preview {
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 0.75rem;
+        border: 3px solid #e5e7eb;
+        transition: all 0.3s;
+    }
+    
+    .image-preview:hover {
+        border-color: #2d5a4a;
+        transform: scale(1.05);
+    }
+    
+    .image-preview.avatar {
+        border-radius: 50%;
+        width: 120px;
+        height: 120px;
+    }
+    
+    .file-upload-btn {
+        display: inline-block;
+        padding: 0.625rem 1.5rem;
+        background: #2d5a4a;
+        color: white;
+        border-radius: 0.5rem;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 0.875rem;
+        transition: all 0.2s;
+    }
+    
+    .file-upload-btn:hover {
+        background: #3d6a5a;
+        transform: translateY(-1px);
+    }
+    
+    .help-text {
+        font-size: 0.75rem;
+        color: #6b7280;
+        margin-top: 0.375rem;
+    }
+    
+    .btn-primary-edit {
+        background: #2d5a4a;
+        color: white;
+        padding: 1rem 2rem;
+        border-radius: 0.5rem;
+        font-weight: 600;
+        font-size: 1rem;
+        transition: all 0.2s;
+        border: none;
+        cursor: pointer;
+    }
+    
+    .btn-primary-edit:hover {
+        background: #3d6a5a;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(45, 90, 74, 0.3);
+    }
+    
+    .btn-secondary {
+        background: #e5e7eb;
+        color: #374151;
+        padding: 1rem 2rem;
+        border-radius: 0.5rem;
+        font-weight: 600;
+        font-size: 1rem;
+        transition: all 0.2s;
+        border: none;
+        cursor: pointer;
+    }
+    
+    .btn-secondary:hover {
+        background: #d1d5db;
+    }
+    
+    .alert {
+        padding: 1rem;
+        border-radius: 0.5rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .alert-success {
+        background: #d1fae5;
+        color: #065f46;
+        border: 1px solid #6ee7b7;
+    }
+    
+    .alert-error {
+        background: #fee2e2;
+        color: #991b1b;
+        border: 1px solid #fca5a5;
+    }
+        /* Animación para el botón de IA */
+    @keyframes pulse-glow {
+        0%, 100% {
+            box-shadow: 0 0 0 0 rgba(147, 51, 234, 0.7);
+        }
+        50% {
+            box-shadow: 0 0 0 6px rgba(147, 51, 234, 0);
+        }
+    }
+    
+    #btnMejorarBio:hover {
+        animation: pulse-glow 2s infinite;
+    }
+    
+    /* Efecto de escritura para el textarea */
+    #bio.typing {
+        border-color: #9333ea;
+        box-shadow: 0 0 0 3px rgba(147, 51, 234, 0.1);
+    }
+</style>
+
+    <div class="">
+
+        @include('backend.availability.availability')
     </div>
 @endsection

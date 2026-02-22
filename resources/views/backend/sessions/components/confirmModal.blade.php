@@ -12,7 +12,7 @@
                 <input type="hidden" name="session_id" id="confirm-session-id" value="">
                 <div class="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg">
                     <p class="text-sm text-green-800">
-                        <strong>¿Estás seguro que deseas confirmar esta sesión?</strong> Una vez confirmada, no podrás reprogramarla ni cancelarla .
+                        <strong>¿Estás seguro que deseas confirmar esta sesión?</strong> Una vez confirmada la sesión, solo podrá ser reprogramada 48 horas antes de su inicio.
                     </p>
                 </div>
                 <div class="flex gap-3">

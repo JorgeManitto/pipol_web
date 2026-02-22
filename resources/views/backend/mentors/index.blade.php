@@ -153,16 +153,15 @@
                 <script>
                     document.querySelectorAll('.mentor-btn').forEach(btn => {
                         btn.addEventListener('click', function () {
-
                             const mentor = JSON.parse(this.dataset.mentor);
                             const avatar = this.dataset.avatar;
                             const price = this.dataset.price;
-
-                            console.log(mentor); // ✅ ahora sí
-                            openPerfilModal(mentor, avatar, price);
+                            const availabilities = JSON.parse(this.dataset.availabilities || '[]'); // 👈 Nuevo
+                            
+                            // 👇 Pasar availabilities como cuarto parámetro
+                            openPerfilModal(mentor, avatar, price, availabilities);
                         });
                     });
-
                 </script>
             @else
             <div class="flex justify-between items-baseline">
@@ -197,6 +196,7 @@
         let currentDate = new Date();
         let selectedDate = null;
         let selectedTime = null;
+        let mentorAvailabilities = [];
         let currentProfessional = {
             mentor_id: '',
             name: '',
@@ -212,25 +212,97 @@
             "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
         ];
         
-        // Sample time slots (in a real app, these would come from the backend)
-        const availableTimeSlots = [
-            "09:00", "09:30", "10:00", "10:30", "11:00", "11:30",
-            "14:00", "14:30", "15:00", "15:30", "16:00", "16:30",
-            "17:00", "17:30", "18:00", "18:30"
-        ];
-        
-        function openModal(mentor_id,name, specialty, price, image, mentee_id, hourly_rate, currency) {
-            currentProfessional = { mentor_id ,name, specialty, price, image, mentee_id, hourly_rate ,currency};
-            console.log(currentProfessional);
+        function generateTimeSlots(startTime, endTime) {
+            const slots = [];
+            const [startHour, startMinute] = startTime.split(':').map(Number);
+            const [endHour, endMinute] = endTime.split(':').map(Number);
             
-            const modalProfessionalName  = document.getElementById('modalProfessionalName')
-            const modalProfessionalSpecialty  = document.getElementById('modalProfessionalSpecialty')
-            const modalProfessionalImage  = document.getElementById('modalProfessionalImage')
-            const appointmentModal  = document.getElementById('appointmentModal')
-            if (modalProfessionalName)modalProfessionalName.textContent = name;
-            if(modalProfessionalSpecialty)modalProfessionalSpecialty.textContent = specialty;
-            if(modalProfessionalImage)modalProfessionalImage.src = image;
-            if(appointmentModal)appointmentModal.classList.add('active');
+            let currentHour = startHour;
+            let currentMinute = startMinute;
+            
+            while (currentHour < endHour || (currentHour === endHour && currentMinute < endMinute)) {
+                const timeStr = `${String(currentHour).padStart(2, '0')}:${String(currentMinute).padStart(2, '0')}`;
+                slots.push(timeStr);
+                
+                currentMinute += 30;
+                if (currentMinute >= 60) {
+                    currentMinute = 0;
+                    currentHour++;
+                }
+            }
+            
+            return slots;
+        }
+        
+        function getAvailableSlotsForDate(date) {
+            const dayOfWeek = date.getDay(); // 0 = Domingo, 1 = Lunes, ..., 6 = Sábado
+            
+            // 👇 Mapeo de strings en inglés a números
+            const dayMap = {
+                'sunday': 0,
+                'monday': 1,
+                'tuesday': 2,
+                'wednesday': 3,
+                'thursday': 4,
+                'friday': 5,
+                'saturday': 6
+            };
+            
+            const allSlots = [];
+            
+            mentorAvailabilities.forEach((availability, index) => {
+                
+                // Verificar si la disponibilidad está activa
+                if (availability.active != 1) { // 👈 Usar != para comparar 1 o true
+                    return;
+                }
+                
+                // 👇 Convertir day_of_week string a número
+                const availabilityDayString = availability.day_of_week.toLowerCase();
+                const availabilityDay = dayMap[availabilityDayString];
+                
+                
+                if (availabilityDay !== dayOfWeek) {
+                    return;
+                }
+                
+                // Verificar rango de fechas si existen
+                if (availability.start_date) {
+                    const startDate = new Date(availability.start_date);
+                    if (date < startDate) {
+                        return;
+                    }
+                }
+                
+                if (availability.end_date) {
+                    const endDate = new Date(availability.end_date);
+                    if (date > endDate) {
+                        return;
+                    }
+                }
+                
+                // Generar slots para este horario
+                const slots = generateTimeSlots(availability.start_time, availability.end_time);
+                allSlots.push(...slots);
+            });
+            
+            // Eliminar duplicados y ordenar
+            return [...new Set(allSlots)].sort();
+        }
+        
+        function openModal(mentor_id, name, specialty, price, image, mentee_id, hourly_rate, currency, availabilities) {
+            currentProfessional = { mentor_id, name, specialty, price, image, mentee_id, hourly_rate, currency };
+            mentorAvailabilities = availabilities || [];        
+            const modalProfessionalName = document.getElementById('modalProfessionalName');
+            const modalProfessionalSpecialty = document.getElementById('modalProfessionalSpecialty');
+            const modalProfessionalImage = document.getElementById('modalProfessionalImage');
+            const appointmentModal = document.getElementById('appointmentModal');
+            
+            if (modalProfessionalName) modalProfessionalName.textContent = name;
+            if (modalProfessionalSpecialty) modalProfessionalSpecialty.textContent = specialty;
+            if (modalProfessionalImage) modalProfessionalImage.src = image;
+            if (appointmentModal) appointmentModal.classList.add('active');
+            
             document.body.style.overflow = 'hidden';
             renderCalendar();
         }
@@ -253,6 +325,7 @@
             const firstDay = new Date(year, month, 1).getDay();
             const daysInMonth = new Date(year, month + 1, 0).getDate();
             const today = new Date();
+            today.setHours(0, 0, 0, 0);
             
             const calendarDays = document.getElementById('calendarDays');
             calendarDays.innerHTML = '';
@@ -266,15 +339,19 @@
             // Days of the month
             for (let day = 1; day <= daysInMonth; day++) {
                 const dayDate = new Date(year, month, day);
-                const isPast = dayDate < today.setHours(0, 0, 0, 0);
+                dayDate.setHours(0, 0, 0, 0);
+                const isPast = dayDate < today;
+                
+                // 👇 Verificar si el mentor tiene disponibilidad este día
+                const hasAvailability = getAvailableSlotsForDate(dayDate).length > 0;
                 
                 const dayElement = document.createElement('div');
                 dayElement.className = `calendar-day text-center py-3 rounded-lg border ${
-                    isPast ? 'disabled' : 'border-gray-200 hover:border-[#1a0a3e]'
+                    isPast || !hasAvailability ? 'disabled' : 'border-gray-200 hover:border-[#1a0a3e]'
                 }`;
                 dayElement.textContent = day;
                 
-                if (!isPast) {
+                if (!isPast && hasAvailability) {
                     dayElement.onclick = () => selectDate(year, month, day);
                 }
                 
@@ -302,6 +379,14 @@
         function renderTimeSlots() {
             const timeSlotsContainer = document.getElementById('timeSlots');
             timeSlotsContainer.innerHTML = '';
+            
+            // 👇 Obtener slots disponibles para la fecha seleccionada
+            const availableTimeSlots = getAvailableSlotsForDate(selectedDate);
+            
+            if (availableTimeSlots.length === 0) {
+                timeSlotsContainer.innerHTML = '<p class="text-gray-500 text-center py-4">No hay horarios disponibles para este día</p>';
+                return;
+            }
             
             availableTimeSlots.forEach(time => {
                 const timeSlot = document.createElement('button');
@@ -349,46 +434,8 @@
             currentDate.setMonth(currentDate.getMonth() + 1);
             renderCalendar();
         }
-        
+            
 
-        // Esto es para prod
-        // async function confirmAppointment() {
-        //     const button = document.getElementById("confirmButton");
-
-        //     if (selectedDate && selectedTime) {
-        //         // Mostrar loader
-        //         button.disabled = true;
-        //         const originalText = button.innerHTML;
-        //         button.innerHTML = `
-        //             <svg class="animate-spin h-5 w-5 text-white inline-block mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-        //                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-        //                 <path class="opacity-75" fill="currentColor"
-        //                     d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z">
-        //                 </path>
-        //             </svg>
-        //             Cargando...
-        //         `;
-
-        //         try {
-        //             currentProfessional.selectedDate = selectedDate.toISOString().split('T')[0];
-        //             currentProfessional.selectedTime = selectedTime;
-
-        //             // Esperar a que termine la llamada a la API
-        //             await setAppointmentToApi(currentProfessional);
-
-        //             closeModal();
-        //         } catch (error) {
-        //             console.error(error);
-        //             alert('Ocurrió un error al confirmar la cita.');
-        //         } finally {
-        //             // Restaurar el botón
-        //             button.innerHTML = originalText;
-        //             button.disabled = false;
-        //         }
-        //     }
-        // }
-
-        // Esto es para dev
         async function confirmAppointment() {
             const button = document.getElementById("confirmButton");
 
@@ -447,7 +494,6 @@
             .then(response => response.json())
             .then(data => {
                 openMessageModal(data.message);
-                console.log('Appointment saved:', data);
                 idSession = data.session_id;
             })
             .catch((error) => {
@@ -483,7 +529,6 @@
 
         document.getElementById('payment-form').addEventListener('submit', async (e) => {
             e.preventDefault();
-            console.log(parseInt(currentProfessional.hourly_rate));
             contentPayment.style.display = 'none';
             containerLoader.style.display = 'block';
 

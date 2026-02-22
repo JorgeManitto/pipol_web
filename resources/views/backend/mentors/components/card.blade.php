@@ -75,9 +75,10 @@
         <button  data-mentor='@json($mentor)'
             data-avatar="{{ $mentor->avatar ? asset("storage/avatars/".$mentor->avatar) : asset("images/default-avatar.png") }}"
             data-price="{{ $mentor->currency }} {{ number_format($mentor->hourly_rate, 2) }}"
-            
+            data-availabilities='@json($mentor->availabilities->where("active", 1)->values())'
             class="w-full py-3 bg-[#1a0a3e] text-white rounded-lg hover:bg-[#1a0a3ee8] transition-colors font-medium text-base mentor-btn cursor-pointer">
             Conóceme
         </button>
+       
     </div>
 </div>

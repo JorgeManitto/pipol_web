@@ -49,10 +49,11 @@
         @endauth
         
     </div>
-    <div class="hidden md:flex gap-2">
-        
-        <a href="{{ route('mentors.index') }}" class="btn-primary text-white px-4 py-2 rounded-xl text-md font-semibold inline-flex items-center justify-center gap-2 w-full sm:w-auto">Ir a mentores</a>
-    </div>
+    @if ( $routeName !== 'mentors.index' )
+        <div class="hidden md:flex gap-2">
+            <a href="{{ route('mentors.index') }}" class="btn-primary text-white px-4 py-2 rounded-xl text-md font-semibold inline-flex items-center justify-center gap-2 w-full sm:w-auto">Ir a mentores</a>
+        </div>
+    @endif
     
     <div class="flex gap-4 items-center justify-end w-full md:w-auto">
         <div class="relative">

@@ -101,8 +101,10 @@ class MentorSearchController extends Controller
 
 
         // 📄 Paginación
-        $mentors = $query->paginate(12)->withQueryString();
-        // dd($mentors);
+        $mentors = $query->with(['availabilities' => function($query) {
+            $query->where('active', 1);
+        }])->paginate(12)->withQueryString();
+        // dd($mentors->first()->availabilities);
         // Todas las skills para el filtro lateral
         $skills = Skills::orderBy('name')->get();
 
@@ -125,15 +127,15 @@ class MentorSearchController extends Controller
             'currency' => $parameters['currency'],
         ]);
 
-        // $this->enviarNotificacion($parameters['mentor_id'], 'Tienes una nueva solicitud de sesión de mentoría.');
+        $this->enviarNotificacion($parameters['mentor_id'], 'Tienes una nueva solicitud de sesión de mentoría.', route('sessions.index'));
         return response()->json(['message' => 'Sesión creada con exito.', 'session_id' => $session->id], 200);
         
     }
-    public function enviarNotificacion($userId = 2, $mensaje = 'HOLA! wEsta es una notificación de prueba desde MentorSearchController.')
+    public function enviarNotificacion($userId = 2, $mensaje = 'HOLA! wEsta es una notificación de prueba desde MentorSearchController.', $url = null)
     {
         try {
             $user = User::find($userId);
-            $user->notify(new NuevaNotificacion($mensaje));
+            $user->notify(new NuevaNotificacion($mensaje, $url));
         } catch (\Throwable $th) {
             throw $th;
         }

@@ -70,7 +70,7 @@ class Dashboard extends Controller
             $labels[] = now()->subDays($i)->format('d M');
             $data[] = $sessionsPerDay[$date]->total ?? 0;
         }
-
+        $user = auth()->user();
 
         // dd($sessionsAsMentor);
         return view('backend.dashboard.index', compact(
@@ -87,6 +87,7 @@ class Dashboard extends Controller
             'sessionsThisMonth',
             'labels',
             'data',
+            'user'
         ));
     }
 

@@ -81,19 +81,19 @@
         let pivotMentor;
         let pivotCurrency;
         let pivotAvatar;
+        let pivotAvailabilities; // 👈 Nuevo: guardar los horarios del mentor
         const sendMessage = document.getElementById('sendMessage');
 
-        function openPerfilModal(mentorPerfil, avatar, currency) {
-            console.log(mentorPerfil);
-            
+        function openPerfilModal(mentorPerfil, avatar, currency, availabilities = []) { // 👈 Nuevo parámetro
             const mentor = mentorPerfil;
             sendMessage.href = '/new-conversation/' + mentor.id;
             pivotMentor = mentor;
             pivotCurrency = currency;
             pivotAvatar = avatar;
+            pivotAvailabilities = availabilities; // 👈 Guardar availabilities
 
             modalPerfil.style.display = 'flex';
-           
+        
             document.getElementById('nombre-modal-perfil').innerText = mentor.name;
             document.getElementById('profesion-modal-perfil').innerText = mentor.profession;
             document.getElementById('precio-modal-perfil').innerText = currency;
@@ -107,26 +107,22 @@
 
             const especialidadesModalPerfil = document.getElementById('especialidades-modal-perfil');
             especialidadesModalPerfil.innerHTML = '';
-            console.log(mentor);
-            // if (mentor.sectors && mentor.sectors.length > 0) {
-            //     let specialty =  mentor.sectors.split(',')
-
-            //     specialty.forEach(function(specialty) {
-            //         const tag = document.createElement('div');
-            //         tag.className = 'px-3 py-1 bg-[#f5f0e8] text-[#1a0a3e] text-xs rounded-full hover:bg-[#e8dfcc] transition-colors tag';
-            //         tag.innerText = specialty;
-            //         especialidadesModalPerfil.appendChild(tag);
-            //     });
-            // } else {
-            //     especialidadesModalPerfil.innerHTML = '<p class="text-sm text-gray-500">No hay especialidades disponibles.</p>';
-            // }
-            // console.log(mentor);
-            
         }
+    
         function setSession() {
             modalPerfil.style.display = 'none';
-            console.log(pivotMentor.id, pivotMentor.name, pivotMentor.profession, pivotCurrency, pivotAvatar, '{{ auth()->id() }}', pivotMentor.hourly_rate, pivotMentor.currency);
             
-            openModal(pivotMentor.id, pivotMentor.name, pivotMentor.profession, pivotCurrency, pivotAvatar, '{{ auth()->id() }}', pivotMentor.hourly_rate, pivotMentor.currency);
+            // 👇 Pasar availabilities a openModal
+            openModal(
+                pivotMentor.id, 
+                pivotMentor.name, 
+                pivotMentor.profession, 
+                pivotCurrency, 
+                pivotAvatar, 
+                '{{ auth()->id() }}', 
+                pivotMentor.hourly_rate, 
+                pivotMentor.currency,
+                pivotAvailabilities // 👈 Nuevo parámetro
+            );
         }
-    </script>
+</script>

@@ -1,6 +1,6 @@
 <aside class="hidden md:block fixed left-0 top-0 h-full w-64 hero-section text-white p-6 overflow-y-auto z-40">
   <div class="mb-8">
-    <a href="{{ route('dashboard') }}">
+    <a href="{{ route('home') }}">
       <img src="{{ asset('/images/logo-v3-recorte.png') }}" alt="logo" style=" object-fit: contain;height: 72px;">
     </a>
   </div>

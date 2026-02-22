@@ -2,9 +2,11 @@
 
 use App\Http\Controllers\Auth\LinkedInController;
 use App\Http\Controllers\Backend\AdminUserController;
+use App\Http\Controllers\Backend\AvailabilityController;
 use App\Http\Controllers\Backend\ChatController;
 use App\Http\Controllers\Backend\Dashboard;
 use App\Http\Controllers\Backend\MentorSearchController;
+use App\Http\Controllers\Backend\PrivateImageController;
 use App\Http\Controllers\Backend\PaymentController;
 use App\Http\Controllers\Frontend\Home;
 use App\Http\Controllers\Backend\ProfileController;
@@ -110,7 +112,9 @@ Route::get('run-clear', function(){
     
     return 'Link de storage ejecutado correctamente';
 });
-
+Route::get('/run-worker', function () {
+    Artisan::call('queue:work --stop-when-empty');
+});
 
 Route::get('/auth/linkedin', [LinkedInController::class, 'redirect']);
 Route::get('/auth/linkedin/callback', [LinkedInController::class, 'callback']);
@@ -185,6 +189,15 @@ Route::middleware(['auth',
 
     Route::get('/linkedin/redirect/view', [LinkedInController::class, 'redirectToLinkedinView'])->name('linkedin.redirect.view');
     Route::get('/linkedin/set-as-mentor', [LinkedInController::class, 'setUserAsMentor'])->name('linkedin.set.as.mentor');
+
+
+    Route::post('/sessions/approve-reschedule', [PipolSessionController::class, 'approveReschedule'])
+        ->name('sessions.approveReschedule');
+
+    Route::post('/sessions/reject-reschedule', [PipolSessionController::class, 'rejectReschedule'])
+        ->name('sessions.rejectReschedule');
+
+        
 });
 
 // Opcional: guardar datos
@@ -203,3 +216,20 @@ Route::post('/procesar-cv', function () {
 });
 
 Route::get('/chat-v2', [MentorRegistrationChat::class, 'render'])->name('chat.v2');
+
+Route::middleware('auth')->group(function () {
+    // Ruta simple (solo verificar autenticación)
+    Route::get('/private/images/{path}', [PrivateImageController::class, 'show'])
+        ->where('path', '.*')
+        ->name('private.image');
+    
+    // Ruta segura (verificar que sea el dueño o admin)
+    Route::get('/secure/images/{path}', [PrivateImageController::class, 'showSecure'])
+        ->where('path', '.*')
+        ->name('secure.image');
+});
+Route::middleware(['auth'])->group(function () {
+    Route::post('/availability', [AvailabilityController::class, 'store'])->name('availability.store');
+    Route::put('/availability/{availability}', [AvailabilityController::class, 'update'])->name('availability.update');
+    Route::delete('/availability/{availability}', [AvailabilityController::class, 'destroy'])->name('availability.destroy');
+});

@@ -78,12 +78,24 @@
             <div class="flex items-start gap-6">
                 <div class="flex-shrink-0">
                     <svg class="w-16 h-16" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M32 12 L38 24 L52 26 L42 36 L44 50 L32 44 L20 50 L22 36 L12 26 L26 24 Z" stroke="#ffa500" stroke-width="3" fill="none"></path>
+                        <!-- Línea vertical -->
+                        <line x1="32" y1="10" x2="32" y2="54" stroke="#ffa500" stroke-width="3" stroke-linecap="round"/>
+                        
+                        <!-- Curva superior del $ -->
+                        <path d="M44 20
+                                C44 14, 20 14, 20 26
+                                C20 36, 44 30, 44 42
+                                C44 50, 20 50, 20 44"
+                            stroke="#ffa500"
+                            stroke-width="3"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            fill="none"/>
                     </svg>
                 </div>
                 <div>
                     <p class="text-md md:text-xl text-white leading-relaxed">
-                        Grandes líderes tuvieron grandes mentores.
+                        Convertí tu experiencia en ingresos reales, con agenda flexible y sin inversión
                     </p>
                 </div>
             </div>
@@ -381,6 +393,34 @@
                             ● Derecho total del usuario a acceder y eliminar su información
                             <br>
                             Tu experiencia se comparte. Tus datos, no.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="card rounded-2xl overflow-hidden">
+                    <button class="faq-question w-full text-left p-8 flex justify-between items-center hover:bg-opacity-80 transition-all cursor-pointer">
+                        <span class="text-md font-bold pr-8">¿Cuánto puedo ganar como mentor en Pipol?</span>
+                        <svg class="faq-icon w-6 h-6 flex-shrink-0 transition-transform" style="color: var(--color-accent);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div class="faq-answer hidden px-8 pb-8">
+                        <p class="text-gray-300 leading-relaxed text-md">
+                            Los ingresos en Pipol dependen principalmente de tu nivel de actividad y de cómo evoluciona tu perfil dentro de la plataforma. No existe un límite fijo: cada mentor decide cuántas sesiones ofrecer y cómo gestionar su agenda.
+                            <br>
+                            La cantidad de sesiones que podés generar está influenciada por distintos factores:
+                            <br>
+                            ✔ Disponibilidad en agenda
+                            <br>
+                            ✔ Nivel de mentor
+                            <br>
+                            ✔ Calidad de las sesiones
+                            <br>
+                            ✔ Especialización y claridad del perfil
+                            <br>
+                            ✔ Consistencia en la actividad
+                            <br>
+                            En Pipol, tu crecimiento no depende del azar: cuanto más valor compartís y más activa sea tu participación, mayores serán las oportunidades de generar sesiones.
                         </p>
                     </div>
                 </div>
