@@ -26,21 +26,23 @@ class GoogleMeetService
 
     }
 
-    public function createMeet($summary, $start, $end)
+    public function createMeet($summary, $start, $end, array $attendees = [])
     {
-        // dd($this->client);
         $service = new \Google\Service\Calendar($this->client);
 
+        $attendeeList = array_map(fn($email) => ['email' => $email], $attendees);
+
         $event = new \Google\Service\Calendar\Event([
-            'summary' => 'Reunión',
+            'summary' => $summary,
             'start' => [
-                'dateTime' => $start,
+                'dateTime' => $start->toRfc3339String(),
                 'timeZone' => 'America/Argentina/Buenos_Aires',
             ],
             'end' => [
-                'dateTime' => $end,
+                'dateTime' => $end->toRfc3339String(),
                 'timeZone' => 'America/Argentina/Buenos_Aires',
             ],
+            'attendees' => $attendeeList,
             'conferenceData' => [
                 'createRequest' => [
                     'requestId' => uniqid(),
@@ -52,10 +54,12 @@ class GoogleMeetService
         $event = $service->events->insert(
             'primary',
             $event,
-            ['conferenceDataVersion' => 1]
+            [
+                'conferenceDataVersion' => 1,
+                'sendUpdates' => 'all',
+            ]
         );
 
         return $event->getHangoutLink();
-
     }
 }

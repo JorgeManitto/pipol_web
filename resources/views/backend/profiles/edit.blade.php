@@ -395,46 +395,54 @@
             <div class="grid md:grid-cols-2 gap-6">
                 <div class="form-group">
                     <label for="workingNow" class="form-label">¿Trabajando actualmente?</label>
-                    <select id="workingNow" name="workingNow" class="form-input">
+                    <select id="workingNow" name="workingNow" class="form-input" onchange="toggleWorkFields()">
                         <option value="1" {{ old('workingNow', $user->workingNow) == 1 ? 'selected' : '' }}>Sí</option>
                         <option value="0" {{ old('workingNow', $user->workingNow) == 0 ? 'selected' : '' }}>No</option>
                     </select>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group" id="currentPositionGroup" style="{{ old('workingNow', $user->workingNow) == 1 ? '' : 'display:none' }}">
                     <label for="currentPosition" class="form-label">Puesto Actual</label>
                     <input type="text" id="currentPosition" name="currentPosition" 
-                           value="{{ old('currentPosition', $user->currentPosition) }}" 
-                           class="form-input"
-                           placeholder="Ej: Senior Developer">
+                        value="{{ old('currentPosition', $user->currentPosition) }}" 
+                        class="form-input"
+                        placeholder="Ej: Senior Developer">
                 </div>
 
-                <div class="form-group">
-                    <label for="lastPosition" class="form-label">Último Puesto (si no trabajas actualmente)</label>
+                <div class="form-group" id="lastPositionGroup">
+                    <label for="lastPosition" class="form-label">Último Puesto</label>
                     <input type="text" id="lastPosition" name="lastPosition" 
-                           value="{{ old('lastPosition', $user->lastPosition) }}" 
-                           class="form-input">
+                        value="{{ old('lastPosition', $user->lastPosition) }}" 
+                        class="form-input">
                 </div>
 
                 <div class="form-group">
                     <label for="companies" class="form-label">Empresas</label>
                     <input type="text" id="companies" name="companies" 
-                           value="{{ old('companies', $user->companies) }}" 
-                           class="form-input"
-                           placeholder="Ej: Google, Microsoft, Amazon">
+                        value="{{ old('companies', $user->companies) }}" 
+                        class="form-input"
+                        placeholder="Ej: Google, Microsoft, Amazon">
                     <p class="help-text">Separa con comas si has trabajado en múltiples empresas</p>
                 </div>
 
                 <div class="form-group md:col-span-2">
                     <label for="sectors" class="form-label">Sectores/Industrias</label>
                     <input type="text" id="sectors" name="sectors" 
-                           value="{{ old('sectors', $user->sectors) }}" 
-                           class="form-input"
-                           placeholder="Ej: Tecnología, Fintech, E-commerce">
+                        value="{{ old('sectors', $user->sectors) }}" 
+                        class="form-input"
+                        placeholder="Ej: Tecnología, Fintech, E-commerce">
                     <p class="help-text">Separa con comas los diferentes sectores en los que has trabajado</p>
                 </div>
             </div>
         </div>
+
+        <script>
+            function toggleWorkFields() {
+                const working = document.getElementById('workingNow').value;
+                document.getElementById('currentPositionGroup').style.display = working === '1' ? '' : 'none';
+                // document.getElementById('lastPositionGroup').style.display = working === '0' ? '' : 'none';
+            }
+        </script>
 
         <!-- SECCIÓN 5: FORMACIÓN Y EDUCACIÓN -->
         <div class="section-card">
@@ -619,7 +627,7 @@
         </div>
     </form>
         <!-- SECCIÓN 9: HORARIOS DISPONIBLES -->
-        @include('backend.availability.availability')
+        {{-- @include('backend.availability.availability') --}}
 </main>
 @include('livewire.components.gemini')
 <script>

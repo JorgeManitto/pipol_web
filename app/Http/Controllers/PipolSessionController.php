@@ -380,7 +380,7 @@ class PipolSessionController extends Controller
         $this->enviarNotificacion(
             $session->mentor_id,
             'Has recibido una nueva valoración de tu sesión de mentoría.',
-            route('sessions.index')
+            route('profile.show', ['id' => $session->mentor_id])."#review" // Redirige al perfil del mentor para ver la reseña
         );
 
         return response()->json(['status' => 'Valoración guardada correctamente.'], 200);
@@ -425,5 +425,37 @@ class PipolSessionController extends Controller
             // No interrumpir el flujo principal si la notificación falla
             report($th);
         }
+    }
+
+    function generateReunionGoogle(Request $request)
+    {
+        $session = Pipol_sessions::with(['mentor', 'mentee'])->findOrFail($request->session_id);
+
+        // Calculamos inicio y fin con la duración real de la sesión
+        $start = $session->scheduled_at;
+        $end   = $session->scheduled_at->copy()->addMinutes($session->duration_minutes);
+
+        $attendees = [];
+
+        // Invitamos al mentee si tiene email
+        if ($session->mentee && $session->mentee->email) {
+            $attendees[] = $session->mentee->email;
+        }
+
+        $meetLink = app(\App\Services\GoogleMeetService::class)
+            ->createMeet(
+                "Sesión de mentoría - {$session->mentor->name}",
+                $start,
+                $end,
+                $attendees
+            );
+
+        // Opcional: guardá el link en la sesión para no regenerarlo
+        $session->update(['meet_link' => $meetLink]);
+
+        return response()->json([
+            'success' => true,
+            'meet_link' => $meetLink,
+        ]);
     }
 }

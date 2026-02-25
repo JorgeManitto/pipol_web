@@ -49,6 +49,22 @@
                     <input type="password" name="password" class="w-full border rounded p-2"
                         placeholder="Dejar vacío para no cambiar">
                 </div>
+
+                <div>
+                    <label class="block mb-1 font-medium">Fecha de nacimiento</label>
+                    <input type="date" name="birth_date" value="{{ old('birth_date', $user->birth_date ? \Carbon\Carbon::parse($user->birth_date)->format('Y-m-d') : '') }}"
+                        class="w-full border rounded p-2">
+                </div>
+
+                <div>
+                    <label class="block mb-1 font-medium">Género</label>
+                    <select name="gender" class="w-full border rounded p-2">
+                        <option value="">Seleccionar</option>
+                        <option value="male" {{ old('gender', $user->gender) == 'male' ? 'selected' : '' }}>Hombre</option>
+                        <option value="female" {{ old('gender', $user->gender) == 'female' ? 'selected' : '' }}>Mujer</option>
+                        <option value="other" {{ old('gender', $user->gender) == 'other' ? 'selected' : '' }}>Otro</option>
+                    </select>
+                </div>
             </div>
         </div>
 
@@ -70,20 +86,10 @@
                 </div>
 
                 <div>
-                    <label class="block mb-1 font-medium">Género</label>
-                    <select name="gender" class="w-full border rounded p-2">
-                        <option value="">Seleccionar</option>
-                        <option value="male" {{ old('gender', $user->gender) == 'male' ? 'selected' : '' }}>Hombre</option>
-                        <option value="female" {{ old('gender', $user->gender) == 'female' ? 'selected' : '' }}>Mujer</option>
-                        <option value="other" {{ old('gender', $user->gender) == 'other' ? 'selected' : '' }}>Otro</option>
-                    </select>
+                    <label class="block mb-1 font-medium">Profesión</label>
+                    <input type="text" name="profession" value="{{ old('profession', $user->profession) }}"
+                        class="w-full border rounded p-2">
                 </div>
-            </div>
-
-            <div>
-                <label class="block mb-1 font-medium">Profesión</label>
-                <input type="text" name="profession" value="{{ old('profession', $user->profession) }}"
-                    class="w-full border rounded p-2">
             </div>
 
             <div>
@@ -110,6 +116,103 @@
             </div>
         </div>
 
+        <!-- Experiencia Laboral -->
+        <div class="bg-white p-6 rounded-xl shadow space-y-4">
+            <h2 class="text-xl font-semibold">Experiencia Laboral</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block mb-1 font-medium">¿Trabaja actualmente?</label>
+                    <select name="workingNow" class="w-full border rounded p-2">
+                        <option value="">Seleccionar</option>
+                        <option value="1" {{ old('workingNow', $user->workingNow) == 1 ? 'selected' : '' }}>Sí</option>
+                        <option value="0" {{ old('workingNow', $user->workingNow) === 0 || old('workingNow', $user->workingNow) === '0' ? 'selected' : '' }}>No</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block mb-1 font-medium">Años de experiencia</label>
+                    <input type="number" name="years_of_experience" value="{{ old('years_of_experience', $user->years_of_experience) }}"
+                        class="w-full border rounded p-2" min="0">
+                </div>
+
+                <div>
+                    <label class="block mb-1 font-medium">Posición actual</label>
+                    <input type="text" name="currentPosition" value="{{ old('currentPosition', $user->currentPosition) }}"
+                        class="w-full border rounded p-2">
+                </div>
+
+                <div>
+                    <label class="block mb-1 font-medium">Última posición</label>
+                    <input type="text" name="lastPosition" value="{{ old('lastPosition', $user->lastPosition) }}"
+                        class="w-full border rounded p-2">
+                </div>
+
+                <div>
+                    <label class="block mb-1 font-medium">Seniority</label>
+                    <select name="seniority" class="w-full border rounded p-2">
+                        <option value="">Seleccionar</option>
+                        <option value="junior" {{ old('seniority', $user->seniority) == 'junior' ? 'selected' : '' }}>Junior</option>
+                        <option value="semi-senior" {{ old('seniority', $user->seniority) == 'semi-senior' ? 'selected' : '' }}>Semi-Senior</option>
+                        <option value="senior" {{ old('seniority', $user->seniority) == 'senior' ? 'selected' : '' }}>Senior</option>
+                        <option value="lead" {{ old('seniority', $user->seniority) == 'lead' ? 'selected' : '' }}>Lead</option>
+                        <option value="director" {{ old('seniority', $user->seniority) == 'director' ? 'selected' : '' }}>Director</option>
+                        <option value="c-level" {{ old('seniority', $user->seniority) == 'c-level' ? 'selected' : '' }}>C-Level</option>
+                    </select>
+                </div>
+            </div>
+
+            <div>
+                <label class="block mb-1 font-medium">Empresas (separadas por coma)</label>
+                <input type="text" name="companies" value="{{ old('companies', $user->companies) }}"
+                    class="w-full border rounded p-2" placeholder="Ej: Google, Microsoft, Mercado Libre">
+            </div>
+
+            <div>
+                <label class="block mb-1 font-medium">Sectores (separados por coma)</label>
+                <input type="text" name="sectors" value="{{ old('sectors', $user->sectors) }}"
+                    class="w-full border rounded p-2" placeholder="Ej: Tecnología, Finanzas, Salud">
+            </div>
+        </div>
+
+        <!-- Educación e Idiomas -->
+        <div class="bg-white p-6 rounded-xl shadow space-y-4">
+            <h2 class="text-xl font-semibold">Educación e Idiomas</h2>
+
+            <div>
+                <label class="block mb-1 font-medium">Educación</label>
+                <textarea name="education" rows="3" class="w-full border rounded p-2"
+                    placeholder="Ej: MBA - Universidad de Buenos Aires, Ing. Sistemas - ITBA">{{ old('education', $user->education) }}</textarea>
+            </div>
+
+            <div>
+                <label class="block mb-1 font-medium">Idiomas (separados por coma)</label>
+                <input type="text" name="languages" value="{{ old('languages', $user->languages) }}"
+                    class="w-full border rounded p-2" placeholder="Ej: Español, Inglés, Portugués">
+            </div>
+        </div>
+
+        <!-- Skills -->
+        <div class="bg-white p-6 rounded-xl shadow space-y-4">
+            <h2 class="text-xl font-semibold">Skills</h2>
+
+            @if($user->skills)
+                <div class="flex flex-wrap gap-2">
+                    @foreach(explode(',', $user->skills) as $skill)
+                        <span class="bg-blue-100 text-blue-800 text-sm px-3 py-1 rounded-full">
+                            {{ trim($skill) }}
+                        </span>
+                    @endforeach
+                </div>
+            @endif
+
+            <div>
+                <label class="block mb-1 font-medium">Skills (separadas por coma)</label>
+                <input type="text" name="skills" value="{{ old('skills', $user->skills) }}"
+                    class="w-full border rounded p-2" placeholder="Ej: Liderazgo, Gestión de equipos, Marketing">
+            </div>
+        </div>
+
         <!-- Redes y links -->
         <div class="bg-white p-6 rounded-xl shadow space-y-4">
             <h2 class="text-xl font-semibold">Redes y Enlaces</h2>
@@ -133,7 +236,7 @@
         <div class="bg-white p-6 rounded-xl shadow space-y-4">
             <h2 class="text-xl font-semibold">Rol y Mentor</h2>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
                     <label class="block mb-1 font-medium">Rol</label>
                     <select name="role" class="w-full border rounded p-2">
@@ -150,6 +253,16 @@
                         <option value="1" {{ $user->is_mentor == 1 ? 'selected' : '' }}>Sí</option>
                     </select>
                 </div>
+
+                <div>
+                    <label class="block mb-1 font-medium">Nivel de perfil</label>
+                    <select name="profile_level" class="w-full border rounded p-2">
+                        <option value="">Seleccionar</option>
+                        <option value="basic" {{ old('profile_level', $user->profile_level) == 'basic' ? 'selected' : '' }}>Básico</option>
+                        <option value="intermediate" {{ old('profile_level', $user->profile_level) == 'intermediate' ? 'selected' : '' }}>Intermedio</option>
+                        <option value="complete" {{ old('profile_level', $user->profile_level) == 'complete' ? 'selected' : '' }}>Completo</option>
+                    </select>
+                </div>
             </div>
         </div>
 
@@ -161,13 +274,21 @@
                 <div>
                     <label class="block mb-1 font-medium">Tarifa por hora</label>
                     <input type="number" name="hourly_rate" value="{{ old('hourly_rate', $user->hourly_rate) }}"
-                        class="w-full border rounded p-2">
+                        class="w-full border rounded p-2" step="0.01" min="0">
                 </div>
 
                 <div>
                     <label class="block mb-1 font-medium">Moneda</label>
-                    <input type="text" name="currency" value="{{ old('currency', $user->currency) }}"
-                        class="w-full border rounded p-2">
+                    <select name="currency" class="w-full border rounded p-2">
+                        <option value="">Seleccionar</option>
+                        <option value="USD" {{ old('currency', $user->currency) == 'USD' ? 'selected' : '' }}>USD</option>
+                        <option value="EUR" {{ old('currency', $user->currency) == 'EUR' ? 'selected' : '' }}>EUR</option>
+                        <option value="ARS" {{ old('currency', $user->currency) == 'ARS' ? 'selected' : '' }}>ARS</option>
+                        <option value="BRL" {{ old('currency', $user->currency) == 'BRL' ? 'selected' : '' }}>BRL</option>
+                        <option value="MXN" {{ old('currency', $user->currency) == 'MXN' ? 'selected' : '' }}>MXN</option>
+                        <option value="CLP" {{ old('currency', $user->currency) == 'CLP' ? 'selected' : '' }}>CLP</option>
+                        <option value="COP" {{ old('currency', $user->currency) == 'COP' ? 'selected' : '' }}>COP</option>
+                    </select>
                 </div>
 
                 <div>
@@ -181,12 +302,6 @@
                 <div>
                     <label class="block mb-1 font-medium">Stripe Connect ID</label>
                     <input type="text" name="stripe_connect_id" value="{{ old('stripe_connect_id', $user->stripe_connect_id) }}"
-                        class="w-full border rounded p-2">
-                </div>
-
-                <div>
-                    <label class="block mb-1 font-medium">Años de experiencia</label>
-                    <input type="number" name="years_of_experience" value="{{ old('years_of_experience', $user->years_of_experience) }}"
                         class="w-full border rounded p-2">
                 </div>
             </div>
@@ -214,16 +329,93 @@
                 </div>
 
                 <div>
+                    <label class="block mb-1 font-medium">Registro completo</label>
+                    <select name="is_register_end" class="w-full border rounded p-2">
+                        <option value="1" {{ old('is_register_end', $user->is_register_end) ? 'selected' : '' }}>Sí</option>
+                        <option value="0" {{ !old('is_register_end', $user->is_register_end) ? 'selected' : '' }}>No</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
                     <label class="block mb-1 font-medium">Rating promedio</label>
-                    <input type="number" step="0.1" name="average_rating"
+                    <input type="number" step="0.1" name="average_rating" min="0" max="5"
                         value="{{ old('average_rating', $user->average_rating) }}"
                         class="w-full border rounded p-2">
                 </div>
             </div>
         </div>
 
+        <!-- Info de proveedor OAuth (solo lectura) -->
+        @if($user->provider || $user->linkedin_id)
+        <div class="bg-white p-6 rounded-xl shadow space-y-4">
+            <h2 class="text-xl font-semibold">Autenticación Externa <span class="text-sm text-gray-400 font-normal">(solo lectura)</span></h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                @if($user->provider)
+                <div>
+                    <label class="block mb-1 font-medium text-gray-500">Proveedor</label>
+                    <input type="text" value="{{ $user->provider }}" class="w-full border rounded p-2 bg-gray-100" disabled>
+                </div>
+                @endif
+
+                @if($user->provider_id)
+                <div>
+                    <label class="block mb-1 font-medium text-gray-500">Provider ID</label>
+                    <input type="text" value="{{ $user->provider_id }}" class="w-full border rounded p-2 bg-gray-100" disabled>
+                </div>
+                @endif
+
+                @if($user->linkedin_id)
+                <div>
+                    <label class="block mb-1 font-medium text-gray-500">LinkedIn ID</label>
+                    <input type="text" value="{{ $user->linkedin_id }}" class="w-full border rounded p-2 bg-gray-100" disabled>
+                </div>
+                @endif
+            </div>
+        </div>
+        @endif
+
+        <!-- Estadísticas rápidas (solo lectura) -->
+        <div class="bg-white p-6 rounded-xl shadow space-y-4">
+            {{-- <h2 class="text-xl font-semibold">Estadísticas <span class="text-sm text-gray-400 font-normal">(solo lectura)</span></h2>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                <div class="bg-gray-50 p-4 rounded-lg">
+                    <p class="text-2xl font-bold text-blue-600">{{ $user->sessionsAsMentor->count() }}</p>
+                    <p class="text-sm text-gray-500">Sesiones como mentor</p>
+                </div>
+                <div class="bg-gray-50 p-4 rounded-lg">
+                    <p class="text-2xl font-bold text-green-600">{{ $user->sessionsAsMentee->count() }}</p>
+                    <p class="text-sm text-gray-500">Sesiones como mentee</p>
+                </div>
+                <div class="bg-gray-50 p-4 rounded-lg">
+                    <p class="text-2xl font-bold text-purple-600">{{ $user->reviewsReceived->count() }}</p>
+                    <p class="text-sm text-gray-500">Reviews recibidas</p>
+                </div>
+                <div class="bg-gray-50 p-4 rounded-lg">
+                    <p class="text-2xl font-bold text-orange-600">{{ $user->tickets->count() }}</p>
+                    <p class="text-sm text-gray-500">Tickets</p>
+                </div>
+            </div> --}}
+
+            <p class="text-xs text-gray-400">
+                Registrado: {{ $user->created_at->format('d/m/Y H:i') }}
+                · Última actualización: {{ $user->updated_at->format('d/m/Y H:i') }}
+                @if($user->email_verified_at)
+                    · Email verificado: {{ $user->email_verified_at->format('d/m/Y') }}
+                @else
+                    · <span class="text-red-500">Email no verificado</span>
+                @endif
+            </p>
+        </div>
+
         <!-- Submit -->
-        <div class="text-right">
+        <div class="flex justify-between items-center">
+            <a href="{{ route('admin.users.index') }}" class="text-gray-400 hover:text-gray-600">
+                ← Volver a la lista
+            </a>
             <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">
                 Guardar cambios
             </button>

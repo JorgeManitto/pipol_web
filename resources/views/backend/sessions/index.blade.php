@@ -243,7 +243,7 @@
                     
                     // AÃ±adir tooltip con informaciÃ³n de sesiones
                     const sessionCount = sessions.length;
-                    dayElement.title = `${sessionCount} sesiÃ³n${sessionCount > 1 ? 'es' : ''}`;
+                    dayElement.title = `${sessionCount} sesi${sessionCount > 1 ? 'ones' : 'ón'}`;
                     
                     // Hacer clickeable
                     dayElement.style.cursor = 'pointer';
@@ -293,7 +293,7 @@
                             </button>
                         </div>
                         <div class="space-y-2">
-                            <p class="text-sm text-gray-600 mb-3">${sessions.length} sesiÃ³n${sessions.length > 1 ? 'es' : ''} programada${sessions.length > 1 ? 's' : ''}:</p>
+                            <p class="text-sm text-gray-600 mb-3">${sessions.length} sesi${sessions.length > 1 ? 'ones' : 'ón'} programada${sessions.length > 1 ? 's' : ''}:</p>
                             ${sessionsList}
                         </div>
                     </div>
@@ -397,8 +397,9 @@
             closeConfirmModal();
         }
 
-        function generarUrlMeet(){
+        function generarUrlMeet(id){
             document.getElementById('generateMeetForm').classList.add('active');
+            document.getElementById('session_id').value = id;
         }
         
         function closeGenerateMeetForm(){

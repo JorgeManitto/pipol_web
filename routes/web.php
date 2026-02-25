@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\Auth\LinkedInController;
+use App\Http\Controllers\Backend\AdminSessionsController;
 use App\Http\Controllers\Backend\AdminUserController;
+use App\Http\Controllers\Backend\AgendaController;
 use App\Http\Controllers\Backend\AvailabilityController;
 use App\Http\Controllers\Backend\ChatController;
 use App\Http\Controllers\Backend\Dashboard;
@@ -77,8 +79,14 @@ Route::middleware(['auth','profile.completed'])->group(function () {
     Route::get('/profile/{id}', [ProfileController::class, 'show'])->name('profile.show');
 
 
-    Route::prefix('admin')->name('admin.')->group(function () {
+    Route::prefix('admin')->middleware('is_admin')->name('admin.')->group(function () {
         Route::resource('users', \App\Http\Controllers\Backend\AdminUserController::class);
+
+        Route::get('/generate-reunion-google', [PipolSessionController::class, 'generateReunionGoogle'])->name('generateReunionGoogle');
+        Route::get('sessions',              [AdminSessionsController::class, 'index'])->name('sessions.index');
+        Route::get('sessions/{session}',    [AdminSessionsController::class, 'show'])->name('sessions.show');
+        Route::post('sessions/{session}/generate-meet', [AdminSessionsController::class, 'generateMeet'])->name('sessions.generate-meet');
+
     });
 
     Route::post('/notifications/mark-as-read', [Dashboard::class, 'makeNotificationRead'])->name('notifications.markAsRead');
@@ -142,7 +150,7 @@ Route::get('/auth/google/callback', function () {
 
     // dd($googleUser);
     // Buscar o crear usuario
-    $isUserExist = User::where('email', $googleUser->getEmail)->first();
+    $isUserExist = User::where('email', $googleUser->getEmail())->first();
     $user = User::updateOrCreate([
         'email' => $googleUser->getEmail(),
     ], [
@@ -232,4 +240,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/availability', [AvailabilityController::class, 'store'])->name('availability.store');
     Route::put('/availability/{availability}', [AvailabilityController::class, 'update'])->name('availability.update');
     Route::delete('/availability/{availability}', [AvailabilityController::class, 'destroy'])->name('availability.destroy');
+
+
+    Route::get('/agenda', [AgendaController::class, 'index'])->name('agenda.index');
+    Route::post('/agenda/update', [AgendaController::class, 'updateHorarios'])->name('agenda.update');
 });

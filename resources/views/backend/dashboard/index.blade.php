@@ -422,8 +422,8 @@
     }
 </style>
 
-    <div class="">
+    {{-- <div class="">
 
         @include('backend.availability.availability')
-    </div>
+    </div> --}}
 @endsection

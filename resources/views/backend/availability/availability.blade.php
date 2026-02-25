@@ -56,14 +56,14 @@
                             </p>
                         </div>
                         <div class="flex gap-2">
-                            <button type="button"
+                            {{-- <button type="button"
                                     onclick="editAvailability({{ $slot->id }}, {{ $slot->day_of_week }}, '{{ $slot->start_time }}', '{{ $slot->end_time }}', {{ $slot->is_recurring ? 1 : 0 }}, {{ $slot->active ? 1 : 0 }}, '{{ $slot->start_date }}', '{{ $slot->end_date }}')"
                                     class="p-2 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 transition-colors"
                                     title="Editar">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
                                 </svg>
-                            </button>
+                            </button> --}}
                             <form method="POST" action="{{ route('availability.destroy', $slot->id) }}" onsubmit="return confirm('¿Eliminar este horario?')">
                                 @csrf
                                 @method('DELETE')

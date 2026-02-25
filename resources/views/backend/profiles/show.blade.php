@@ -232,7 +232,47 @@
                         @endif
                     </div>
                 </div>
+                
                 @endif
+                <!-- Reseñas Section -->
+                    @if ($user->reviewsReceived && $user->reviewsReceived->isNotEmpty())
+                    <div class="bg-white rounded-xl shadow-md p-8" id="review">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-3">
+                            <svg class="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+                            </svg>
+                            Reseñas
+                            <span class="text-base font-normal text-gray-500">({{ $user->reviewsReceived->count() }})</span>
+                        </h2>
+                        <div class="space-y-6">
+                            @foreach ($user->reviewsReceived as $review)
+                                <div class="bg-stone-50 rounded-lg p-5 border border-stone-200">
+                                    <div class="flex items-start justify-between mb-3">
+                                        <div class="flex items-center gap-3">
+                                            <img src="{{ $review->mentee && $review->mentee->avatar ? asset('storage/avatars/'.$review->mentee->avatar) : asset('images/default-avatar.png') }}" 
+                                                alt="Avatar" 
+                                                class="w-10 h-10 rounded-full object-cover border-2 border-gray-200">
+                                            <div>
+                                                <p class="font-semibold text-gray-900">{{ $review->mentee ? $review->mentee->name.' '.$review->mentee->last_name : 'Usuario anónimo' }}</p>
+                                                <p class="text-sm text-gray-500">{{ $review->created_at->diffForHumans() }}</p>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center gap-1">
+                                            @for ($i = 1; $i <= 5; $i++)
+                                                <svg class="w-5 h-5 {{ $i <= $review->rating ? 'text-yellow-400' : 'text-gray-300' }}" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.953a1 1 0 00.95.69h4.163c.969 0 1.371 1.24.588 1.81l-3.357 2.44a1 1 0 00-.364 1.118l1.287 3.953c.3.921-.755 1.688-1.54 1.118l-3.357-2.44a1 1 0 00-1.175 0l-3.357 2.44c-.784.57-1.838-.197-1.54-1.118l1.287-3.953a1 1 0 00-.364-1.118L2.316 9.38c-.784-.57-.38-1.81.588-1.81h4.163a1 1 0 00.95-.69l1.286-3.953z"/>
+                                                </svg>
+                                            @endfor
+                                        </div>
+                                    </div>
+                                    @if ($review->comment)
+                                        <p class="text-gray-700 leading-relaxed">{{ $review->comment }}</p>
+                                    @endif
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                    @endif
                  @if (auth()->id() != $user->id)
                 <!-- Stats Section -->
                     <div class="bg-white rounded-xl shadow-md p-8">

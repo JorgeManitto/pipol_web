@@ -109,9 +109,17 @@
                     <strong>Sesión confirmada.</strong> ¡Prepárate para tu sesión con {{ $name }}!
                 </p>
             </div>
-            <div class="p-3 mb-3">
-                <p class="text-sm text-blue-500">Url de la reunión: No disponible.</p>
-            </div>
+            @if ($session->meet_link)
+                <div class="p-3 mb-3">
+                    <span>Enlace:     
+                        <a href="{{ $session->meet_link }}" target="_blank" class="text-sm text-blue-500 hover:underline"> {{ $session->meet_link }}</a>
+                    </span>
+                </div>
+            @else
+                <div class="p-3 mb-3">
+                    <p class="text-sm text-gray-500">No hay enlace de reunión disponible.</p>
+                </div>
+            @endif
         @endif
     @endif
 

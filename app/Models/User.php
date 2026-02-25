@@ -56,7 +56,9 @@ class User extends Authenticatable
         'profile_level',
         'is_register_end',
         'skills',
-        'linkedin_id'
+        'linkedin_id',
+        'documentPhoto',
+        'selfie'
     ];
 
     /**

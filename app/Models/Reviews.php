@@ -20,4 +20,12 @@ class Reviews extends Model
     {
         return $this->belongsTo(Pipol_sessions::class);
     }
+    public function mentee()
+    {
+        return $this->belongsTo(User::class, 'mentee_id');
+    }
+    public function mentor()
+    {
+        return $this->belongsTo(User::class, 'mentor_id');
+    }
 }

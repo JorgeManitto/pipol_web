@@ -39,9 +39,10 @@ return new class extends Migration
             $table->boolean('mentor_confirmed')->default(false);
             $table->boolean('mentee_confirmed')->default(false);
 
-            // $table->boolean('reschedule_pending')->default(false);
-            // $table->timestamp('original_scheduled_at')->nullable();
-       
+            $table->boolean('reschedule_pending')->default(false);
+            $table->timestamp('original_scheduled_at')->nullable();
+
+            $table->string('meet_link')->nullable();
 
             $table->timestamps();
         });

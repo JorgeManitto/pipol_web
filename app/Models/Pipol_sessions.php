@@ -11,7 +11,7 @@ class Pipol_sessions extends Model
     protected $fillable = [
         'mentor_id', 'mentee_id', 'scheduled_at', 'duration_minutes',
         'status', 'payment_status', 'price', 'currency',
-        'reschedule_pending', 'original_scheduled_at',
+        'reschedule_pending', 'original_scheduled_at', 'meet_link'
     ];
 
     protected $casts = [

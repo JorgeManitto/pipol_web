@@ -75,6 +75,7 @@
             .then(data => {
                 alert('Reseña enviada con éxito.');
                 closeReviewModal();
+                window.location.reload();
             })
             .catch(error => {
                 alert(error.message);
