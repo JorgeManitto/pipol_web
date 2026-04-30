@@ -49,6 +49,11 @@ class AuthTabs extends Component
         $this->validate([
             'loginEmail' => 'required|email',
             'loginPassword' => 'required|min:6',
+        ], [
+            'loginEmail.required' => 'El correo electrónico es obligatorio.',
+            'loginEmail.email' => 'Ingresa un correo electrónico válido.',
+            'loginPassword.required' => 'La contraseña es obligatoria.',
+            'loginPassword.min' => 'La contraseña debe tener al menos 6 caracteres.',
         ]);
 
         if (Auth::attempt(['email' => $this->loginEmail, 'password' => $this->loginPassword], $this->remember)) {
@@ -60,12 +65,21 @@ class AuthTabs extends Component
 
     public function register()
     {
-        
         $this->validate([
             'registerName' => 'required|min:3',
             'registerEmail' => 'required|email|unique:users,email',
             'registerPassword' => 'required|min:8|same:registerConfirmPassword',
             'is_mentor' => 'boolean',
+        ], [
+            'registerName.required' => 'El nombre es obligatorio.',
+            'registerName.min' => 'El nombre debe tener al menos 3 caracteres.',
+            'registerEmail.required' => 'El correo electrónico es obligatorio.',
+            'registerEmail.email' => 'Ingresa un correo electrónico válido.',
+            'registerEmail.unique' => 'Este correo electrónico ya está registrado.',
+            'registerPassword.required' => 'La contraseña es obligatoria.',
+            'registerPassword.min' => 'La contraseña debe tener al menos 8 caracteres.',
+            'registerPassword.same' => 'Las contraseñas no coinciden.',
+            'is_mentor.boolean' => 'El campo mentor no es válido.',
         ]);
 
         $user = User::create([
@@ -78,10 +92,11 @@ class AuthTabs extends Component
 
         Auth::login($user);
 
-        // return redirect()->route('profile.show', ['id' => $user->id]);
+        $user->sendEmailVerificationNotification();
+
         if ($this->is_mentor) {
             return redirect()->route('profile.show', ['id' => $user->id]);
-        }else{
+        } else {
             return redirect()->route('mentors.index');
         }
     }

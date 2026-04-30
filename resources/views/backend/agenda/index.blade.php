@@ -1,259 +1,324 @@
 @extends('backend.layout.app')
 @section('page_title', 'Agenda - Pipol')
 @section('main_content')
-        <style >
-    * {
+<style>
+    .agenda-wrapper * {
         font-family: 'Inter', sans-serif;
     }
-    
+
     .section-card {
-        background: white;
-        border-radius: 1rem;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        background: #140A24;
+        border-radius: 1.25rem;
+        border: 1px solid rgba(255, 255, 255, 0.08);
         padding: 2rem;
         margin-bottom: 1.5rem;
     }
-    
+
     .section-title {
-        font-size: 1.25rem;
+        font-size: 1.2rem;
         font-weight: 700;
-        color: #1f2937;
+        color: #ffffff;
         margin-bottom: 1.5rem;
         padding-bottom: 0.75rem;
-        border-bottom: 2px solid #f3f4f6;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
         display: flex;
         align-items: center;
         gap: 0.75rem;
     }
-    
+
+    .section-title svg {
+        color: #8B5CF6;
+    }
+
     .form-group {
         margin-bottom: 1.25rem;
     }
-    
+
     .form-label {
         display: block;
-        font-size: 0.875rem;
-        font-weight: 600;
-        color: #374151;
+        font-size: 0.8rem;
+        font-weight: 500;
+        color: rgba(255, 255, 255, 0.5);
         margin-bottom: 0.5rem;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
     }
-    
+
     .form-label.required::after {
         content: " *";
-        color: #ef4444;
+        color: #F87171;
     }
-    
+
     .form-input {
         width: 100%;
         padding: 0.75rem 1rem;
-        border: 1px solid #d1d5db;
-        border-radius: 0.5rem;
+        background: #20152E;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 0.625rem;
         font-size: 0.875rem;
+        color: #ffffff;
         transition: all 0.2s;
     }
-    
+
+    .form-input::placeholder {
+        color: rgba(255, 255, 255, 0.3);
+    }
+
     .form-input:focus {
         outline: none;
-        border-color: #2d5a4a;
-        box-shadow: 0 0 0 3px rgba(45, 90, 74, 0.1);
+        border-color: #8B5CF6;
+        box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
     }
-    
+
+    .form-input option {
+        background: #20152E;
+        color: #ffffff;
+    }
+
     .form-textarea {
         min-height: 100px;
         resize: vertical;
     }
-    
-    .image-preview-container {
-        position: relative;
-        display: inline-block;
-    }
-    
-    .image-preview {
-        width: 150px;
-        height: 150px;
-        object-fit: cover;
-        border-radius: 0.75rem;
-        border: 3px solid #e5e7eb;
-        transition: all 0.3s;
-    }
-    
-    .image-preview:hover {
-        border-color: #2d5a4a;
-        transform: scale(1.05);
-    }
-    
-    .image-preview.avatar {
-        border-radius: 50%;
-        width: 120px;
-        height: 120px;
-    }
-    
-    .file-upload-btn {
-        display: inline-block;
-        padding: 0.625rem 1.5rem;
-        background: #2d5a4a;
-        color: white;
-        border-radius: 0.5rem;
-        cursor: pointer;
-        font-weight: 600;
-        font-size: 0.875rem;
-        transition: all 0.2s;
-    }
-    
-    .file-upload-btn:hover {
-        background: #3d6a5a;
-        transform: translateY(-1px);
-    }
-    
+
     .help-text {
         font-size: 0.75rem;
-        color: #6b7280;
+        color: rgba(255, 255, 255, 0.35);
         margin-top: 0.375rem;
     }
-    
+
     .btn-primary-edit {
-        background: #2d5a4a;
+        background: linear-gradient(135deg, #8B5CF6, #7C3AED);
         color: white;
-        padding: 1rem 2rem;
-        border-radius: 0.5rem;
+        padding: 0.875rem 2rem;
+        border-radius: 0.75rem;
         font-weight: 600;
-        font-size: 1rem;
+        font-size: 0.9rem;
         transition: all 0.2s;
         border: none;
         cursor: pointer;
+        box-shadow: 0 2px 12px rgba(139, 92, 246, 0.3);
     }
-    
+
     .btn-primary-edit:hover {
-        background: #3d6a5a;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(45, 90, 74, 0.3);
+        background: linear-gradient(135deg, #7C3AED, #6D28D9);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 20px rgba(139, 92, 246, 0.4);
     }
-    
+
     .btn-secondary {
-        background: #e5e7eb;
-        color: #374151;
-        padding: 1rem 2rem;
-        border-radius: 0.5rem;
+        background: rgba(255, 255, 255, 0.06);
+        color: rgba(255, 255, 255, 0.7);
+        padding: 0.875rem 2rem;
+        border-radius: 0.75rem;
         font-weight: 600;
-        font-size: 1rem;
+        font-size: 0.9rem;
         transition: all 0.2s;
-        border: none;
+        border: 1px solid rgba(255, 255, 255, 0.08);
         cursor: pointer;
     }
-    
+
     .btn-secondary:hover {
-        background: #d1d5db;
+        background: rgba(255, 255, 255, 0.1);
+        color: #ffffff;
     }
-    
+
     .alert {
-        padding: 1rem;
-        border-radius: 0.5rem;
+        padding: 1rem 1.25rem;
+        border-radius: 0.75rem;
         margin-bottom: 1.5rem;
+        font-size: 0.875rem;
     }
-    
+
     .alert-success {
-        background: #d1fae5;
-        color: #065f46;
-        border: 1px solid #6ee7b7;
+        background: rgba(16, 185, 129, 0.1);
+        color: #6EE7B7;
+        border: 1px solid rgba(16, 185, 129, 0.2);
     }
-    
+
     .alert-error {
-        background: #fee2e2;
-        color: #991b1b;
-        border: 1px solid #fca5a5;
+        background: rgba(239, 68, 68, 0.1);
+        color: #FCA5A5;
+        border: 1px solid rgba(239, 68, 68, 0.2);
     }
-        /* Animación para el botón de IA */
+
     @keyframes pulse-glow {
         0%, 100% {
-            box-shadow: 0 0 0 0 rgba(147, 51, 234, 0.7);
+            box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.7);
         }
         50% {
-            box-shadow: 0 0 0 6px rgba(147, 51, 234, 0);
+            box-shadow: 0 0 0 6px rgba(139, 92, 246, 0);
         }
     }
-    
+
     #btnMejorarBio:hover {
         animation: pulse-glow 2s infinite;
     }
-    
-    /* Efecto de escritura para el textarea */
+
     #bio.typing {
-        border-color: #9333ea;
-        box-shadow: 0 0 0 3px rgba(147, 51, 234, 0.1);
+        border-color: #8B5CF6;
+        box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.15);
+    }
+
+    /* ─── Availability rows ─── */
+    .availability-row {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 1rem 1.25rem;
+        background: #1C1030;
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 0.75rem;
+        transition: all 0.2s;
+    }
+
+    .availability-row:hover {
+        border-color: rgba(139, 92, 246, 0.2);
+        background: #201438;
+    }
+
+    .availability-row .slot-label {
+        font-size: 0.68rem;
+        font-weight: 600;
+        color: rgba(255, 255, 255, 0.35);
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+    }
+
+    .availability-row .slot-value {
+        font-weight: 500;
+        color: rgba(255, 255, 255, 0.85);
+        font-size: 0.88rem;
+    }
+
+    .badge-active {
+        display: inline-block;
+        padding: 0.2rem 0.6rem;
+        background: rgba(16, 185, 129, 0.12);
+        color: #6EE7B7;
+        border-radius: 9999px;
+        font-size: 0.72rem;
+        font-weight: 600;
+    }
+
+    .badge-inactive {
+        display: inline-block;
+        padding: 0.2rem 0.6rem;
+        background: rgba(239, 68, 68, 0.12);
+        color: #FCA5A5;
+        border-radius: 9999px;
+        font-size: 0.72rem;
+        font-weight: 600;
+    }
+
+    .btn-delete {
+        padding: 0.5rem;
+        background: rgba(239, 68, 68, 0.1);
+        color: #FCA5A5;
+        border-radius: 0.5rem;
+        border: 1px solid rgba(239, 68, 68, 0.15);
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+    .btn-delete:hover {
+        background: rgba(239, 68, 68, 0.2);
+        color: #F87171;
+    }
+
+    .empty-state-text {
+        color: rgba(255, 255, 255, 0.35);
+        font-size: 0.875rem;
+        font-style: italic;
+        text-align: center;
+        padding: 1.5rem 0;
+    }
+
+    .form-divider {
+        border-top: 1px solid rgba(255, 255, 255, 0.06);
+        padding-top: 1.5rem;
+        margin-top: 0.5rem;
+    }
+
+    .form-subtitle {
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: rgba(255, 255, 255, 0.7);
+        margin-bottom: 1rem;
     }
 </style>
-    <div class="">
 
-        <!-- Alerts -->
-        @if (session('success'))
-            <div class="alert alert-success">
-                <strong>✓</strong> {{ session('success') }}
-            </div>
-        @endif
+<div class="agenda-wrapper">
 
-         @if (session('error'))
-            <div class="alert alert-error">
-                <strong>✗</strong> {{ session('error') }}
-            </div>
-        @endif
-
-        <div class="section-card">
-            <h2 class="section-title">Definí tu Disponibilidad</h2>
-            <form id="formHorarios" method="POST" action="{{ route('agenda.update') }}">
-                @csrf
-                <div class="form-group">
-                    <label for="availabilities" class="form-label required">Horarios Disponibles</label>
-                    <textarea id="availabilities" name="availabilities" class="form-input form-textarea" placeholder="Ejemplo: Lunes 9am-12pm, Miércoles 2pm-5pm"></textarea>
-                    <p class="help-text">Introduce tus horarios disponibles en formato texto. Puedes usar comas para separar diferentes días y horarios.</p>
-                </div>
-
-                {{-- Campo oculto para el JSON procesado --}}
-                <input type="hidden" id="availabilities_json" name="availabilities">
-
-                <button type="submit" id="btnSubmit" class="btn-primary-edit">
-                    <span id="btnSubmitText">Actualizar Horarios</span>
-                </button>
-                <p id="processingMsg" class="help-text hidden" style="color: #9333ea; margin-top: 0.5rem;">
-                    ⏳ Procesando disponibilidad con IA...
-                </p>
-            </form>
+    {{-- Alerts --}}
+    @if (session('success'))
+        <div class="alert alert-success">
+            <strong>✓</strong> {{ session('success') }}
         </div>
+    @endif
 
-        @include('backend.availability.availability')
+    @if (session('error'))
+        <div class="alert alert-error">
+            <strong>✗</strong> {{ session('error') }}
+        </div>
+    @endif
+
+    <div class="section-card">
+        <h2 class="section-title">Definí tu Disponibilidad</h2>
+        <form id="formHorarios" method="POST" action="{{ route('agenda.update') }}">
+            @csrf
+            <div class="form-group">
+                <label for="availabilities" class="form-label required">Horarios Disponibles</label>
+                <textarea id="availabilities" name="availabilities" class="form-input form-textarea"
+                    placeholder="Ejemplo: Lunes 9am-12pm, Miércoles 2pm-5pm"></textarea>
+                <p class="help-text">Introduce tus horarios disponibles en formato texto. Puedes usar comas para separar diferentes días y horarios.</p>
+            </div>
+
+            <input type="hidden" id="availabilities_json" name="availabilities">
+
+            <button type="submit" id="btnSubmit" class="btn-primary-edit">
+                <span id="btnSubmitText">Actualizar Horarios</span>
+            </button>
+            <p id="processingMsg" class="help-text hidden" style="color: #A78BFA; margin-top: 0.5rem;">
+                ⏳ Procesando disponibilidad con IA...
+            </p>
+        </form>
     </div>
 
-    <script type="module">
-        import { GoogleGenerativeAI } from "https://esm.run/@google/generative-ai";
+    @include('backend.availability.availability')
+</div>
 
-        const API_KEY = "{{ env('GEMINI_API_KEY') }}";
-        const genAI = new GoogleGenerativeAI(API_KEY);
+<script type="module">
+    import { GoogleGenerativeAI } from "https://esm.run/@google/generative-ai";
 
-        const form = document.getElementById('formHorarios');
-        const textarea = document.getElementById('availabilities');
-        const hiddenInput = document.getElementById('availabilities_json');
-        const btn = document.getElementById('btnSubmit');
-        const btnText = document.getElementById('btnSubmitText');
-        const processingMsg = document.getElementById('processingMsg');
+    const API_KEY = "{{ env('GEMINI_API_KEY') }}";
+    const genAI = new GoogleGenerativeAI(API_KEY);
 
-        form.addEventListener('submit', async function(e) {
-            e.preventDefault();
+    const form = document.getElementById('formHorarios');
+    const textarea = document.getElementById('availabilities');
+    const hiddenInput = document.getElementById('availabilities_json');
+    const btn = document.getElementById('btnSubmit');
+    const btnText = document.getElementById('btnSubmitText');
+    const processingMsg = document.getElementById('processingMsg');
 
-            const textoUsuario = textarea.value.trim();
-            if (!textoUsuario) {
-                alert('Por favor, ingresa tus horarios disponibles.');
-                return;
-            }
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault();
 
-            // Deshabilitar botón y mostrar estado
-            btn.disabled = true;
-            btn.classList.add('opacity-50', 'cursor-not-allowed');
-            btnText.textContent = 'Procesando...';
-            processingMsg.classList.remove('hidden');
+        const textoUsuario = textarea.value.trim();
+        if (!textoUsuario) {
+            alert('Por favor, ingresa tus horarios disponibles.');
+            return;
+        }
 
-            try {
-                const model = genAI.getGenerativeModel({ model: "gemini-flash-lite-latest" });
+        btn.disabled = true;
+        btn.classList.add('opacity-50', 'cursor-not-allowed');
+        btnText.textContent = 'Procesando...';
+        processingMsg.classList.remove('hidden');
 
-                const prompt = `Eres un parser de disponibilidad horaria. Convierte el texto de disponibilidad en español a un JSON válido, siguiendo estrictamente estas reglas:
+        try {
+            const model = genAI.getGenerativeModel({ model: "gemini-flash-lite-latest" });
+
+            const prompt = `Eres un parser de disponibilidad horaria. Convierte el texto de disponibilidad en español a un JSON válido, siguiendo estrictamente estas reglas:
 - Los días deben mapearse a: lunes -> monday, martes -> tuesday, miércoles -> wednesday, jueves -> thursday, viernes -> friday, sábado -> saturday, domingo -> sunday
 - Si se indica un rango de días (ej: lunes-viernes), debes generar una entrada por cada día del rango.
 - Las horas deben devolverse en formato 24h HH:MM ej: 16pm -> 16:00, 9am -> 09:00
@@ -268,27 +333,24 @@ Formato de salida:
 
 IMPORTANTE: No encierres la respuesta en \`\`\`json ni comillas. Devuelve únicamente el JSON plano.`;
 
-                const result = await model.generateContent(prompt);
-                const response = result.response.text().trim();
+            const result = await model.generateContent(prompt);
+            const response = result.response.text().trim();
 
-                // Validar que sea JSON válido
-                JSON.parse(response);
+            JSON.parse(response);
 
-                // Poner el JSON en el campo oculto y enviar
-                hiddenInput.value = response;
-                textarea.removeAttribute('name'); // Evitar que se envíe el texto crudo
-                form.submit();
+            hiddenInput.value = response;
+            textarea.removeAttribute('name');
+            form.submit();
 
-            } catch (error) {
-                console.error('Error:', error);
-                alert('Error al procesar los horarios: ' + error.message + '. Intenta reformular el texto.');
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Error al procesar los horarios: ' + error.message + '. Intenta reformular el texto.');
 
-                // Restaurar botón
-                btn.disabled = false;
-                btn.classList.remove('opacity-50', 'cursor-not-allowed');
-                btnText.textContent = 'Actualizar Horarios';
-                processingMsg.classList.add('hidden');
-            }
-        });
-    </script>
+            btn.disabled = false;
+            btn.classList.remove('opacity-50', 'cursor-not-allowed');
+            btnText.textContent = 'Actualizar Horarios';
+            processingMsg.classList.add('hidden');
+        }
+    });
+</script>
 @endsection

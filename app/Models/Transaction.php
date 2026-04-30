@@ -22,8 +22,21 @@ class Transaction extends Model
         'status',
         'notes',
         'paid_at',
-        'refunded_at'
+        'refunded_at',
+        'mentor_amount',
+        'transfer_status',
+        'stripe_transfer_id',
+        'transferred_at',
     ];
+
+    protected $casts = [
+        'paid_at'        => 'datetime',
+        'transferred_at' => 'datetime',
+        'amount'         => 'decimal:2',
+        'platform_fee'   => 'decimal:2',
+        'mentor_amount'  => 'decimal:2',
+    ];
+ 
 
     public function session() {
     return $this->belongsTo(Pipol_sessions::class);
@@ -34,4 +47,6 @@ class Transaction extends Model
     public function receiver() {
         return $this->belongsTo(User::class, 'receiver_id');
     }
+
+    
 }

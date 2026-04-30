@@ -60,7 +60,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
                             </svg>
                         </a>
-                        <a href="{{ route('login', ['is_mentor'=>1]) }}" class="btn-secondary px-8 py-4 rounded-full text-md font-semibold inline-flex items-center justify-center gap-2 w-full sm:w-auto">
+                        <a href="{{ route('home.mentors') }}" class="btn-secondary px-8 py-4 rounded-full text-md font-semibold inline-flex items-center justify-center gap-2 w-full sm:w-auto">
                             Quiero ser mentor
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
@@ -76,8 +76,8 @@
     <section id="que-es" class="section-dark py-24 px-4">
         <div class="max-w-7xl mx-auto ">
             <div class="text-center mb-4 md:mb-20">
-                <h2 class="text-5xl md:text-5xl lg:text-6xl mb-6 titulos font-semibold">
-                    ¿Qué es <img style="display: inline-block;height: 120px;" src="{{ asset('/images/logo-clean.png') }}" />?
+                <h2 class="text-3xl md:text-5xl lg:text-6xl mb-6 titulos font-semibold">
+                    ¿Qué es <img class="h-20 md:h-32" style="display: inline-block;" src="{{ asset('/images/logo-clean.png') }}" />?
                 </h2>
                 <p class="text-md text-gray-300 mb-2 leading-relaxed">
                     En Pipol creemos que la experiencia es el conocimiento más valioso que existe —y que solo tiene sentido cuando se comparte.

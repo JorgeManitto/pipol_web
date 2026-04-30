@@ -3,11 +3,15 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Notifications\ResetPasswordNotification;
+use App\Notifications\VerifyEmailNotification;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
@@ -58,7 +62,17 @@ class User extends Authenticatable
         'skills',
         'linkedin_id',
         'documentPhoto',
-        'selfie'
+        'selfie',
+        'view_count',
+        'stripe_account_id',
+        'stripe_connect_status',
+        'mentor_amount',
+        'transfer_status',
+        'stripe_transfer_id',
+        'transferred_at',
+        'weekly_hours_available',
+        'timezone',
+        'origin',
     ];
 
     /**
@@ -81,6 +95,7 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'origin' => 'string',
         ];
     }
 
@@ -121,5 +136,64 @@ class User extends Authenticatable
 
     public function reviewsReceived() {
         return $this->hasMany(Reviews::class, 'mentor_id');
+    }
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new ResetPasswordNotification($token));
+    }
+    public function countViewProfile() : int {
+        return $this->view_count;
+    }
+    public function sendEmailVerificationNotification(): void
+    {
+        $this->notify(new VerifyEmailNotification());
+    }
+    public function transactionsReceived()
+    {
+        return $this->hasMany(Transaction::class, 'receiver_id');
+    }
+    
+    public function transactionsPaid()
+    {
+        return $this->hasMany(Transaction::class, 'payer_id');
+    }
+
+    public function isFraccionalProfessional(): bool
+    {
+        return $this->role === 'fraccional_professional';
+    }
+
+    public function isFraccionalCompany(): bool
+    {
+        return $this->role === 'fraccional_company';
+    }
+
+    public function isFraccional(): bool
+    {
+        return in_array($this->role, ['fraccional_professional', 'fraccional_company']);
+    }
+
+    // Constantes para evitar typos
+    public const ROLE_FRACCIONAL_PROFESSIONAL = 'fraccional_professional';
+    public const ROLE_FRACCIONAL_COMPANY      = 'fraccional_company';
+
+    // Relaciones para contar badges en el menú
+    public function fraccionalEngagementsAsCompany()
+    {
+        return $this->hasMany(\App\Models\Fraccional\Engagement::class, 'company_id');
+    }
+
+    public function fraccionalEngagementsAsProfessional()
+    {
+        return $this->hasMany(\App\Models\Fraccional\Engagement::class, 'professional_id');
+    }
+    public function isFromFraccional(): bool
+    {
+        return $this->origin === 'fraccional';
+    }
+
+    public function isFromMentoria(): bool
+    {
+        return $this->origin === 'mentoria';
     }
 }

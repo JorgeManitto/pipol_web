@@ -74,6 +74,9 @@ return new class extends Migration
             $table->string('documentPhoto')->nullable();
             $table->string('birth_date')->nullable();
             $table->string('skills')->nullable();
+            $table->integer('view_count')->default(0);
+            $table->boolean('reschedule_pending')->default(false);
+            $table->timestamp('original_scheduled_at')->nullable();
             
             $table->rememberToken();
             $table->timestamps();

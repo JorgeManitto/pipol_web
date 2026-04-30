@@ -22,7 +22,7 @@ class PaymentController extends Controller
 
             Stripe::setApiKey(config('services.stripe.secret'));
 
-            $amountUsd = $request->amount; // 75
+            $amountUsd = $request->amount;
             $amountInCents = (int) round($amountUsd * 100);
             
 
@@ -69,7 +69,10 @@ class PaymentController extends Controller
                 $transaction->gateway_transaction_id = $paymentIntent->id;
                 $transaction->currency = 'usd';
                 $transaction->amount = $amountUsd;
+                $transaction->platform_fee = round($amountUsd * 0.10, 2); // tu comisión
+                $transaction->mentor_amount = round($amountUsd * 0.90, 2); // lo que recibe el mentor
                 $transaction->status = 'paid';
+                $transaction->transfer_status = 'pending'; // nuevo campo
                 $transaction->paid_at = now();
                 $transaction->save();
 

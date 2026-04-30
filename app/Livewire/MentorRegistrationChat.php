@@ -7,6 +7,7 @@ use App\Models\User;
 use Google\Service\ServiceControl\Auth;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Smalot\PdfParser\Parser;
 use Spatie\PdfToText\Pdf;
 
 
@@ -129,11 +130,19 @@ class MentorRegistrationChat extends Component
                     ]);
                     $this->addBotMessage('Procesando tu CV...');
 
-                    $text = Pdf::getText($this->cvFile->getRealPath(),
-                        'C:\poppler\Library\bin\pdftotext.exe');
+                    // $text = Pdf::getText($this->cvFile->getRealPath(),
+                    //     'C:\poppler\Library\bin\pdftotext.exe');
 
-                    $text = preg_replace('/\s+/', ' ', $text);
-                    $text = trim($text);   
+                    // $text = preg_replace('/\s+/', ' ', $text);
+                    // $text = trim($text);   
+
+                    // $parser = new Parser();
+                    // $pdf    = $parser->parseFile($this->cvFile->getRealPath());
+                    // $text   = $pdf->getText();
+
+                    // $text = preg_replace('/\s+/', ' ', $text);
+                    // $text = trim($text);
+                    $text = $this->returnTextFromCv();
                     $this->textCvPivot = $text;
 
                     $this->ejecutarCv($text);
@@ -157,12 +166,12 @@ class MentorRegistrationChat extends Component
                     
                     break;
                 case 5:
-                    $this->validate(['selfie' => 'required|image', 'documentPhoto' => 'required|image'],
+                    $this->validate(['selfie' => 'required|image'],
                     [
                         'selfie.required' => 'Por favor, carga una selfie.',
                         'selfie.image' => 'La selfie debe ser un archivo de imagen válido.',
-                        'documentPhoto.required' => 'Por favor, carga una foto de tu documento.',
-                        'documentPhoto.image' => 'La foto del documento debe ser un archivo de imagen válido.'
+                        // 'documentPhoto.required' => 'Por favor, carga una foto de tu documento.',
+                        // 'documentPhoto.image' => 'La foto del documento debe ser un archivo de imagen válido.'
                     ]);
                     $this->saveImagesFromCv();
                     $this->step = 19;
@@ -364,12 +373,12 @@ class MentorRegistrationChat extends Component
                     $this->addBotMessage('Ya casi terminamos. Para validar tu perfil y garantizar una comunidad segura, te pedimos: Tomarte una selfie y cargar una foto de tu documento.');
                     break;
                 case 18:
-                    $this->validate(['selfie' => 'required|image', 'documentPhoto' => 'required|image'],
+                    $this->validate(['selfie' => 'required|image'],
                     [
                         'selfie.required' => 'Por favor, carga una selfie.',
                         'selfie.image' => 'La selfie debe ser un archivo de imagen válido.',
-                        'documentPhoto.required' => 'Por favor, carga una foto de tu documento.',
-                        'documentPhoto.image' => 'La foto del documento debe ser un archivo de imagen válido.'
+                        // 'documentPhoto.required' => 'Por favor, carga una foto de tu documento.',
+                        // 'documentPhoto.image' => 'La foto del documento debe ser un archivo de imagen válido.'
                     ]);
                     // Almacena archivos: $this->selfie->store('photos');
                     $this->step = 19;
@@ -584,9 +593,9 @@ class MentorRegistrationChat extends Component
         $data = json_decode($clean, true);
 
         if (json_last_error() !== JSON_ERROR_NONE) {
-            throw new \Exception(
-                'Error parseando JSON de Gemini: ' . json_last_error_msg()
-            );
+            // throw new \Exception(
+            //     'Error parseando JSON de Gemini: ' . json_last_error_msg()
+            // );
         }
         $this->saveDataFromCv($data);
         // dd($data);
@@ -700,9 +709,156 @@ class MentorRegistrationChat extends Component
             $selfiePath = $this->selfie->store('selfies', 'private');
             $user->selfie = $selfiePath;
         }
-        if($this->documentPhoto){
-            $documentPath = $this->documentPhoto->store('documents', 'private');
-            $user->documentPhoto = $documentPath;
+    }
+    public function returnTextFromCv()
+    {
+        $file = $this->cvFile;
+        $ext  = strtolower($file->getClientOriginalExtension());
+        $path = $file->getRealPath();
+
+        try {
+            $text = match (true) {
+                in_array($ext, ['doc', 'docx']) => $this->extractFromWord($path, $ext),
+                default                         => $this->extractFromPdf($path),
+            };
+        } catch (\Throwable $e) {
+            return response()->json([
+                'error' => 'No se pudo extraer el texto del archivo.',
+            ], 422);
         }
+
+        $text = $this->cleanText($text);
+
+        if (empty($text)) {
+            return response()->json([
+                'error' => 'No se pudo extraer texto de este PDF. '
+                        . 'Probá subirlo en formato DOCX.',
+            ], 422);
+        }
+
+        return $text;
+    }
+
+    /**
+     * Extrae texto del PDF con Smalot optimizado.
+     * Intenta página por página si el método global falla.
+     */
+    private function extractFromPdf(string $path): string
+    {
+        $parser = new Parser();
+        $pdf    = $parser->parseFile($path);
+
+        // Intento 1: extracción global
+        $text = $pdf->getText();
+
+        if ($this->isUsableText($text)) {
+            return $text;
+        }
+
+        // Intento 2: página por página (a veces funciona mejor)
+        $text  = '';
+        $pages = $pdf->getPages();
+
+        foreach ($pages as $page) {
+            try {
+                $text .= $page->getText() . "\n";
+            } catch (\Throwable $e) {
+                // Saltar páginas problemáticas
+                continue;
+            }
+        }
+
+        if ($this->isUsableText($text)) {
+            return $text;
+        }
+
+        // Intento 3: extraer texto de los objetos internos del PDF
+        $text = $this->extractFromPdfObjects($pdf);
+
+        return $text;
+    }
+
+    /**
+     * Recorre los objetos internos del PDF buscando texto.
+     * Útil cuando getText() falla por encoding.
+     */
+    private function extractFromPdfObjects(\Smalot\PdfParser\Document $pdf): string
+    {
+        $text = '';
+
+        try {
+            $objects = $pdf->getObjects();
+
+            foreach ($objects as $object) {
+                if (method_exists($object, 'getText')) {
+                    try {
+                        $content = $object->getText();
+                        if (!empty(trim($content))) {
+                            $text .= $content . ' ';
+                        }
+                    } catch (\Throwable $e) {
+                        continue;
+                    }
+                }
+            }
+        } catch (\Throwable $e) {
+        }
+
+        return $text;
+    }
+
+    /**
+     * Extrae texto de archivos Word sin dependencias externas.
+     */
+    private function extractFromWord(string $path, string $ext): string
+    {
+        if ($ext !== 'docx') {
+            return ''; // .doc requiere binarios externos
+        }
+
+        $zip = new \ZipArchive();
+
+        if ($zip->open($path) !== true) {
+            return '';
+        }
+
+        $xml = $zip->getFromName('word/document.xml');
+        $zip->close();
+
+        if (empty($xml)) {
+            return '';
+        }
+
+        // Agregar espacios antes de tags para separar palabras
+        $xml = str_replace('<', ' <', $xml);
+
+        return strip_tags($xml);
+    }
+
+    private function cleanText(string $text): string
+    {
+        // Eliminar caracteres de control
+        $text = preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F]/', '', $text);
+        // Normalizar espacios
+        $text = preg_replace('/\s+/', ' ', $text);
+
+        return trim($text);
+    }
+
+    /**
+     * Verifica que el texto extraído sea útil.
+     */
+    private function isUsableText(string $text): bool
+    {
+        $cleaned = trim(preg_replace('/\s+/', '', $text));
+
+        if (mb_strlen($cleaned) < 50) {
+            return false;
+        }
+
+        $letters = preg_match_all('/\pL/u', $cleaned);
+        $ratio   = $letters / max(mb_strlen($cleaned), 1);
+
+        return $ratio > 0.5;
     }
 }

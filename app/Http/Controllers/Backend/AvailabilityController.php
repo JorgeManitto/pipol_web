@@ -25,7 +25,7 @@ class AvailabilityController extends Controller
 
         Availabilitie::create($validated);
 
-        return redirect()->route('profile.edit')
+        return redirect()->route('agenda.index')
             ->with('success', 'Horario agregado correctamente.');
     }
 
@@ -46,7 +46,7 @@ class AvailabilityController extends Controller
 
         $availability->update($validated);
 
-        return redirect()->route('profile.edit')
+        return redirect()->route('agenda.index')
             ->with('success', 'Horario actualizado correctamente.');
     }
 
@@ -56,7 +56,7 @@ class AvailabilityController extends Controller
 
         $availability->delete();
 
-        return redirect()->route('profile.edit')
+        return redirect()->route('agenda.index')
             ->with('success', 'Horario eliminado.');
     }
 }

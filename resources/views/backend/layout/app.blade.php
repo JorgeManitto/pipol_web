@@ -373,7 +373,7 @@
     @if (!request()->routeIs('mentors.index'))
         @include('backend.components.sidebar')
     @else
-        @include('backend.components.nav-bar-mobile')
+    @include('backend.components.nav-bar-mobile')
     @endif
     <!-- Main Content -->
     <main class="{{ !request()->routeIs('mentors.index') ? 'md:ml-64' : '' }} p-2 md:p-8 hero-section h-min-screen min-h-screen">

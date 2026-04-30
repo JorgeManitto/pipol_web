@@ -7,31 +7,7 @@
     {{-- <title>Document</title> --}}
     <title>Pipol - Ingreso</title>
     @vite(['resources/css/app.css', 'resources/js/app.js']) 
-     {{-- @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
-            @vite(['resources/css/app.css', 'resources/js/app.js'])
-        @else
-            
-        @endif --}}
-        {{-- <script src="https://cdn.tailwindcss.com"></script>
-        <script>
-            tailwind.config = {
-            theme: {
-                extend: {
-                colors: {
-                    primary: '#2D5F5D',
-                    secondary: '#E8D5C4',
-                    accent: '#D4A574',
-                    dark: '#1A1A1A',
-                    light: '#F5F5F0',
-                },
-                fontFamily: {
-                    sans: ['Inter', 'system-ui', 'sans-serif'],
-                    display: ['Georgia', 'serif'],
-                }
-                }
-            }
-            }
-        </script> --}}
+
         <style>
             @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
             
@@ -49,7 +25,7 @@
         </style>
     @livewireStyles
 </head>
-<body>
+<body style="background: #0F071A;">
     <livewire:auth-tabs class="mt-8" />
 </body>
 </html>

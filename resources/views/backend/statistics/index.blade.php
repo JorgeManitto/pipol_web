@@ -26,9 +26,9 @@
               {{-- <button class="px-4 py-2 bg-gray-100 text-primary-dark rounded-lg hover:bg-gray-200 transition text-sm font-medium">
                 Filtrar
               </button> --}}
-              <button class="px-4 py-2 text-black rounded-lg bg-gray-100 hover:bg-accent-purple/90 transition text-sm font-medium cursor-pointer">
+              {{-- <button class="px-4 py-2 text-black rounded-lg bg-gray-100 hover:bg-accent-purple/90 transition text-sm font-medium cursor-pointer">
                 Exportar
-              </button>
+              </button> --}}
             </div>
           </div>
           
@@ -53,37 +53,37 @@
                   @foreach ($statistics as $item)
                       
                   <tr class="hover:bg-gray-50 transition">
-                    <td class="px-4 py-4">
+                    <td class="p-1">
                       <span class="text-sm font-medium text-accent-purple"># {{ $item->gateway_transaction_id }}</span>
                     </td>
-                    <td class="px-4 py-4">
+                    <td class="p-1">
                       <div class="flex items-center gap-2">
                         <div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-400 to-cyan-400 flex items-center justify-center text-white text-xs font-bold">
-                          {{ substr($item->payer()->first()->name, 0, 2) }}
+                          {{ substr($item->payer()->first()?->name ?? 'N/A', 0, 2) }}
                         </div>
-                        <span class="text-sm">{{ $item->payer()->first()->name }}</span>
+                        <span class="text-sm">{{ $item->payer()->first()?->name ?? 'N/A' }}</span>
                       </div>
                     </td>
-                    <td class="px-4 py-4">
+                    <td class="p-1">
                       <div class="flex items-center gap-2">
                         <div class="w-8 h-8 rounded-full bg-accent-purple flex items-center justify-center text-white text-xs font-bold">
-                          {{ substr($item->receiver()->first()->name, 0, 2) }}
+                          {{ substr($item->receiver()->first()?->name ?? 'N/A', 0, 2) }}
                         </div>
-                        <span class="text-sm">{{ $item->receiver()->first()->name }}</span>
+                        <span class="text-sm">{{ $item->receiver()->first()?->name ?? 'N/A' }}</span>
                       </div>
                     </td>
-                    <td class="px-4 py-4">
+                    <td class="p-1">
                       <span class="text-sm text-gray-600">{{ $item->gateway }}</span>
                     </td>
-                    <td class="px-4 py-4">
+                    <td class="p-1">
                       <span class="text-sm font-semibold text-green-600">$ {{$item->amount}}</span>
                     </td>
-                    <td class="px-4 py-4">
+                    <td class="p-1">
                       <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
                         {{$item->status }}
                       </span>
                     </td>
-                    <td class="px-4 py-4">
+                    <td class="p-1">
                       <span class="text-sm text-gray-600">{{ $item->paid_at }}</span>
                     </td>
                   </tr>

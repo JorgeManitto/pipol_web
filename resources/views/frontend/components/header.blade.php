@@ -86,6 +86,7 @@
             </div>
             <div class="hidden md:flex items-center gap-8">
                 <a href="{{ route('home').'#que-es' }}" class="nav-link text-white hover:text-gray-200">Qué es Pipol</a>
+                <a href="{{ route('home.fraccional')}}" class="nav-link text-white hover:text-gray-200">Fraccional</a>
                 <a href="{{ route('home.mentors') }}" class="nav-link text-white hover:text-gray-200">Quiero ser mentor</a>
                 <a href="{{ route('mentors.index') }}" class="nav-link text-white hover:text-gray-200">Encontrá tu mentor</a>
                 {{-- <a href="#como-funciona" class="nav-link text-white hover:text-gray-200">Cómo funciona</a> --}}

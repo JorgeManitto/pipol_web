@@ -11,15 +11,15 @@
         background: white;
         border-radius: 1rem;
         box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        padding: 2rem;
-        margin-bottom: 1.5rem;
+        padding: 1.5rem;
+        margin-bottom: .5rem;
     }
     
     .section-title {
         font-size: 1.25rem;
         font-weight: 700;
         color: #1f2937;
-        margin-bottom: 1.5rem;
+        margin-bottom: .5rem;
         padding-bottom: 0.75rem;
         border-bottom: 2px solid #f3f4f6;
         display: flex;
@@ -28,7 +28,7 @@
     }
     
     .form-group {
-        margin-bottom: 1.25rem;
+        margin-bottom: .5rem;
     }
     
     .form-label {
@@ -36,7 +36,7 @@
         font-size: 0.875rem;
         font-weight: 600;
         color: #374151;
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.3rem;
     }
     
     .form-label.required::after {
@@ -46,7 +46,7 @@
     
     .form-input {
         width: 100%;
-        padding: 0.75rem 1rem;
+        padding: .5rem;
         border: 1px solid #d1d5db;
         border-radius: 0.5rem;
         font-size: 0.875rem;
@@ -184,7 +184,7 @@
     }
 </style>
 
-<main class="container px-6 py-8 max-w-6xl mx-auto">
+<main class="container max-w-6xl mx-auto">
     <!-- Page Header -->
     <div class="mb-8">
         <h1 class="text-4xl font-bold text-white mb-2">Editar Perfil</h1>
@@ -353,6 +353,34 @@
                 </div>
             </div>
 
+            <!-- Subir CV -->
+            <div class="border-b border-stone-200 pb-8">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-semibold text-stone-800">Importar desde CV</h2>
+                </div>
+                <p class="text-sm text-stone-500 mb-4">Sube tu CV en PDF y la IA extraerá tu información automáticamente.</p>
+                <div class="flex items-center gap-4">
+                    <label for="cvUpload" class="inline-flex items-center gap-2 px-5 py-3 bg-stone-800 hover:bg-stone-700 text-white font-semibold rounded-lg cursor-pointer transition">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                        </svg>
+                        Subir CV (PDF)
+                    </label>
+                    <input type="file" accept=".pdf,.doc,.docx" id="cvUpload" class="hidden">
+                    <span id="cvFileName" class="text-sm text-stone-500"></span>
+                </div>
+                <!-- Indicador de procesamiento CV -->
+                <div id="cvProcessing" class="hidden mt-3 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                    <div class="flex items-center gap-3">
+                        <svg class="animate-spin h-5 w-5 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        <span id="cvProcessingText" class="text-sm text-blue-800 font-medium">Extrayendo texto del CV...</span>
+                    </div>
+                </div>
+            </div>
+
             <div class="grid md:grid-cols-2 gap-6">
                 <div class="form-group">
                     <label for="years_of_experience" class="form-label">Años de Experiencia</label>
@@ -440,6 +468,7 @@
             function toggleWorkFields() {
                 const working = document.getElementById('workingNow').value;
                 document.getElementById('currentPositionGroup').style.display = working === '1' ? '' : 'none';
+                document.getElementById('currentPosition').value = working === '1' ? document.getElementById('currentPosition').value : '';
                 // document.getElementById('lastPositionGroup').style.display = working === '0' ? '' : 'none';
             }
         </script>
@@ -494,20 +523,7 @@
                     <label for="currency" class="form-label">Moneda</label>
                     <select id="currency" name="currency" class="form-input">
                         <option value="USD" {{ old('currency', $user->currency) == 'USD' ? 'selected' : '' }}>USD - Dólar</option>
-                        <option value="EUR" {{ old('currency', $user->currency) == 'EUR' ? 'selected' : '' }}>EUR - Euro</option>
-                        <option value="ARS" {{ old('currency', $user->currency) == 'ARS' ? 'selected' : '' }}>ARS - Peso Argentino</option>
-                        <option value="MXN" {{ old('currency', $user->currency) == 'MXN' ? 'selected' : '' }}>MXN - Peso Mexicano</option>
-                        <option value="COP" {{ old('currency', $user->currency) == 'COP' ? 'selected' : '' }}>COP - Peso Colombiano</option>
-                        <option value="CLP" {{ old('currency', $user->currency) == 'CLP' ? 'selected' : '' }}>CLP - Peso Chileno</option>
                     </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="paypal_email" class="form-label">Email de PayPal</label>
-                    <input type="email" id="paypal_email" name="paypal_email" 
-                           value="{{ old('paypal_email', $user->paypal_email) }}" 
-                           class="form-input"
-                           placeholder="tu@email.com">
                 </div>
             </div>
         </div>
@@ -541,6 +557,122 @@
         </div>
 
         <!-- SECCIÓN 8: VERIFICACIÓN DE IDENTIDAD -->
+        <div id="cameraModal" class="fixed inset-0 z-50 hidden">
+            <!-- Overlay -->
+            <div class="fixed inset-0 bg-black/70 backdrop-blur-sm" onclick="closeCameraModal()"></div>
+            
+            <!-- Modal Content -->
+            <div class="fixed inset-0 flex items-center justify-center p-4">
+                <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg relative z-10 overflow-hidden">
+                    <!-- Header -->
+                    <div class="flex items-center justify-between px-6 py-4 border-b border-gray-200">
+                        <h3 id="cameraModalTitle" class="text-lg font-semibold text-gray-800">Capturar Foto</h3>
+                        <button onclick="closeCameraModal()" type="button" class="text-gray-400 hover:text-gray-600 transition-colors">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <!-- Camera View -->
+                    <div class="relative bg-black" style="min-height: 350px;">
+                        <!-- Video (cámara en vivo) -->
+                        <video id="cameraStream" autoplay playsinline 
+                            class="w-full h-full object-cover" style="min-height: 350px; display: block;">
+                        </video>
+
+                        <!-- Canvas oculto para captura -->
+                        <canvas id="cameraCanvas" class="hidden"></canvas>
+
+                        <!-- Preview de foto capturada -->
+                        <img id="capturedPreview" class="w-full h-full object-cover hidden" style="min-height: 350px;" alt="Foto capturada">
+
+                        <!-- Indicador de carga -->
+                        <div id="cameraLoading" class="absolute inset-0 flex flex-col items-center justify-center bg-gray-900 text-white">
+                            <svg class="animate-spin w-10 h-10 mb-3" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                            </svg>
+                            <p class="text-sm">Iniciando cámara...</p>
+                        </div>
+
+                        <!-- Mensaje de error -->
+                        <div id="cameraError" class="absolute inset-0 flex flex-col items-center justify-center bg-gray-900 text-white hidden px-6 text-center">
+                            <svg class="w-12 h-12 mb-3 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            <p id="cameraErrorMsg" class="text-sm mb-3">No se pudo acceder a la cámara</p>
+                            <button onclick="retryCameraAccess()" class="px-4 py-2 bg-white text-gray-800 rounded-lg text-sm font-medium hover:bg-gray-100 transition-colors">
+                                Reintentar
+                            </button>
+                        </div>
+
+                        <!-- Guía visual (overlay) -->
+                        <div id="cameraGuide" class="absolute inset-0 pointer-events-none hidden">
+                            <!-- Guía para selfie -->
+                            <div id="selfieGuide" class="absolute inset-0 flex items-center justify-center hidden">
+                                <div class="w-48 h-60 border-2 border-dashed border-white/60 rounded-full"></div>
+                            </div>
+                            <!-- Guía para documento -->
+                            <div id="documentGuide" class="absolute inset-0 flex items-center justify-center hidden">
+                                <div class="w-72 h-44 border-2 border-dashed border-white/60 rounded-lg"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Controles -->
+                    <div class="px-6 py-5 bg-gray-50">
+                        <!-- Controles de captura (estado: cámara activa) -->
+                        <div id="captureControls" class="flex items-center justify-center gap-4">
+                            <!-- Cambiar cámara (frontal/trasera) -->
+                            <button onclick="switchCamera()" type="button" id="switchCameraBtn" 
+                                class="w-12 h-12 rounded-full bg-white shadow-md flex items-center justify-center text-gray-600 hover:text-gray-800 hover:shadow-lg transition-all">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                                </svg>
+                            </button>
+
+                            <!-- Botón capturar -->
+                            <button onclick="capturePhoto()" type="button" id="captureBtn"
+                                class="w-16 h-16 rounded-full bg-white border-4 border-gray-300 shadow-lg hover:border-blue-400 hover:shadow-xl transition-all active:scale-95 flex items-center justify-center">
+                                <div class="w-12 h-12 rounded-full bg-red-500 hover:bg-red-600 transition-colors"></div>
+                            </button>
+
+                            <!-- Placeholder para centrar -->
+                            <div class="w-12 h-12"></div>
+                        </div>
+
+                        <!-- Controles de confirmación (estado: foto capturada) -->
+                        <div id="confirmControls" class="hidden flex items-center justify-center gap-4">
+                            <!-- Descartar y volver a tomar -->
+                            <button onclick="retakePhoto()" 
+                                class="flex items-center gap-2 px-5 py-2.5 bg-white border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition-colors">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                                </svg>
+                                Repetir
+                            </button>
+
+                            <!-- Confirmar foto -->
+                            <button onclick="confirmPhoto()" 
+                                class="flex items-center gap-2 px-5 py-2.5 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                </svg>
+                                Usar Foto
+                            </button>
+                        </div>
+
+                        <!-- Tip -->
+                        <p id="cameraTip" class="text-xs text-center text-gray-500 mt-3">
+                            Asegúrate de tener buena iluminación
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECCIÓN 8: VERIFICACIÓN DE IDENTIDAD (actualizada) -->
         <div class="section-card">
             <h2 class="section-title">
                 <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -550,60 +682,50 @@
             </h2>
             
             <div class="grid md:grid-cols-2 gap-6">
+                <!-- Selfie -->
                 <div class="form-group">
-                    <label for="selfie" class="form-label">Selfie de Verificación</label>
+                    <label class="form-label">Selfie de Verificación</label>
                     <div class="mb-3">
-                        @if ($user->selfie)
-                            <div class="image-preview-container">
-                                <img id="selfiePreview" 
-                                    src="{{ route('private.image', ['path' => $user->selfie]) }}" 
-                                    alt="Selfie" 
-                                    class="image-preview">
-                            </div>
-                        @else
-                            <div class="image-preview-container">
-                                <img id="selfiePreview" 
-                                    src="{{ asset('images/placeholder-selfie.png') }}" 
-                                    alt="Selfie" 
-                                    class="image-preview">
-                            </div>
-                        @endif
+                        <div class="image-preview-container">
+                            <img id="selfiePreview" 
+                                src="{{ $user->selfie ? route('private.image', ['path' => $user->selfie]) : asset('images/placeholder-selfie.png') }}" 
+                                alt="Selfie" 
+                                class="image-preview">
+                        </div>
                     </div>
-                    <label for="selfieUpload" class="file-upload-btn">
+                    <!-- Botón que abre la cámara -->
+                    <button type="button" onclick="openCameraModal('selfie')" class="file-upload-btn w-full text-center">
                         <svg class="inline w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/>
                         </svg>
-                        Subir Selfie
-                    </label>
+                        Tomar Selfie
+                    </button>
+                    <!-- Input hidden para enviar al server -->
                     <input type="file" id="selfieUpload" name="selfie" accept="image/*" class="hidden">
-                    <p class="help-text mt-2">Foto tuya sosteniendo tu documento de identidad</p>
+                    {{-- <p class="help-text mt-2">Foto tuya</p> --}}
                 </div>
 
-                <div class="form-group">
-                    <label for="documentPhoto" class="form-label">Foto del Documento</label>
+                <!-- Documento -->
+                <div class="form-group hidden">
+                    <label class="form-label">Foto del Documento</label>
                     <div class="mb-3">
-                        @if ($user->documentPhoto)
-                            <div class="image-preview-container">
-                                <img id="documentPreview" 
-                                    src="{{ route('private.image', ['path' => $user->documentPhoto]) }}" 
-                                    alt="Documento" 
-                                    class="image-preview">
-                            </div>
-                        @else
-                            <div class="image-preview-container">
-                                <img id="documentPreview" 
-                                    src="{{ asset('images/placeholder-document.png') }}" 
-                                    alt="Documento" 
-                                    class="image-preview">
-                            </div>
-                        @endif
+                        <div class="image-preview-container">
+                            <img id="documentPreview" 
+                                src="{{ $user->documentPhoto ? route('private.image', ['path' => $user->documentPhoto]) : asset('images/placeholder-document.png') }}" 
+                                alt="Documento" 
+                                class="image-preview">
+                        </div>
                     </div>
-                    <label for="documentUpload" class="file-upload-btn">
+                    <!-- Botón que abre la cámara -->
+                    <button type="button" onclick="openCameraModal('document')" class="file-upload-btn w-full text-center">
                         <svg class="inline w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/>
                         </svg>
-                        Subir Documento
-                    </label>
+                        Fotografiar Documento
+                    </button>
+                    <!-- Input hidden para enviar al server -->
                     <input type="file" id="documentUpload" name="documentPhoto" accept="image/*" class="hidden">
                     <p class="help-text mt-2">DNI, Pasaporte o identificación oficial clara y legible</p>
                 </div>
@@ -611,13 +733,44 @@
         </div>
 
       
+        <!-- Stripe Connect -->
+        <div class="section-card">
+            <div class="form-group md:col-span-3">
+                <label class="form-label">Cuenta de Cobro (Stripe)</label>
+                @if($user->stripe_connect_status === 'active')
+                    <div class="flex items-center gap-3">
+                        <span class="inline-flex items-center gap-1 px-3 py-1 bg-green-100 text-green-800 text-sm font-medium rounded-full">
+                            ✓ Conectada
+                        </span>
+                        <form method="POST" action="{{ route('stripe.disconnect') }}">
+                            @csrf
+                            <button type="submit" class="text-sm text-red-600 hover:underline">Desconectar</button>
+                        </form>
+                    </div>
+                @else
+                    <a href="{{ route('stripe.connect') }}" 
+                    class="inline-flex items-center gap-2 px-5 py-2.5 bg-[#635BFF] hover:bg-[#5349e0] text-white font-semibold rounded-lg transition-all">
+                        Conectar Stripe
+                    </a>
+                    <p class="help-text mt-1">Necesitás conectar tu cuenta para recibir pagos de sesiones.</p>
+                @endif
+            </div>
+        </div>
 
         <!-- Action Buttons -->
         <div class="flex flex-col sm:flex-row gap-4 sticky bottom-0 bg-white p-6 rounded-lg shadow-lg border-t-4 border-[#2d5a4a]">
             <a href="{{ route('profile.show', $user->id) }}" 
-               class="btn-secondary text-center flex-1">
+            class="btn-secondary text-center flex-1">
                 Cancelar
             </a>
+            <button type="button" onclick="openProfilePreview()" 
+                    class="flex-1 px-4 py-2 bg-[#1a0a3e] hover:bg-[#1a0a3ee8] text-white font-semibold rounded-lg transition-all text-center">
+                <svg class="inline w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                </svg>
+                Visualizar Perfil
+            </button>
             <button type="submit" class="btn-primary-edit flex-1">
                 <svg class="inline w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
@@ -625,70 +778,727 @@
                 Guardar Cambios
             </button>
         </div>
+ 
+ 
+{{-- ============================================================
+   MODAL VISUALIZAR PERFIL - Colocar antes del cierre de </main>
+   ============================================================ --}}
+ 
+<!-- Modal Preview Perfil -->
+<div id="profilePreviewModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">
+    <!-- Overlay -->
+    <div class="fixed inset-0 bg-black/60 backdrop-blur-sm" onclick="closeProfilePreview()"></div>
+    
+    <!-- Modal Content -->
+    <div class="relative z-10 bg-gray-50 rounded-2xl shadow-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto">
+        <!-- Header del modal -->
+        <div class="sticky top-0 bg-white flex items-center justify-between px-6 py-4 border-b border-gray-200 rounded-t-2xl z-10">
+            <div>
+                <h3 class="text-lg font-semibold text-gray-800">Vista previa del perfil</h3>
+                <p class="text-xs text-gray-500">Así verán tu perfil los demás usuarios</p>
+            </div>
+            <button onclick="closeProfilePreview()" type="button" class="text-gray-400 hover:text-gray-600 transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </button>
+        </div>
+        @php
+            // dd("hola");
+        @endphp
+ 
+        <!-- Card Preview -->
+        <div class="p-6">
+            <div class="bg-white rounded-xl shadow-sm p-6 border-l-8 border-blue-500 flex flex-col lg:flex-row gap-6 items-start">
+                <!-- Columna izquierda -->
+                <div class="flex-1">
+                    <!-- Avatar + Nombre -->
+                    <div class="flex items-start gap-4 mb-4">
+                        <img id="previewAvatar" 
+                             src="{{ $user->avatar ? asset('storage/avatars/'.$user->avatar) : asset('images/default-avatar.png') }}" 
+                             alt="Avatar"
+                             class="w-14 h-14 rounded-full object-cover flex-shrink-0 border-2 border-gray-100">
+                        <div class="flex-1">
+                            <div class="flex items-center gap-2 mb-1">
+                                <h3 id="previewName" class="font-semibold text-md text-gray-900">
+                                    {{ $user->name }}
+                                </h3>
+                                {{-- Badge de rango (estático, basado en datos actuales) --}}
+                                @php
+                                    $sessionCount = $user->sessions_as_mentor_count ?? 0;
+                                    $rangos = [
+                                        'GOD'      => ['min' => 50, 'color' => '#e11d48', 'bg' => '#fff1f2', 'icon' => '🔥'],
+                                        'HERO'     => ['min' => 30, 'color' => '#7c3aed', 'bg' => '#f5f3ff', 'icon' => '⚡'],
+                                        'PLATINUM' => ['min' => 20, 'color' => '#0ea5e9', 'bg' => '#f0f9ff', 'icon' => '💎'],
+                                        'GOLD'     => ['min' => 10, 'color' => '#d97706', 'bg' => '#fffbeb', 'icon' => '🏆'],
+                                        'SILVER'   => ['min' => 5,  'color' => '#6b7280', 'bg' => '#f9fafb', 'icon' => '🥈'],
+                                        'BRONZE'   => ['min' => 0,  'color' => '#b45309', 'bg' => '#fef3c7', 'icon' => '🥉'],
+                                    ];
+                                    $mentorRango = null;
+                                    foreach ($rangos as $nombre => $config) {
+                                        if ($sessionCount >= $config['min']) {
+                                            $mentorRango = ['nombre' => $nombre, ...$config];
+                                            break;
+                                        }
+                                    }
+                                @endphp
+                                @if ($mentorRango)
+                                    <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold"
+                                          style="background-color: {{ $mentorRango['bg'] }}; color: {{ $mentorRango['color'] }}; border: 1px solid {{ $mentorRango['color'] }}20;">
+                                        <span>{{ $mentorRango['icon'] }}</span>
+                                        <span>{{ $mentorRango['nombre'] }}</span>
+                                    </span>
+                                @endif
+                            </div>
+                            <p id="previewEducation" class="text-xs text-gray-600 mb-1"></p>
+                            <div class="flex items-center gap-1 text-xs text-gray-500">
+                                <span id="previewLanguages"></span>
+                            </div>
+                        </div>
+                    </div>
+ 
+                    <!-- Bio -->
+                    <div class="mb-4">
+                        <p id="previewBio" class="text-gray-700 text-xs leading-relaxed"></p>
+                    </div>
+ 
+                    <!-- Modalidad -->
+                    <div class="mb-4">
+                        <p class="text-xs text-gray-500 mb-2">Modalidad de atención</p>
+                        <div class="flex items-center gap-2 text-xs text-gray-700">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                            </svg>
+                            <span>Online</span>
+                        </div>
+                    </div>
+ 
+                    <!-- Skills -->
+                    <div class="mb-2">
+                        <p class="text-xs text-gray-500 mb-2">Especialidades:</p>
+                        <div id="previewSkills" class="flex flex-wrap gap-1"></div>
+                    </div>
+                </div>
+ 
+                <!-- Columna derecha -->
+                <div class="min-w-[200px]">
+                    <button type="button" disabled
+                            class="w-full py-3 border border-[#1a0a3e] text-[#1a0a3e] bg-transparent rounded-lg font-medium text-base opacity-70 cursor-default">
+                        Conóceme
+                    </button>
+ 
+                    <p class="text-xs text-gray-500 mt-6">Valor hora</p>
+                    <p id="previewRate" class="text-2xl font-semibold text-[#1a0a3e] mb-4 text-left"></p>
+ 
+                    <!-- Estrellas (datos actuales) -->
+                    @php
+                        $rating = $user->reviewsReceived->avg('rating') ?? 0; 
+                        $totalReviews = $user->reviewsReceived->count();
+                        $fullStars = floor($rating);
+                        $maxStars = 5;
+                    @endphp
+                    @if ($totalReviews > 0)
+                        <div class="bg-white">
+                            <div class="flex flex-col items-start">
+                                <div class="flex items-start gap-1 mb-2">
+                                    @for ($i = 1; $i <= $maxStars; $i++)
+                                        <svg class="w-4 h-4 {{ $i <= $fullStars ? 'text-yellow-400' : 'text-gray-300' }}"
+                                             fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.953a1 1 0 00.95.69h4.163c.969 0 1.371 1.24.588 1.81l-3.357 2.44a1 1 0 00-.364 1.118l1.287 3.953c.3.921-.755 1.688-1.54 1.118l-3.357-2.44a1 1 0 00-1.175 0l-3.357 2.44c-.784.57-1.838-.197-1.54-1.118l1.287-3.953a1 1 0 00-.364-1.118L2.316 9.38c-.784-.57-.38-1.81.588-1.81h4.163a1 1 0 00.95-.69l1.286-3.953z"/>
+                                        </svg>
+                                    @endfor
+                                </div>
+                                <p class="text-md font-bold text-gray-800">{{ number_format($rating, 1) }} / 5.0</p>
+                                <p class="text-xs text-gray-500 mt-1">Basado en {{ $totalReviews }} {{ Str::plural('reseña', $totalReviews) }}</p>
+                            </div>
+                        </div>
+                    @endif
+                </div>
+            </div>
+ 
+            <!-- Nota informativa -->
+            <div class="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                <p class="text-xs text-blue-700 flex items-center gap-2">
+                    <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    Esta vista previa refleja los datos actuales del formulario. Guardá los cambios para que se actualice tu perfil público.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+ 
+ 
+{{-- ============================================================
+   SCRIPT - Agregar dentro del bloque <script> existente
+   ============================================================ --}}
+ 
+<script>
+function openProfilePreview() {
+    // Leer valores actuales del formulario
+    const getValue = (id) => document.getElementById(id)?.value?.trim() || '';
+ 
+    // Avatar: usar el preview actual (puede haber cambiado)
+    const avatarSrc = document.getElementById('avatarPreview')?.src;
+    if (avatarSrc) {
+        document.getElementById('previewAvatar').src = avatarSrc;
+    }
+ 
+    // Nombre
+    document.getElementById('previewName').textContent = getValue('name') || 'Sin nombre';
+ 
+    // Educación
+    const education = getValue('education');
+    document.getElementById('previewEducation').textContent = education || '';
+ 
+    // Idiomas
+    document.getElementById('previewLanguages').textContent = getValue('languages') || '';
+ 
+    // Bio (truncada a 210 chars como en la card original)
+    const bio = getValue('bio');
+    const truncatedBio = bio.length > 210 ? bio.substring(0, 210) + '...' : bio;
+    document.getElementById('previewBio').textContent = truncatedBio || 'Sin biografía aún.';
+ 
+    // Skills
+    const skillsContainer = document.getElementById('previewSkills');
+    skillsContainer.innerHTML = '';
+    const skillsText = getValue('skills');
+    if (skillsText) {
+        skillsText.split(',').forEach(skill => {
+            const trimmed = skill.trim();
+            if (trimmed) {
+                const tag = document.createElement('span');
+                tag.className = 'px-2 py-1 bg-[#f5f0e8] text-[#1a0a3e] text-xs rounded-full';
+                tag.textContent = trimmed;
+                skillsContainer.appendChild(tag);
+            }
+        });
+    } else {
+        skillsContainer.innerHTML = '<span class="text-xs text-gray-400 italic">Sin especialidades</span>';
+    }
+ 
+    // Tarifa
+    const rate = getValue('hourly_rate');
+    const currency = getValue('currency') || 'USD';
+    if (rate && parseFloat(rate) > 0) {
+        document.getElementById('previewRate').textContent = `${currency} ${parseFloat(rate).toFixed(2)}/h`;
+    } else {
+        document.getElementById('previewRate').textContent = 'Sin tarifa definida';
+    }
+ 
+    // Mostrar modal
+    document.getElementById('profilePreviewModal').classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+}
+ 
+function closeProfilePreview() {
+    document.getElementById('profilePreviewModal').classList.add('hidden');
+    document.body.style.overflow = '';
+}
+ 
+// Cerrar con Escape
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && !document.getElementById('profilePreviewModal').classList.contains('hidden')) {
+        closeProfilePreview();
+    }
+});
+</script>
+ 
     </form>
-        <!-- SECCIÓN 9: HORARIOS DISPONIBLES -->
-        {{-- @include('backend.availability.availability') --}}
+
+    <!-- SECCIÓN: ELIMINAR CUENTA -->
+    <div class="section-card mt-8" style="border: 1px solid #fca5a5;">
+        <h2 class="section-title" style="color: #dc2626; border-bottom-color: #fecaca;">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            Zona de Peligro
+        </h2>
+        <p class="text-sm text-gray-600 mb-4">
+            Una vez que elimines tu cuenta, todos tus datos, sesiones e información serán eliminados permanentemente. Esta acción no se puede deshacer.
+        </p>
+        <button type="button" onclick="document.getElementById('deleteModal').classList.remove('hidden')"
+                class="px-6 py-2 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg transition-all">
+            Eliminar mi cuenta
+        </button>
+    </div>
+
+    <!-- Modal de confirmación -->
+    <div id="deleteModal" class="hidden fixed inset-0 z-50  flex items-center justify-center bg-black bg-opacity-50">
+        <div class="bg-white rounded-xl p-8 max-w-md w-full mx-4 shadow-2xl">
+            <h3 class="text-xl font-bold text-gray-900 mb-2">¿Estás seguro?</h3>
+            <p class="text-sm text-gray-600 mb-6">Ingresa tu contraseña para confirmar la eliminación permanente de tu cuenta.</p>
+            
+            <form method="POST" action="{{ route('profile.destroy') }}">
+                @csrf
+                @method('DELETE')
+                <div class="form-group mb-4">
+                    <label for="delete_password" class="form-label required">Contraseña</label>
+                    <input type="password" id="delete_password" name="password" class="form-input" required>
+                </div>
+                <div class="flex gap-3">
+                    <button type="button" onclick="document.getElementById('deleteModal').classList.add('hidden')"
+                            class="btn-secondary flex-1">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="flex-1 px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg transition-all">
+                        Sí, eliminar cuenta
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
 </main>
 @include('livewire.components.gemini')
+
+
 <script>
-// Preview de Avatar
-document.getElementById('avatarUpload').addEventListener('change', function(e) {
-    const file = e.target.files[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = function(event) {
-            document.getElementById('avatarPreview').src = event.target.result;
-        }
-        reader.readAsDataURL(file);
-    }
-});
+// ============================================================
+// CAMERA MODAL - Captura directa sin galería
+// ============================================================
 
-// Preview de Selfie
-document.getElementById('selfieUpload')?.addEventListener('change', function(e) {
-    const file = e.target.files[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = function(event) {
-            document.getElementById('selfiePreview').src = event.target.result;
-        }
-        reader.readAsDataURL(file);
-    }
-});
+const CameraModal = {
+    stream: null,
+    currentTarget: null,       // 'selfie' | 'document'
+    currentFacingMode: 'user', // 'user' (frontal) | 'environment' (trasera)
+    capturedBlob: null,
 
-// Preview de Documento
-document.getElementById('documentUpload')?.addEventListener('change', function(e) {
-    const file = e.target.files[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = function(event) {
-            document.getElementById('documentPreview').src = event.target.result;
-        }
-        reader.readAsDataURL(file);
-    }
-});
+    // Elementos del DOM
+    el: {
+        modal:           () => document.getElementById('cameraModal'),
+        video:           () => document.getElementById('cameraStream'),
+        canvas:          () => document.getElementById('cameraCanvas'),
+        capturedPreview: () => document.getElementById('capturedPreview'),
+        loading:         () => document.getElementById('cameraLoading'),
+        error:           () => document.getElementById('cameraError'),
+        errorMsg:        () => document.getElementById('cameraErrorMsg'),
+        captureControls: () => document.getElementById('captureControls'),
+        confirmControls: () => document.getElementById('confirmControls'),
+        modalTitle:      () => document.getElementById('cameraModalTitle'),
+        cameraTip:       () => document.getElementById('cameraTip'),
+        cameraGuide:     () => document.getElementById('cameraGuide'),
+        selfieGuide:     () => document.getElementById('selfieGuide'),
+        documentGuide:   () => document.getElementById('documentGuide'),
+    },
 
-// Auto-save en localStorage (opcional)
-const formInputs = document.querySelectorAll('.form-input, .form-textarea');
-formInputs.forEach(input => {
-    // Cargar datos guardados
-    const savedValue = localStorage.getItem(`profile_${input.name}`);
-    if (savedValue && !input.value) {
-        input.value = savedValue;
+    // ---- Abrir modal ----
+    async open(target) {
+        this.currentTarget = target;
+        this.capturedBlob = null;
+
+        // Configurar UI según tipo
+        if (target === 'selfie') {
+            this.currentFacingMode = 'user';
+            this.el.modalTitle().textContent = 'Tomar Selfie';
+            this.el.cameraTip().textContent = 'Sostén tu documento de identidad junto a tu rostro';
+        } else {
+            this.currentFacingMode = 'environment';
+            this.el.modalTitle().textContent = 'Fotografiar Documento';
+            this.el.cameraTip().textContent = 'Coloca el documento sobre una superficie plana con buena luz';
+        }
+
+        // Mostrar modal
+        this.el.modal().classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+
+        // Reset UI
+        this.showState('loading');
+        
+        // Iniciar cámara
+        await this.startCamera();
+    },
+
+    // ---- Cerrar modal ----
+    close() {
+        this.stopCamera();
+        this.el.modal().classList.add('hidden');
+        document.body.style.overflow = '';
+        this.capturedBlob = null;
+    },
+
+    // ---- Iniciar stream de cámara ----
+    async startCamera() {
+        this.stopCamera();
+
+        const constraints = {
+            video: {
+                facingMode: { ideal: this.currentFacingMode },
+                width:  { ideal: 1280 },
+                height: { ideal: 960 },
+            },
+            audio: false,
+        };
+
+        try {
+            this.stream = await navigator.mediaDevices.getUserMedia(constraints);
+            const video = this.el.video();
+            video.srcObject = this.stream;
+            
+            video.onloadedmetadata = () => {
+                video.play();
+                this.showState('streaming');
+                this.showGuide();
+            };
+        } catch (err) {
+            console.error('Error al acceder a la cámara:', err);
+            let msg = 'No se pudo acceder a la cámara.';
+            if (err.name === 'NotAllowedError') {
+                msg = 'Permiso de cámara denegado. Habilítalo en la configuración de tu navegador.';
+            } else if (err.name === 'NotFoundError') {
+                msg = 'No se encontró ninguna cámara en este dispositivo.';
+            } else if (err.name === 'NotReadableError') {
+                msg = 'La cámara está siendo usada por otra aplicación.';
+            }
+            this.el.errorMsg().textContent = msg;
+            this.showState('error');
+        }
+    },
+
+    // ---- Detener cámara ----
+    stopCamera() {
+        if (this.stream) {
+            this.stream.getTracks().forEach(track => track.stop());
+            this.stream = null;
+        }
+        const video = this.el.video();
+        if (video) video.srcObject = null;
+    },
+
+    // ---- Cambiar cámara frontal/trasera ----
+    async switchCamera() {
+        this.currentFacingMode = this.currentFacingMode === 'user' ? 'environment' : 'user';
+        this.showState('loading');
+        await this.startCamera();
+    },
+
+    // ---- Capturar foto ----
+    capture() {
+        const video  = this.el.video();
+        const canvas = this.el.canvas();
+        
+        canvas.width  = video.videoWidth;
+        canvas.height = video.videoHeight;
+
+        const ctx = canvas.getContext('2d');
+
+        // Si es cámara frontal, espejar la imagen
+        if (this.currentFacingMode === 'user') {
+            ctx.translate(canvas.width, 0);
+            ctx.scale(-1, 1);
+        }
+
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+        // Convertir a blob
+        canvas.toBlob((blob) => {
+            this.capturedBlob = blob;
+            this.el.capturedPreview().src = URL.createObjectURL(blob);
+            this.showState('captured');
+        }, 'image/jpeg', 0.92);
+    },
+
+    // ---- Volver a tomar ----
+    retake() {
+        this.capturedBlob = null;
+        this.showState('streaming');
+        this.showGuide();
+    },
+
+    // ---- Confirmar y asignar al input ----
+    confirm() {
+        if (!this.capturedBlob) return;
+
+        const fileName = this.currentTarget === 'selfie' 
+            ? 'selfie_capture.jpg' 
+            : 'document_capture.jpg';
+
+        // Crear File desde Blob
+        const file = new File([this.capturedBlob], fileName, { type: 'image/jpeg' });
+
+        // Crear DataTransfer para asignar al input file
+        const dataTransfer = new DataTransfer();
+        dataTransfer.items.add(file);
+
+        if (this.currentTarget === 'selfie') {
+            document.getElementById('selfieUpload').files = dataTransfer.files;
+            document.getElementById('selfiePreview').src = URL.createObjectURL(this.capturedBlob);
+        } else {
+            document.getElementById('documentUpload').files = dataTransfer.files;
+            document.getElementById('documentPreview').src = URL.createObjectURL(this.capturedBlob);
+        }
+
+        this.close();
+    },
+
+    // ---- Mostrar guía visual ----
+    showGuide() {
+        const guide = this.el.cameraGuide();
+        guide.classList.remove('hidden');
+        this.el.selfieGuide().classList.toggle('hidden', this.currentTarget !== 'selfie');
+        this.el.documentGuide().classList.toggle('hidden', this.currentTarget !== 'document');
+    },
+
+    hideGuide() {
+        this.el.cameraGuide().classList.add('hidden');
+    },
+
+    // ---- Controlar estados de UI ----
+    showState(state) {
+        const { video, capturedPreview, loading, error, captureControls, confirmControls } = this.el;
+
+        // Ocultar todo primero
+        video().style.display         = 'none';
+        capturedPreview().classList.add('hidden');
+        loading().classList.add('hidden');
+        error().classList.add('hidden');
+        captureControls().classList.add('hidden');
+        confirmControls().classList.add('hidden');
+        this.hideGuide();
+
+        switch (state) {
+            case 'loading':
+                loading().classList.remove('hidden');
+                break;
+
+            case 'streaming':
+                video().style.display = 'block';
+                captureControls().classList.remove('hidden');
+                break;
+
+            case 'captured':
+                capturedPreview().classList.remove('hidden');
+                confirmControls().classList.remove('hidden');
+                break;
+
+            case 'error':
+                error().classList.remove('hidden');
+                break;
+        }
+    },
+};
+
+    // ---- Funciones globales (llamadas desde onclick) ----
+    function openCameraModal(target) {
+        CameraModal.open(target);
     }
-    
-    // Guardar mientras se escribe
-    input.addEventListener('input', function() {
-        localStorage.setItem(`profile_${input.name}`, this.value);
+
+    function closeCameraModal() {
+        CameraModal.close();
+    }
+
+    function switchCamera() {
+        CameraModal.switchCamera();
+    }
+
+    function capturePhoto() {
+        CameraModal.capture();
+    }
+
+    function retakePhoto() {
+        CameraModal.retake();
+    }
+
+    function confirmPhoto() {
+        CameraModal.confirm();
+    }
+
+    function retryCameraAccess() {
+        CameraModal.startCamera();
+    }
+
+
+    // ============================================================
+    // PREVIEWS & LOCALSTORAGE (código original mejorado)
+    // ============================================================
+
+    // Preview de Avatar
+    document.getElementById('avatarUpload')?.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (event) => document.getElementById('avatarPreview').src = event.target.result;
+            reader.readAsDataURL(file);
+        }
     });
-});
 
-// Limpiar localStorage al enviar
-document.querySelector('form').addEventListener('submit', function() {
+    // Auto-save en localStorage
+    const formInputs = document.querySelectorAll('.form-input, .form-textarea');
     formInputs.forEach(input => {
-        localStorage.removeItem(`profile_${input.name}`);
+        const savedValue = localStorage.getItem(`profile_${input.name}`);
+        if (savedValue && !input.value) input.value = savedValue;
+        input.addEventListener('input', function() {
+            localStorage.setItem(`profile_${input.name}`, this.value);
+        });
     });
-});
+
+    document.querySelector('form')?.addEventListener('submit', function() {
+        formInputs.forEach(input => localStorage.removeItem(`profile_${input.name}`));
+    });
 
 
+</script>
+
+<script type="module">
+    import { GoogleGenerativeAI } from "https://esm.run/@google/generative-ai";
+
+    const API_KEY = "{{ env('GEMINI_API_KEY') }}";
+    const genAI = new GoogleGenerativeAI(API_KEY);
+
+    // --- Subir CV y procesar ---
+    const cvInput = document.getElementById('cvUpload');
+    const cvProcessing = document.getElementById('cvProcessing');
+    const cvProcessingText = document.getElementById('cvProcessingText');
+    const cvFileName = document.getElementById('cvFileName');
+
+    cvInput.addEventListener('change', async function () {
+        const file = this.files[0];
+        if (!file) return;
+
+        cvFileName.textContent = file.name;
+        cvProcessing.classList.remove('hidden');
+        cvProcessingText.textContent = 'Extrayendo texto del CV...';
+
+        try {
+            // 1) Enviar el PDF al backend para extraer texto
+            const formData = new FormData();
+            formData.append('cvFile', file);
+
+            const response = await fetch("{{ route('cv.extract') }}", {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: formData
+            });
+
+            if (!response.ok) throw new Error('Error al subir el CV');
+
+            const data = await response.json();
+
+            // 2) Enviar el texto extraído a Gemini para analizar
+            cvProcessingText.textContent = 'Analizando CV con IA...';
+            await procesarCvYActualizar(data.text);
+
+            cvProcessing.classList.add('hidden');
+            mostrarNotificacion('success', '¡CV procesado! Revisá los campos actualizados.');
+
+        } catch (error) {
+            console.error('Error procesando CV:', error);
+            cvProcessing.classList.add('hidden');
+            mostrarNotificacion('error', 'Error al procesar el CV. Intentá de nuevo.');
+        }
+
+        // Resetear input para permitir subir el mismo archivo otra vez
+        this.value = '';
+    });
+
+    // Función que llama a Gemini y actualiza los campos del formulario (MENTOR)
+    async function procesarCvYActualizar(text) {
+        const model = genAI.getGenerativeModel({ model: "gemini-flash-lite-latest" });
+
+        const prompt = `Analiza el siguiente CV y devuelve EXCLUSIVAMENTE un JSON válido. No incluyas explicaciones, texto adicional ni markdown. No uses \`\`\`json. Si un dato no está presente, usa null. No inventes información. Las claves deben llamarse EXACTAMENTE así:
+    {"nombre_completo": string|null,"birthDate": "YYYY-MM-DD"|null,"country": string|null,"city": string|null,"profession": string|null,"workingNow": "1"|"0"|null,"currentPosition": string|null,"lastPosition": string|null,"yearsExperience": number|null,"companies": string|null,"sectors": string|null,"education": string|null,"languages": string|null,"skills": string|null,"bio": string|null,"seniority": "Jefe"|"Gerente"|"Director"|"CEO"|"Emprendedor"|null,"linkedin_url": string|null,"website": string|null}
+    REGLAS IMPORTANTES:
+    - workingNow = "1" si tiene un puesto actual o dice "Presente"/"Actualidad", "0" si no.
+    - currentPosition = el cargo actual si existe.
+    - lastPosition = el cargo anterior inmediato.
+    - profession = título profesional o especialización principal.
+    - yearsExperience = estimar según fechas laborales (solo número).
+    - companies = lista separada por comas.
+    - sectors = inferir sectores profesionales principales, separados por comas.
+    - education = resumir títulos y certificaciones en una sola frase.
+    - languages = lista separada por comas con nivel si aparece.
+    - skills = solo hard skills técnicas separadas por comas (máx 200 caracteres).
+    - bio = resumen profesional corto (máx 3 líneas, primera persona, tono profesional pero cercano, enfocado en lo que puede aportar como mentor).
+    - seniority = inferir según los cargos: solo usar "Jefe", "Gerente", "Director", "CEO" o "Emprendedor".
+    - linkedin_url y website: extraer si aparecen en el CV.
+    CV: ${text}`;
+
+        const result = await model.generateContent(prompt);
+        const responseText = result.response.text().trim();
+
+        let cvData;
+        try {
+            cvData = JSON.parse(responseText);
+        } catch (e) {
+            const clean = responseText.replace(/```json|```/g, '').trim();
+            cvData = JSON.parse(clean);
+        }
+
+        // Mapeo: clave JSON → id del campo en el formulario
+        const camposTexto = {
+            'name':                cvData.nombre_completo,
+            'birth_date':          cvData.birthDate,
+            'country':             cvData.country,
+            'city':                cvData.city,
+            'profession':          cvData.profession,
+            'currentPosition':     cvData.currentPosition,
+            'lastPosition':        cvData.lastPosition,
+            'years_of_experience': cvData.yearsExperience,
+            'companies':           cvData.companies,
+            'sectors':             cvData.sectors,
+            'education':           cvData.education,
+            'languages':           cvData.languages,
+            'skills':              cvData.skills,
+            'linkedin_url':        cvData.linkedin_url,
+            'website':             cvData.website,
+        };
+
+        // Campos select (se manejan distinto)
+        const camposSelect = {
+            'seniority':  cvData.seniority,
+            'workingNow': cvData.workingNow,
+        };
+
+        // Rellenar campos de texto/textarea (solo si están vacíos, excepto bio)
+        for (const [fieldId, valor] of Object.entries(camposTexto)) {
+            if (!valor && valor !== 0) continue;
+            const el = document.getElementById(fieldId);
+            if (!el) continue;
+
+            if (!el.value.trim()) {
+                el.value = valor;
+            }
+        }
+
+        // Rellenar selects (solo si no tienen valor seleccionado)
+        for (const [fieldId, valor] of Object.entries(camposSelect)) {
+            if (!valor) continue;
+            const el = document.getElementById(fieldId);
+            if (!el) continue;
+
+            // Buscar si existe la opción
+            const optionExists = Array.from(el.options).some(opt => opt.value === String(valor));
+            if (optionExists) {
+                el.value = String(valor);
+                // Disparar change para que funcione toggleWorkFields()
+                el.dispatchEvent(new Event('change'));
+            }
+        }
+
+        // Bio con efecto de escritura (siempre se sobrescribe)
+        if (cvData.bio) {
+            const bioEl = document.getElementById('bio');
+            if (bioEl) {
+                bioEl.classList.add('typing');
+                bioEl.value = '';
+                let i = 0;
+                await new Promise(resolve => {
+                    const intervalo = setInterval(() => {
+                        if (i < cvData.bio.length) {
+                            bioEl.value += cvData.bio.charAt(i);
+                            bioEl.scrollTop = bioEl.scrollHeight;
+                            i++;
+                        } else {
+                            clearInterval(intervalo);
+                            bioEl.classList.remove('typing');
+                            resolve();
+                        }
+                    }, 15);
+                });
+            }
+        }
+    }
 </script>
 @endsection

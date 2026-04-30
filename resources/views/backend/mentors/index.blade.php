@@ -116,31 +116,26 @@
     
     
 
-    <div class=" justify-center flex flex-col lg:flex-row gap-8">
+    <div class=" justify-center flex flex-col lg:flex-row gap-4">
         @include('backend.mentors.components.filters-sidebar')
-        <div class="flex flex-col gap-4">
+        <div class="flex flex-col gap-2">
             <!-- Header Section -->
-            <div class="bg-white rounded-2xl shadow-sm p-4 mb-2">
-                <div class="flex items-center gap-3 mb-4">
-                    <h1 class="text-3xl font-bold text-[#1a0a3e]">Pipol</h1>
-                    <svg class="w-6 h-6 text-[#d4af6a]" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                    </svg>
-                </div>
-                <p class="text-gray-600 mb-6">Diseñado para quienes están en la búsqueda de un profesional adecuado a tus necesidades.</p>
+            <div class="bg-white rounded-2xl shadow-sm px-4 py-2 mb-1">
+                
+                <p class="text-gray-950 mb-4 text-sm">Escribí tu problema. Nosotros te conectamos con quienes saben resolverlo</p>
                 @livewire('buscador')
             </div>
 
             <div class="flex items-center justify-center gap-4 mb-2">
                 <div class="h-px bg-white flex-1"></div>
-                <p class="text-white">Conecta de manera fácil, segura y privada con un mentor en línea.</p>
+                <p class="text-white text-xs">Conecta de manera fácil, segura y privada con un mentor en línea.</p>
                 <div class="h-px bg-white flex-1"></div>
             </div>
 
             @if ($mentors->count())
                 <!-- Results Count -->
                 <div class="flex justify-between items-center">
-                    <p class="text-white ">{{ $mentors->count() }} resultados encontrados</p>
+                    <p class="text-white text-xs">{{ $mentors->count() }} resultados encontrados</p>
                 </div>
             @endif
             @if ($mentors->count())
@@ -156,16 +151,19 @@
                             const mentor = JSON.parse(this.dataset.mentor);
                             const avatar = this.dataset.avatar;
                             const price = this.dataset.price;
-                            const availabilities = JSON.parse(this.dataset.availabilities || '[]'); // 👈 Nuevo
+                            const availabilities = JSON.parse(this.dataset.availabilities || '[]');
+                            const confirmedSessions = JSON.parse(this.dataset.confirmedSessions || '[]');
+                            const linkedin_url = this.dataset.linkedinUrl;
+                            const rango = JSON.parse(this.dataset.rango || 'null');
+                            const reviews = JSON.parse(this.dataset.reviews || '[]');
                             
-                            // 👇 Pasar availabilities como cuarto parámetro
-                            openPerfilModal(mentor, avatar, price, availabilities);
+                            openPerfilModal(mentor, avatar, price, availabilities, confirmedSessions, linkedin_url, rango, reviews);
                         });
                     });
                 </script>
             @else
             <div class="flex justify-between items-baseline">
-                <p class="text-gray-600 text-white">No se encontraron profesionales que coincidan con tu búsqueda.</p>
+                <p class="text-gray-600 text-white text-sm">No se encontraron profesionales que coincidan con tu búsqueda.</p>
 
                 @if (request('q'))
                     <a href="{{ route('mentors.index') }}" class="px-6 py-2 bg-[#1a0a3e] text-white rounded-lg hover:bg-[#1a0a3ee8] transition-colors">Limpiar filtros</a>
@@ -233,11 +231,11 @@
             
             return slots;
         }
-        
+        let mentorConfirmedSessions = [];
+
         function getAvailableSlotsForDate(date) {
-            const dayOfWeek = date.getDay(); // 0 = Domingo, 1 = Lunes, ..., 6 = Sábado
+            const dayOfWeek = date.getDay();
             
-            // 👇 Mapeo de strings en inglés a números
             const dayMap = {
                 'sunday': 0,
                 'monday': 1,
@@ -251,22 +249,17 @@
             const allSlots = [];
             
             mentorAvailabilities.forEach((availability, index) => {
-                
-                // Verificar si la disponibilidad está activa
-                if (availability.active != 1) { // 👈 Usar != para comparar 1 o true
+                if (availability.active != 1) {
                     return;
                 }
                 
-                // 👇 Convertir day_of_week string a número
                 const availabilityDayString = availability.day_of_week.toLowerCase();
                 const availabilityDay = dayMap[availabilityDayString];
-                
                 
                 if (availabilityDay !== dayOfWeek) {
                     return;
                 }
                 
-                // Verificar rango de fechas si existen
                 if (availability.start_date) {
                     const startDate = new Date(availability.start_date);
                     if (date < startDate) {
@@ -281,18 +274,44 @@
                     }
                 }
                 
-                // Generar slots para este horario
                 const slots = generateTimeSlots(availability.start_time, availability.end_time);
                 allSlots.push(...slots);
             });
             
-            // Eliminar duplicados y ordenar
-            return [...new Set(allSlots)].sort();
+            const uniqueSlots = [...new Set(allSlots)].sort();
+
+            return uniqueSlots.filter(slot => {
+                const [slotHour, slotMinute] = slot.split(':').map(Number);
+
+                return !mentorConfirmedSessions.some(session => {
+                    const sessionDate = new Date(session.scheduled_at);
+
+                    const sessionYear = sessionDate.getUTCFullYear();
+                    const sessionMonth = sessionDate.getUTCMonth();
+                    const sessionDay = sessionDate.getUTCDate();
+
+                    if (sessionYear !== date.getFullYear() ||
+                        sessionMonth !== date.getMonth() ||
+                        sessionDay !== date.getDate()) {
+                        return false;
+                    }
+
+                    const sessionStartMin = sessionDate.getUTCHours() * 60 + sessionDate.getUTCMinutes();
+                    const sessionEndMin = sessionStartMin + (session.duration_minutes || 60);
+
+                    const slotStartMin = slotHour * 60 + slotMinute;
+                    const slotEndMin = slotStartMin + 60;
+
+                    return slotStartMin < sessionEndMin && slotEndMin > sessionStartMin;
+                });
+            });
         }
         
-        function openModal(mentor_id, name, specialty, price, image, mentee_id, hourly_rate, currency, availabilities) {
+        function openModal(mentor_id, name, specialty, price, image, mentee_id, hourly_rate, currency, availabilities, confirmedSessions) {
             currentProfessional = { mentor_id, name, specialty, price, image, mentee_id, hourly_rate, currency };
-            mentorAvailabilities = availabilities || [];        
+            mentorAvailabilities = availabilities || [];     
+            mentorConfirmedSessions = confirmedSessions || [];   
+            
             const modalProfessionalName = document.getElementById('modalProfessionalName');
             const modalProfessionalSpecialty = document.getElementById('modalProfessionalSpecialty');
             const modalProfessionalImage = document.getElementById('modalProfessionalImage');
@@ -330,19 +349,16 @@
             const calendarDays = document.getElementById('calendarDays');
             calendarDays.innerHTML = '';
             
-            // Empty cells for days before month starts
             for (let i = 0; i < firstDay; i++) {
                 const emptyDay = document.createElement('div');
                 calendarDays.appendChild(emptyDay);
             }
             
-            // Days of the month
             for (let day = 1; day <= daysInMonth; day++) {
                 const dayDate = new Date(year, month, day);
                 dayDate.setHours(0, 0, 0, 0);
                 const isPast = dayDate < today;
                 
-                // 👇 Verificar si el mentor tiene disponibilidad este día
                 const hasAvailability = getAvailableSlotsForDate(dayDate).length > 0;
                 
                 const dayElement = document.createElement('div');
@@ -363,15 +379,12 @@
             selectedDate = new Date(year, month, day);
             selectedTime = null;
             
-            // Update calendar UI
             const days = document.querySelectorAll('.calendar-day');
             days.forEach(d => d.classList.remove('selected'));
             event.target.classList.add('selected');
             
-            // Render time slots
             renderTimeSlots();
             
-            // Hide appointment summary
             document.getElementById('selectedAppointment').classList.add('hidden');
             document.getElementById('confirmButton').disabled = true;
         }
@@ -380,7 +393,6 @@
             const timeSlotsContainer = document.getElementById('timeSlots');
             timeSlotsContainer.innerHTML = '';
             
-            // 👇 Obtener slots disponibles para la fecha seleccionada
             const availableTimeSlots = getAvailableSlotsForDate(selectedDate);
             
             if (availableTimeSlots.length === 0) {
@@ -400,12 +412,10 @@
         function selectTime(time, element) {
             selectedTime = time;
             
-            // Update time slots UI
             const slots = document.querySelectorAll('.time-slot');
             slots.forEach(s => s.classList.remove('selected'));
             element.classList.add('selected');
             
-            // Show appointment summary
             updateAppointmentSummary();
             document.getElementById('confirmButton').disabled = false;
         }
@@ -440,7 +450,6 @@
             const button = document.getElementById("confirmButton");
 
             if (selectedDate && selectedTime) {
-                // Mostrar loader
                 button.disabled = true;
                 const originalText = button.innerHTML;
                 button.innerHTML = `
@@ -457,25 +466,20 @@
                     currentProfessional.selectedDate = selectedDate.toISOString().split('T')[0];
                     currentProfessional.selectedTime = selectedTime;
 
-                    // Simular llamada a la API (2 segundos)
                     await new Promise(resolve => setTimeout(resolve, 2000));
                     await setAppointmentToApi(currentProfessional);
-                    // Simula éxito
                     closeModal();
                 } catch (error) {
                     console.error(error);
                     alert('Ocurrió un error al confirmar la cita.');
                 } finally {
-                    // Restaurar botón
                     button.innerHTML = originalText;
                     button.disabled = false;
                 }
             }
         }
 
-
         
-        // Close modal when clicking outside
         document.getElementById('appointmentModal').addEventListener('click', function(e) {
             if (e.target === this) {
                 closeModal();
@@ -502,7 +506,6 @@
             });
         }
         function openMessageModal(message) {
-            // document.getElementById('message').textContent = message;
             document.getElementById('appointmentMessage').classList.add('active');
             document.body.style.overflow = 'hidden';
         }
@@ -527,46 +530,48 @@
         const cardElement = elements.create('card');
         cardElement.mount('#card-element');
 
-        document.getElementById('payment-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            contentPayment.style.display = 'none';
-            containerLoader.style.display = 'block';
+document.getElementById('payment-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const paymentError = document.getElementById('payment-error');
+    paymentError.style.display = 'none';
+    
+    contentPayment.style.display = 'none';
+    containerLoader.style.display = 'block';
 
-            const response = await fetch('{{route('createPaymentIntent')}}', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                },
-                body: JSON.stringify({
-                    amount: parseInt(currentProfessional.hourly_rate), // $75.00
-                    profesionalId: currentProfessional.mentor_id,
-                    idSession : idSession,
-                })
-            });
+    const response = await fetch('{{route('createPaymentIntent')}}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+        },
+        body: JSON.stringify({
+            amount: parseInt(currentProfessional.hourly_rate),
+            profesionalId: currentProfessional.mentor_id,
+            idSession: idSession,
+        })
+    });
 
-            const data = await response.json();
+    const data = await response.json();
 
-            const result = await stripe.confirmCardPayment(data.clientSecret, {
-                payment_method: {
-                    card: cardElement
-                }
+    const result = await stripe.confirmCardPayment(data.clientSecret, {
+        payment_method: {
+            card: cardElement
+        }
+    });
 
-            });
-
-            if (result.error) {
-                containerLoader.style.display = 'none';
-                responseMessageDiv.style.display = 'block';
-                responseMessageText.textContent = 'Error en el pago: ' + result.error.message;
-                idSession = null;
-                console.log(result.error.message);
-            } else if (result.paymentIntent.status === 'succeeded') {
-                console.log('Pago exitoso 🎉');
-                idSession = null;
-                containerLoader.style.display = 'none';
-                responseMessageDiv.style.display = 'block';
-                responseMessageText.textContent = 'Pago realizado con éxito. ¡Gracias!';
-            }
-        });
+    if (result.error) {
+        // Volver a mostrar el formulario con el error inline
+        containerLoader.style.display = 'none';
+        contentPayment.style.display = 'block';
+        paymentError.textContent = 'Error en el pago: ' + result.error.message;
+        paymentError.style.display = 'block';
+    } else if (result.paymentIntent.status === 'succeeded') {
+        idSession = null;
+        containerLoader.style.display = 'none';
+        responseMessageDiv.style.display = 'block';
+        responseMessageText.textContent = 'Pago realizado con éxito. ¡Gracias!';
+    }
+});
     </script>
 @endsection

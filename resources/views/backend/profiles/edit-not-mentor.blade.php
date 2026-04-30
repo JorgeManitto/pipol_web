@@ -44,15 +44,15 @@
         background: white;
         border-radius: 1rem;
         box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        padding: 2rem;
-        margin-bottom: 1.5rem;
+        padding: 1.5rem;
+        margin-bottom: .5rem;
     }
     
     .section-title {
         font-size: 1.25rem;
         font-weight: 700;
         color: #1f2937;
-        margin-bottom: 1.5rem;
+        margin-bottom: .5rem;
         padding-bottom: 0.75rem;
         border-bottom: 2px solid #f3f4f6;
         display: flex;
@@ -61,7 +61,7 @@
     }
     
     .form-group {
-        margin-bottom: 1.25rem;
+        margin-bottom: .5rem;
     }
     
     .form-label {
@@ -69,7 +69,7 @@
         font-size: 0.875rem;
         font-weight: 600;
         color: #374151;
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.3rem;
     }
     
     .form-label.required::after {
@@ -79,7 +79,7 @@
     
     .form-input {
         width: 100%;
-        padding: 0.75rem 1rem;
+        padding: .5rem;
         border: 1px solid #d1d5db;
         border-radius: 0.5rem;
         font-size: 0.875rem;
@@ -217,7 +217,7 @@
     }
 </style>
 
-<main class="container px-6 py-12 max-w-6xl">
+<main class="container  max-w-6xl">
     <!-- Page Header -->
     <div class="mb-8">
         <h1 class="text-4xl font-bold text-white mb-2">Editar Perfil</h1>
@@ -240,7 +240,7 @@
     @endif
 
     <!-- Edit Form -->
-    <form method="POST" action="{{ route('profile.update') }}" enctype="multipart/form-data" class="bg-white rounded-2xl shadow-lg p-8 space-y-8">
+    <form method="POST" action="{{ route('profile.update') }}" enctype="multipart/form-data" class="bg-white rounded-2xl shadow-lg p-4 space-y-8">
         @csrf
 
         <!-- Profile Photo Section -->
@@ -276,65 +276,65 @@
         <div class="border-b border-stone-200 pb-8">
             <h2 class="text-xl font-semibold text-stone-800 mb-6">Información Básica</h2>
             <div class="grid md:grid-cols-2 gap-6">
-                <div>
-                    <label for="nombre" class="block text-sm font-medium text-stone-700 mb-2">
+                <div class="form-group">
+                    <label for="nombre" class="form-label required">
                         Nombre *
                     </label>
                     <input type="text" 
                            id="nombre" 
                            name="name" 
                            value="{{ old('name', $user->name) }}"
-                           class="w-full px-4 py-3 border border-stone-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent transition"
+                           class="form-input"
                            required>
                 </div>
 
 
                 
                 <div>
-                    <label for="email" class="block text-sm font-medium text-stone-700 mb-2">
+                    <label for="email" class="form-label required">
                         Email *
                     </label>
                     <input type="email" 
                            id="email" 
                            name="email" 
                            value="{{ old('email', $user->email) }}" 
-                           class="w-full px-4 py-3 border border-stone-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent transition"
+                           class="form-input"
                            required>
                 </div>
                 
                 <div>
-                    <label for="profession" class="block text-sm font-medium text-stone-700 mb-2">
+                    <label for="profession" class="form-label">
                         Profesión / Ocupación
                     </label>
                     <input type="text" 
                            id="profession" 
                            name="profession" 
                            value="{{ old('profession', $user->profession) }}"
-                           class="w-full px-4 py-3 border border-stone-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent transition"
+                           class="form-input"
                            placeholder="Ej: Estudiante de Marketing, Desarrollador Junior">
                 </div>
                 
                 <div>
-                    <label for="country" class="block text-sm font-medium text-stone-700 mb-2">
+                    <label for="country" class="form-label">
                         País *
                     </label>
                     <input type="text" 
                            id="country" 
                            name="country" 
                            value="{{ old('country', $user->country) }}"
-                           class="w-full px-4 py-3 border border-stone-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent transition"
+                           class="form-input"
                            required>
                 </div>
 
                 <div>
-                    <label for="city" class="block text-sm font-medium text-stone-700 mb-2">
+                    <label for="city" class="form-label">
                         Ciudad
                     </label>
                     <input type="text" 
                            id="city" 
                            name="city" 
                            value="{{ old('city', $user->city) }}"
-                           class="w-full px-4 py-3 border border-stone-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent transition"
+                           class="form-input"
                            placeholder="Ej: Buenos Aires, Madrid">
                 </div>
                 
@@ -357,7 +357,7 @@
             </div>
             
             <div>
-                <label for="bio" class="block text-sm font-medium text-stone-700 mb-2">
+                <label for="bio" class="form-label">
                     Descripción Personal
                 </label>
                 <textarea id="bio" 
@@ -376,6 +376,59 @@
                         </svg>
                         <span class="text-sm text-blue-800 font-medium">Mejorando tu presentación con IA...</span>
                     </div>
+                </div>
+            </div>
+        </div>
+        <!-- Subir CV -->
+        <div class="border-b border-stone-200 pb-8">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-xl font-semibold text-stone-800">Importar desde CV</h2>
+            </div>
+            <p class="text-sm text-stone-500 mb-4">Sube tu CV en PDF y la IA extraerá tu información automáticamente.</p>
+            <div class="flex items-center gap-4">
+                <label for="cvUpload" class="inline-flex items-center gap-2 px-5 py-3 bg-stone-800 hover:bg-stone-700 text-white font-semibold rounded-lg cursor-pointer transition">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                    </svg>
+                    Subir CV (PDF)
+                </label>
+                <input type="file" accept=".pdf,.doc,.docx" id="cvUpload" class="hidden">
+                <span id="cvFileName" class="text-sm text-stone-500"></span>
+            </div>
+            <!-- Indicador de procesamiento CV -->
+            <div id="cvProcessing" class="hidden mt-3 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                <div class="flex items-center gap-3">
+                    <svg class="animate-spin h-5 w-5 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    <span id="cvProcessingText" class="text-sm text-blue-800 font-medium">Extrayendo texto del CV...</span>
+                </div>
+            </div>
+        </div>
+        <div >
+            <h2 class="section-title">
+                <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
+                </svg>
+                Enlaces Profesionales
+            </h2>
+            
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="form-group">
+                    <label for="linkedin_url" class="form-label">LinkedIn</label>
+                    <input type="url" id="linkedin_url" name="linkedin_url" 
+                           value="{{ old('linkedin_url', $user->linkedin_url) }}" 
+                           class="form-input"
+                           placeholder="https://linkedin.com/in/tu-perfil">
+                </div>
+
+                <div class="form-group">
+                    <label for="website" class="form-label">Sitio Web / Portfolio</label>
+                    <input type="url" id="website" name="website" 
+                           value="{{ old('website', $user->website) }}" 
+                           class="form-input"
+                           placeholder="https://tu-sitio.com">
                 </div>
             </div>
         </div>
@@ -400,7 +453,51 @@
             </button>
         </div>
     </form>
+        <!-- SECCIÓN: ELIMINAR CUENTA -->
+    <div class="section-card mt-8" style="border: 1px solid #fca5a5;">
+        <h2 class="section-title" style="color: #dc2626; border-bottom-color: #fecaca;">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            Zona de Peligro
+        </h2>
+        <p class="text-sm text-gray-600 mb-4">
+            Una vez que elimines tu cuenta, todos tus datos, sesiones e información serán eliminados permanentemente. Esta acción no se puede deshacer.
+        </p>
+        <button type="button" onclick="document.getElementById('deleteModal').classList.remove('hidden')"
+                class="px-6 py-2 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg transition-all">
+            Eliminar mi cuenta
+        </button>
+    </div>
+
+    <!-- Modal de confirmación -->
+    <div id="deleteModal" class="hidden fixed inset-0 z-50  flex items-center justify-center bg-black bg-opacity-50">
+        <div class="bg-white rounded-xl p-8 max-w-md w-full mx-4 shadow-2xl">
+            <h3 class="text-xl font-bold text-gray-900 mb-2">¿Estás seguro?</h3>
+            <p class="text-sm text-gray-600 mb-6">Ingresa tu contraseña para confirmar la eliminación permanente de tu cuenta.</p>
+            
+            <form method="POST" action="{{ route('profile.destroy') }}">
+                @csrf
+                @method('DELETE')
+                <div class="form-group mb-4">
+                    <label for="delete_password" class="form-label required">Contraseña</label>
+                    <input type="password" id="delete_password" name="password" class="form-input" required>
+                </div>
+                <div class="flex gap-3">
+                    <button type="button" onclick="document.getElementById('deleteModal').classList.add('hidden')"
+                            class="btn-secondary flex-1">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="flex-1 px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg transition-all">
+                        Sí, eliminar cuenta
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
 </main>
+
+
 
 <!-- JavaScript Section -->
 <script type="module">
@@ -532,6 +629,28 @@ Devuelve ÚNICAMENTE el texto mejorado, sin títulos, sin comillas, sin explicac
         }
     }
 
+        window.ejecutarCv = async function(text) {
+        try {
+            const model = genAI.getGenerativeModel({ model: "gemini-flash-lite-latest" });
+
+            const prompt = 'Analiza el siguiente CV y devuelve EXCLUSIVAMENTE un JSON válido. No incluyas explicaciones, texto adicional ni markdown. No uses ```json. Si un dato no está presente, usa null. No inventes información. Las claves deben llamarse EXACTAMENTE así:{"nombre_completo": string|null,"birthDate": "YYYY-MM-DD"|null,"country": string|null,"city": string|null,"workingNow": "yes"|"no"|null,"currentPosition": string|null,"lastPosition": string|null,"yearsExperience": number|null,"companies": string|null,"sectors": string|null,"education": string|null,"languages": string|null,"skills": string|null,"bio": string|null,"seniority": "Jefe"|"Gerente"|"Director"|"CEO"| "Emprendedor" | "Director" | null}REGLAS IMPORTANTES:- workingNow = "yes" si tiene un puesto actual o dice "Presente".- currentPosition = el cargo actual si existe.- lastPosition = el cargo anterior inmediato.- yearsExperience = estimar según fechas laborales (solo número).- companies = lista separada por comas.- sectors = inferir sectores profesionales principales.- education = resumir en una sola frase.- languages = lista separada por comas.- skills = solo hard skills técnicas separadas por comas y que no pase de 200 letras.- bio = resumen profesional corto (máx 3 líneas).- seniority: Jefe, Gerente , Director, CEO, Emprendedor , Director.  CV:' + text;
+            const result = await model.generateContent(prompt);
+            const response = result.response.text();
+            // const response = '{"nombre_completo": "Jorge Oscar Manitto", "birthDate": null, "country": "Argentina", "city": "Pilar, Provincia de Buenos Aires", "workingNow": "yes", "currentPosition": "Desarrollador web", "lastPosition": "Desarrollador web", "yearsExperience": 5, "companies": "Workana, Upwork freelance, Pupila\u00ae", "sectors": "Desarrollo de software, Servicios freelance", "education": "Ingenier\u00eda en Electr\u00f3nica y Administraci\u00f3n/Administrador de redes en Universidad Nacional de Moreno (2018 - 2024)", "languages": null, "skills": "PHP, Laravel, JavaScript, Desarrollo web, Dise\u00f1o web, Dise\u00f1os adaptativos, Optimizaciones en buscadores", "bio": "Desarrollador web con m\u00e1s de 4 a\u00f1os de experiencia en PHP, Laravel y JavaScript. Especializado en crear soluciones escalables y optimizadas para mejorar la experiencia del usuario.", "seniority": "Senior"}';
+            console.log(response);
+            
+
+            // 🔁 Volver a Livewire con el CV procesado
+            Livewire.dispatch('cvProcesado', { cvData: response });
+
+        } catch (error) {
+            console.error(error);
+            alert('Error al procesar el CV: ' + error.message);
+            Livewire.dispatch('cvProcesado', { cvData: 'Hubo un error al procesar el CV.' });
+        }
+
+    }
+
     // Función auxiliar para mostrar notificaciones
     function mostrarNotificacion(tipo, mensaje) {
         const notification = document.createElement('div');
@@ -587,5 +706,114 @@ Devuelve ÚNICAMENTE el texto mejorado, sin títulos, sin comillas, sin explicac
             localStorage.removeItem(`profile_mentee_${input.name}`);
         });
     });
+
+    // --- Subir CV y procesar ---
+const cvInput = document.getElementById('cvUpload');
+const cvProcessing = document.getElementById('cvProcessing');
+const cvProcessingText = document.getElementById('cvProcessingText');
+const cvFileName = document.getElementById('cvFileName');
+
+cvInput.addEventListener('change', async function () {
+    const file = this.files[0];
+    if (!file) return;
+
+    cvFileName.textContent = file.name;
+    cvProcessing.classList.remove('hidden');
+    cvProcessingText.textContent = 'Extrayendo texto del CV...';
+
+    try {
+        // 1) Enviar el PDF al backend para extraer texto
+        const formData = new FormData();
+        formData.append('cvFile', file);
+
+        const response = await fetch("{{ route('cv.extract') }}", {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: formData
+        });
+
+        if (!response.ok) throw new Error('Error al subir el CV');
+
+        const data = await response.json();
+
+        // 2) Enviar el texto extraído a Gemini para analizar
+        cvProcessingText.textContent = 'Analizando CV con IA...';
+        await procesarCvYActualizar(data.text);
+
+        cvProcessing.classList.add('hidden');
+        mostrarNotificacion('success', '¡CV procesado! Revisá los campos actualizados.');
+
+    } catch (error) {
+        console.error('Error procesando CV:', error);
+        cvProcessing.classList.add('hidden');
+        mostrarNotificacion('error', 'Error al procesar el CV. Intentá de nuevo.');
+    }
+
+    // Resetear input para permitir subir el mismo archivo otra vez
+    this.value = '';
+});
+
+// Función que llama a Gemini y actualiza los campos del formulario
+async function procesarCvYActualizar(text) {
+    const model = genAI.getGenerativeModel({ model: "gemini-flash-lite-latest" });
+
+    const prompt = `Analiza el siguiente CV y devuelve EXCLUSIVAMENTE un JSON válido. No incluyas explicaciones, texto adicional ni markdown. No uses \`\`\`json. Si un dato no está presente, usa null. No inventes información. Las claves deben llamarse EXACTAMENTE así:{"nombre_completo": string|null,"country": string|null,"city": string|null,"currentPosition": string|null,"skills": string|null,"bio": string|null,"linkedin_url": string|null,"website": string|null}REGLAS:- skills = solo hard skills técnicas separadas por comas (máx 200 caracteres).- bio = resumen profesional corto (máx 3 líneas, primera persona, tono cercano).- linkedin_url y website: extraer si aparecen en el CV.CV: ${text}`;
+
+    const result = await model.generateContent(prompt);
+    const responseText = result.response.text().trim();
+
+    // Parsear JSON
+    let cvData;
+    try {
+        cvData = JSON.parse(responseText);
+    } catch (e) {
+        // Intentar limpiar si viene con backticks
+        const clean = responseText.replace(/```json|```/g, '').trim();
+        cvData = JSON.parse(clean);
+    }
+
+    // Actualizar campos del formulario (solo si tienen valor y el campo está vacío o el usuario confirma)
+    const campos = {
+        'nombre': cvData.nombre_completo,
+        'country': cvData.country,
+        'city': cvData.city,
+        'profession': cvData.currentPosition,
+        'skills': cvData.skills,
+        'bio': cvData.bio,
+        'linkedin_url': cvData.linkedin_url,
+        'website': cvData.website,
+    };
+
+    for (const [fieldId, valor] of Object.entries(campos)) {
+        if (!valor) continue;
+        const el = document.getElementById(fieldId);
+        if (!el) continue;
+
+        // Si el campo ya tiene contenido, solo sobrescribir bio (efecto escritura)
+        if (fieldId === 'bio') {
+            el.classList.add('typing');
+            el.value = '';
+            let i = 0;
+            await new Promise(resolve => {
+                const intervalo = setInterval(() => {
+                    if (i < valor.length) {
+                        el.value += valor.charAt(i);
+                        el.scrollTop = el.scrollHeight;
+                        i++;
+                    } else {
+                        clearInterval(intervalo);
+                        el.classList.remove('typing');
+                        resolve();
+                    }
+                }, 15);
+            });
+        } else if (!el.value.trim()) {
+            // Solo rellenar campos vacíos
+            el.value = valor;
+        }
+    }
+}
 </script>
 @endsection

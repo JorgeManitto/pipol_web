@@ -74,17 +74,17 @@ class CvRegistrarionChat extends Component
                 $this->dispatchScrollEvent();
                 break;
             case 3:
-                $this->validate(['selfie' => 'required|image|max:2048', 'documentPhoto' => 'required|image|max:2048'], 
+                $this->validate(['selfie' => 'required|image|max:2048'], 
                 [
                     'selfie.required' => 'Por favor, sube una selfie reciente.',
                     'selfie.image' => 'El archivo debe ser una imagen válida.',
                     'selfie.max' => 'La imagen no debe superar los 2MB.',
-                    'documentPhoto.required' => 'Por favor, sube una foto de tu documento de identidad.',
-                    'documentPhoto.image' => 'El archivo debe ser una imagen válida.',
-                    'documentPhoto.max' => 'La imagen no debe superar los 2MB.',
+                    // 'documentPhoto.required' => 'Por favor, sube una foto de tu documento de identidad.',
+                    // 'documentPhoto.image' => 'El archivo debe ser una imagen válida.',
+                    // 'documentPhoto.max' => 'La imagen no debe superar los 2MB.',
                 ]);
                   
-                $this->addBotMessage('Selfie y foto de documento recibidos correctamente. ¡Gracias por completar tu registro!');
+                $this->addBotMessage('Selfie recibida correctamente. ¡Gracias por completar tu registro!');
                 $this->addBotMessage('Tu perfil está casi listo. Nos pondremos en contacto contigo pronto.');
                  // Aquí podrías guardar las imágenes o procesarlas según sea necesario
                 $this->step++;
@@ -164,10 +164,10 @@ class CvRegistrarionChat extends Component
             $selfiePath = $this->selfie->store('selfies', 'private');
             $user->selfie = $selfiePath;
         }
-        if($this->documentPhoto){
-            $documentPath = $this->documentPhoto->store('documents', 'private');
-            $user->documentPhoto = $documentPath;
-        }
+        // if($this->documentPhoto){
+        //     $documentPath = $this->documentPhoto->store('documents', 'private');
+        //     $user->documentPhoto = $documentPath;
+        // }
 
         $user->save();
     }

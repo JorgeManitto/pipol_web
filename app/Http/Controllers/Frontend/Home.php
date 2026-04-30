@@ -7,12 +7,15 @@ use Illuminate\Http\Request;
 
 class Home extends Controller
 {
-    public function index()
+    public function mentorias()
     {
-        return view('frontend.index');
+        return view('frontend.mentorias');
     }
     function mentors() {
         return view('frontend.mentors');
+    }
+    function fraccional() {
+        return view('frontend.fraccional-landing');
     }
     function logOut() {
         auth()->logout();
@@ -36,5 +39,11 @@ class Home extends Controller
 
     function politica() {
         return view('frontend.legal.politica-y-privacidad');
+    }
+    function proximamente() {
+        return view('frontend.proximamente');
+    }
+    function principal(){
+        return view('frontend.principal');
     }
 }

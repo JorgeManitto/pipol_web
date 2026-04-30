@@ -27,7 +27,9 @@
                  alt="{{ $name }}"
                  class="w-16 h-16 rounded-full object-cover">
             <div>
-                <h3 class="font-semibold text-lg text-[#1a0a3e] mb-1">{{ $name }}</h3>
+                <a href="{{ route('profile.show', $user->is_mentor ? $session->mentee->id : $session->mentor->id) }}">
+                    <h3 class="font-semibold text-lg text-[#1a0a3e] mb-1">{{ $name }}</h3>
+                </a>
                 <p class="text-sm text-gray-600 mb-2">{{ $profession }}</p>
 
                 <span class="status-badge status-{{ $session->transaction ? 'confirmed' : 'pending' }}">

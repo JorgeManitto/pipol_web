@@ -25,10 +25,11 @@ class MentorSearchController extends Controller
         //     ->values();
 
         $query = User::query()
-            ->where('is_mentor', true)
-            ->where('active', true)
-            ->with('skills')
-            ->withCount('sessionsAsMentor');
+        ->where('is_mentor', true)
+        ->where('active', true)
+        ->when(auth()->check(), fn ($q) => $q->where('id', '!=', auth()->id()))
+        ->with('skills')
+        ->withCount('sessionsAsMentor');
 
         if ($request->filled('params')) {
             $params = $request->input('params'); // array
@@ -101,10 +102,16 @@ class MentorSearchController extends Controller
 
 
         // 📄 Paginación
-        $mentors = $query->with(['availabilities' => function($query) {
-            $query->where('active', 1);
-        }])->paginate(12)->withQueryString();
-        // dd($mentors->first()->availabilities);
+        $mentors = $query->with([
+            'availabilities' => function($query) {
+                $query->where('active', 1);
+            },
+            'sessionsAsMentor' => function($query) {
+                $query->where('status', 'confirmed')
+                    ->where('scheduled_at', '>=', now())
+                    ->select('id', 'mentor_id', 'scheduled_at', 'duration_minutes');
+            }
+        ])->paginate(12)->withQueryString();
         // Todas las skills para el filtro lateral
         $skills = Skills::orderBy('name')->get();
 
@@ -140,5 +147,15 @@ class MentorSearchController extends Controller
             throw $th;
         }
         
+    }
+    public function countViewProfile(Request $request) {
+        $mentorId = $request->input('mentor_id');
+        $mentor = User::find($mentorId);
+        if ($mentor) {
+            $mentor->increment('view_count');
+            return response()->json(['message' => 'Vista de perfil contada.'], 200);
+        } else {
+            return response()->json(['message' => 'Mentor no encontrado.'], 404);
+        }
     }
 }

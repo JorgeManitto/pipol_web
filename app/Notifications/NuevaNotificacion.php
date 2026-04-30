@@ -14,6 +14,7 @@ class NuevaNotificacion extends Notification
 
     public $mensaje;
     public $url;
+
     /**
      * Create a new notification instance.
      */
@@ -30,7 +31,7 @@ class NuevaNotificacion extends Notification
      */
     public function via(object $notifiable): array
     {
-        return ['mail', 'database', 'broadcast']; // canales
+        return ['mail', 'database', 'broadcast'];
     }
 
     /**
@@ -39,9 +40,11 @@ class NuevaNotificacion extends Notification
     public function toMail(object $notifiable)
     {
         return (new MailMessage)
-            ->subject('Nueva notificación')
-            ->line($this->mensaje)
-            ->action('Ver más', $this->url);
+            ->subject('Nueva notificación — Pipol')
+            ->view('emails.nueva-notificacion', [
+                'mensaje' => $this->mensaje,
+                'url'     => $this->url,
+            ]);
     }
 
     /**

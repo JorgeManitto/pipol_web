@@ -1,5 +1,5 @@
 <div class="max-w-2xl mx-4 md:mx-auto p-6 bg-gray-50 rounded-xl shadow-lg border my-12 border-gray-200" style="min-height: 100%;display: flex;flex-direction: column;justify-content: space-between;">
-    
+    @include('livewire.components.camera')
     <div>
         <!-- Header -->
         <div class="text-center border-b border-gray-200 pb-3 mb-3">
@@ -90,66 +90,37 @@
             @error('selectedPrice') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
         @elseif ($step == 3)
 
-            <!-- INPUTS OCULTOS -->
-            <input
-                id="selfieInput"
-                wire:model="selfie"
-                type="file"
-                accept="image/*"
-                class="hidden"
-            >
+            <div>
+                <input id="selfieInput" wire:model="selfie" type="file" accept="image/*" class="hidden">
+                <input id="documentInput" wire:model="documentPhoto" type="file" accept="image/*" class="hidden">
 
-            <input
-                id="documentInput"
-                wire:model="documentPhoto"
-                type="file"
-                accept="image/*"
-                class="hidden"
-            >
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- SELFIE -->
+                    <div onclick="CameraModal.open('selfie')"
+                        class="cursor-pointer border-2 border-dashed rounded-xl p-6 text-center hover:border-blue-500 hover:bg-blue-50 transition">
+                        <div class="text-4xl mb-2">📸</div>
+                        <p class="font-semibold">Tomar selfie</p>
+                        <p class="text-sm text-gray-500">Se abrirá tu cámara</p>
+                        @if ($selfie)
+                            <p class="mt-2 text-green-600 text-sm">✔ Foto capturada</p>
+                        @endif
+                    </div>
 
-            <!-- TARJETAS -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-
-                <!-- TARJETA SELFIE -->
-                <div
-                    onclick="document.getElementById('selfieInput').click()"
-                    class="cursor-pointer border-2 border-dashed rounded-xl p-6 text-center
-                        hover:border-blue-500 hover:bg-blue-50 transition"
-                >
-                    <div class="text-4xl mb-2">🤳</div>
-                    <p class="font-semibold">Subir selfie</p>
-                    <p class="text-sm text-gray-500">Foto de tu rostro</p>
-
-                    @if ($selfie)
-                        <p class="mt-2 text-green-600 text-sm">✔ Archivo seleccionado</p>
-                    @endif
+                    <!-- DOCUMENTO -->
+                    <div onclick="CameraModal.open('document')"
+                        class="cursor-pointer border-2 border-dashed rounded-xl p-6 text-center hover:border-blue-500 hover:bg-blue-50 transition hidden">
+                        <div class="text-4xl mb-2">🪪</div>
+                        <p class="font-semibold">Fotografiar documento</p>
+                        <p class="text-sm text-gray-500">DNI / Pasaporte</p>
+                        @if ($documentPhoto)
+                            <p class="mt-2 text-green-600 text-sm">✔ Foto capturada</p>
+                        @endif
+                    </div>
                 </div>
 
-                <!-- TARJETA DOCUMENTO -->
-                <div
-                    onclick="document.getElementById('documentInput').click()"
-                    class="cursor-pointer border-2 border-dashed rounded-xl p-6 text-center
-                        hover:border-blue-500 hover:bg-blue-50 transition"
-                >
-                    <div class="text-4xl mb-2">🪪</div>
-                    <p class="font-semibold">Subir documento</p>
-                    <p class="text-sm text-gray-500">DNI / Pasaporte</p>
-
-                    @if ($documentPhoto)
-                        <p class="mt-2 text-green-600 text-sm">✔ Archivo seleccionado</p>
-                    @endif
-                </div>
-
+                @error('selfie') <span class="text-red-500 text-sm block mt-2">{{ $message }}</span> @enderror
+                @error('documentPhoto') <span class="text-red-500 text-sm block mt-1">{{ $message }}</span> @enderror
             </div>
-
-            <!-- ERRORES -->
-            @error('selfie')
-                <span class="text-red-500 text-sm block mt-2">{{ $message }}</span>
-            @enderror
-
-            @error('documentPhoto')
-                <span class="text-red-500 text-sm block mt-1">{{ $message }}</span>
-            @enderror
 
         @endif
 

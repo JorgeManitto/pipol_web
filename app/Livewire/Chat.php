@@ -8,12 +8,9 @@ use Livewire\Component;
 
 class Chat extends Component
 {
-    public $conversations;
-    public $activeConversation;
-    public $messages = [];
+    public $activeConversationId = null;
     public $message = '';
     public $chatMessages = [];
-
 
     protected $rules = [
         'message' => 'required|string|max:2000',
@@ -21,61 +18,75 @@ class Chat extends Component
 
     public function mount()
     {
-        $this->loadConversations();
-    }
-
-    public function loadConversations()
-    {
-        $this->conversations = Conversation::where('participant_1_id', auth()->id())
-            ->orWhere('participant_2_id', auth()->id())
-            ->orderByDesc('last_message_at')
-            ->get();
         $conversation = request()->query('conversation');
         if ($conversation) {
-            $this->selectConversation($conversation);   
+            $this->selectConversation($conversation);
+        }
+    }
+
+    // Computed-style: se carga fresco en cada render
+    public function getConversationsProperty()
+    {
+        return Conversation::where('participant_1_id', auth()->id())
+            ->orWhere('participant_2_id', auth()->id())
+            ->with(['messages' => fn($q) => $q->latest()->limit(1)])
+            ->orderByDesc('last_message_at')
+            ->get();
+    }
+
+    public function getActiveConversationProperty()
+    {
+        if (!$this->activeConversationId) {
+            return null;
         }
 
+        return Conversation::find($this->activeConversationId);
     }
 
     public function selectConversation($conversationId)
     {
-        $this->activeConversation = Conversation::findOrFail($conversationId);
+        $this->activeConversationId = $conversationId;
+        // dd($this->activeConversation);
         $this->loadMessages();
     }
 
     public function loadMessages()
     {
-        $this->chatMessages = $this->activeConversation
-            ->messages()
+        if (!$this->activeConversationId) {
+            $this->chatMessages = [];
+            return;
+        }
+
+        $this->chatMessages = Message::where('conversation_id', $this->activeConversationId)
             ->with('sender')
             ->orderBy('created_at')
-            ->get();
+            ->get()
+            ->toArray();
     }
-
-
 
     public function sendMessage()
     {
         $this->validate();
 
         Message::create([
-            'conversation_id' => $this->activeConversation->id,
-            'sender_id' => auth()->id(),
-            'content' => $this->message,
+            'conversation_id' => $this->activeConversationId,
+            'sender_id'       => auth()->id(),
+            'content'         => $this->message,
         ]);
 
-        $this->activeConversation->update([
-            'last_message_at' => now(),
-        ]);
+        Conversation::where('id', $this->activeConversationId)
+            ->update(['last_message_at' => now()]);
 
         $this->message = '';
         $this->loadMessages();
-        $this->loadConversations();
     }
 
     public function render()
     {
-        return view('livewire.chat');
+        return view('livewire.chat', [
+            'conversations'      => $this->conversations,
+            'activeConversation' => $this->activeConversation,
+        ]);
     }
 
     public function getOrCreateConversation($userId)
@@ -95,8 +106,6 @@ class Chat extends Component
     public function createNewConversation($userId)
     {
         $conversation = $this->getOrCreateConversation($userId);
-        // $this->selectConversation($conversation->id);
-        return redirect()->route('admin.chat.index', ['conversation'=>$conversation->id]);
+        return redirect()->route('admin.chat.index', ['conversation' => $conversation->id]);
     }
-
 }

@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-         Schema::table('pipol_sessions', function (Blueprint $table) {
-            $table->boolean('reschedule_pending')->default(false);
-            $table->timestamp('original_scheduled_at')->nullable();
+        Schema::table('users', function (Blueprint $table) {
+            $table->unsignedSmallInteger('weekly_hours_available')->nullable();
+            $table->string('timezone')->default('America/Argentina/Buenos_Aires');
         });
     }
 
@@ -22,8 +22,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('pipol_sessions', function (Blueprint $table) {
-            $table->dropColumn(['reschedule_pending', 'original_scheduled_at']);
+        Schema::table('users', function (Blueprint $table) {
+            //
         });
     }
 };

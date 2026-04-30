@@ -29,48 +29,42 @@
         'agenda.index' => 'Mi agenda',
     ];
 @endphp
-{{-- <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 mb-4" role="alert">
-    <p>
-        <span class="font-bold">Tablero de Trabajo: </span>
-        <a href="https://trello.com/invite/b/690126406413b1a7d3443202/ATTIa888944a607f8132bfef4a7529948afc25967C07/pipol" 
-           class="underline hover:text-blue-800"
-           target="_blank"
-           rel="noopener noreferrer">
-            Ingresa al tablero de Trello
-        </a>
-    </p>
-</div> --}}
-<nav class="text-sm text-white mb-6 flex justify-between w-full items-center">
-    <div class="hidden md:block">
-        @auth
-        <a href="#" class="hover:text-[#1a0a3e]">Dashboard</a>
-        <span class="mx-2">></span>
-        <span class="text-white font-medium">{{ $routeLabels[$routeName] ?? $routeName }}</span>
-        @else
-        <a href="{{ route('home') }}" class="flex items-center px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full text-sm text-gray-300">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M15 18l-6-6 6-6" />
-            </svg>
-            Volver al sitio principal
-        </a>
-        @endauth
-        
-    </div>
-    @if ( $routeName !== 'mentors.index' )
-        <div class="hidden md:flex gap-2">
-            <a href="{{ route('mentors.index') }}" class="btn-primary text-white px-4 py-2 rounded-xl text-md font-semibold inline-flex items-center justify-center gap-2 w-full sm:w-auto">Ir a mentores</a>
-        </div>
-    @endif
+
+<nav class="text-sm text-white mb-6 hidden md:flex justify-between w-full items-center">
     
+    <div class="hidden md:block">
+        @if ($routeName == 'mentors.index')
+            <a href="{{ route('home') }}">
+                <img src="{{ asset('/images/logo-v3-recorte.png') }}" alt="logo" style=" object-fit: contain;height: 72px;">
+            </a>
+        @endif
+    </div>
+   
     <div class="flex gap-4 items-center justify-end w-full md:w-auto">
+        @if ( $routeName !== 'mentors.index' )
+            <div class="hidden md:flex gap-2" style="min-width: 125px;">
+                <a href="{{ route('mentors.index') }}" class="flex items-center gap-2 py-2 px-4 text-center font-normal text-sm rounded-lg transition-colors cursor-pointer active-tab">
+                    Ir a mentores
+                </a>
+            </div>
+        @endif
+        <!-- Selector de divisa -->
+        <div class="relative">
+            <select id="currencySelector"
+                class="bg-[#261848] text-white text-sm rounded-lg border border-purple-500 px-3 py-2 cursor-pointer focus:outline-none focus:ring-2 focus:ring-purple-400">
+                <option value="USD" {{ request()->cookie('currency', 'USD') == 'USD' ? 'selected' : '' }}>USD</option>
+                <option value="ARS" {{ request()->cookie('currency', 'USD') == 'ARS' ? 'selected' : '' }}>ARS</option>
+                <option value="EUR" {{ request()->cookie('currency', 'USD') == 'EUR' ? 'selected' : '' }}>EUR</option>
+            </select>
+        </div>
         <div class="relative">
             <!-- Botón de notificaciones -->
-            <button id="notifBtn" class="relative flex items-center gap-2 bg-white border rounded-full px-4 py-2 shadow-sm hover:bg-gray-100">
-                <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <button id="notifBtn" class="relative flex items-center gap-2  px-4 py-2 cursor-pointer" >
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
                 </svg>
-                <span class="text-sm font-medium text-gray-700">Notificaciones</span>
-                <span id="notifCount" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full px-1.5">1</span>
+                {{-- <span class="text-sm font-medium text-gray-700">Notificaciones</span> --}}
+                <span id="notifCount" class="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full px-1.5">1</span>
             </button>
     
             <!-- Dropdown de notificaciones -->
@@ -86,28 +80,31 @@
                 
     
         </div>
-        {{-- <div class="hidden md:flex items-center cursor-pointer w-full gap-2" data-dropdown-toggle="mentorDropdown" data-dropdown-placement="bottom-start" style="padding: 0.2em 0.5em;background: #261848;border-radius: 23px;">
-            <img src="{{ auth()->user()->avatar ? asset('storage/avatars/'.auth()->user()->avatar) : asset('images/default-avatar.png') }}" alt="Emí" class="w-10 h-10 rounded-full border-2 border-purple-500 object-cover">
-            <span class="text-white font-medium"> {{ auth()->user()->name }}</span>
-        </div> --}}
+
         <!-- Botón del dropdown -->
         <div class="hidden md:flex items-center cursor-pointer w-full gap-2" 
             id="mentorDropdownButton" 
             data-dropdown-toggle="mentorDropdown" 
             data-dropdown-placement="bottom-start" 
-            style="padding: 0.2em 0.5em;background: #261848;border-radius: 23px;">
+            style="padding: 0.2em 0.5em;border-radius: 23px;">
+            <div class="flex flex-col gap-0 text-end" >
+                <div class="text-white font-medium" style="line-height: 1;">{{ auth()->check() ? auth()->user()->name : 'Invitado' }}</div>
+                <div class="text-end">
+                    <span class="text-xs text-gray-400">{{ auth()->check() ? ucfirst(auth()->user()->role) : 'Usuario' }}</span>
+                </div>
+            </div>
             @auth
-            <img src="{{ auth()->user()->avatar ? asset('storage/avatars/'.auth()->user()->avatar) : asset('images/default-avatar.png') }}" 
-                alt="Emí" 
-                class="w-10 h-10 rounded-full border-2 border-purple-500 object-cover">
+                    <img src="{{ auth()->user()->avatar ? asset('storage/avatars/'.auth()->user()->avatar) : asset('images/default-avatar.png') }}" 
+                    alt="{{ auth()->user()->name }}" 
+                    class="w-10 h-10 rounded-full   object-cover">
                 @else
 
-                <img src="{{ asset('images/default-avatar.png') }}" 
-                alt="Emí" 
-                class="w-10 h-10 rounded-full border-2 border-purple-500 object-cover">
+                    <img src="{{ asset('images/default-avatar.png') }}" 
+                    alt="Invitado" 
+                    class="w-10 h-10 rounded-full object-cover">
 
             @endauth
-            <span class="text-white font-medium">{{ auth()->check() ? auth()->user()->name : 'Invitado' }}</span>
+            
             <svg class="w-4 h-4 ml-auto text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
             </svg>
@@ -247,6 +244,18 @@
             `;
             notifList.appendChild(item);
         });
+        // Después de renderizar en desktop, actualizar también mobile
+        if (notifCountMobile) {
+        notifCountMobile.textContent = data.length;
+        data.length === 0
+            ? notifCountMobile.classList.add("hidden")
+            : notifCountMobile.classList.remove("hidden");
+        }
+
+        // Clonar las notificaciones al listado mobile
+        if (notifListMobile) {
+        notifListMobile.innerHTML = notifList.innerHTML;
+        }
     }
 
     // Inicial
@@ -267,4 +276,164 @@
 </script>
 
     </div>
+
+    <script>
+    // --- Cookies ---
+    function setCookie(name, value, days = 365) {
+        const d = new Date();
+        d.setTime(d.getTime() + days * 86400000);
+        document.cookie = `${name}=${value};expires=${d.toUTCString()};path=/;SameSite=Lax`;
+    }
+
+    function getCookie(name) {
+        const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+        return match ? match[2] : null;
+    }
+
+    // --- Cache de tasas ---
+    const rateCache = {};
+
+    async function getExchangeRate(from, to) {
+        if (from === to) return 1;
+
+        const key = `${from}_${to}`;
+        if (rateCache[key]) return rateCache[key];
+
+        try {
+            const res = await fetch(`https://open.er-api.com/v6/latest/${from}`);
+            const data = await res.json();
+
+            if (data.result === 'success' && data.rates[to]) {
+                // Cachear todas las tasas de esa moneda base
+                Object.entries(data.rates).forEach(([currency, rate]) => {
+                    rateCache[`${from}_${currency}`] = rate;
+                });
+                return data.rates[to];
+            }
+        } catch (e) {
+            console.error('Error obteniendo tasa de cambio:', e);
+        }
+        return null;
+    }
+
+    // --- Actualizar TODOS los precios en la página ---
+    async function updateAllPrices(newCurrency) {
+        const elements = document.querySelectorAll('.hourly-rate');
+        const hourlyRates = document.getElementById('hourly-rate');
+
+        const totalHourlyRate = document.getElementById('total-hourly-rate');
+        const monthHourlyRate = document.getElementById('month-hourly-rate');
+
+        
+        for (const el of elements) {
+            const originalAmount = parseFloat(el.dataset.originalAmount);
+            const originalCurrency = el.dataset.originalCurrency || 'USD';
+
+            if (!originalAmount) continue;
+
+            if (newCurrency === originalCurrency) {
+                el.textContent = `${originalCurrency} ${originalAmount.toLocaleString('es-AR', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                })}/h`;
+                continue;
+            }
+
+            const rate = await getExchangeRate(originalCurrency, newCurrency);
+            if (rate !== null) {
+                const converted = originalAmount * rate;
+                el.textContent = `${newCurrency} ${converted.toLocaleString('es-AR', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                })}/h`;
+            }
+        }
+        if (hourlyRates) {
+            const originalAmount = parseFloat(hourlyRates.dataset.originalAmount);
+            const originalCurrency = hourlyRates.dataset.originalCurrency || 'USD';
+
+            if (newCurrency === originalCurrency) {
+                hourlyRates.textContent = `${originalCurrency} ${originalAmount.toLocaleString('es-AR', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                })}`;
+                // return;
+            }
+
+            const rate = await getExchangeRate(originalCurrency, newCurrency);
+            
+            if (rate !== null) {
+                const converted = originalAmount * rate;
+                hourlyRates.textContent = `${newCurrency} ${converted.toLocaleString('es-AR', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                })}`;
+            }
+        }
+
+        if (totalHourlyRate) {
+            const originalAmount = parseFloat(totalHourlyRate.dataset.originalAmount);
+            const originalCurrency = totalHourlyRate.dataset.originalCurrency || 'USD';
+
+            if (newCurrency === originalCurrency) {
+                totalHourlyRate.textContent = `${originalCurrency} ${originalAmount.toLocaleString('es-AR', {
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 0
+                })}`;
+                // return;
+            }
+
+            const rate = await getExchangeRate(originalCurrency, newCurrency);
+            
+            if (rate !== null) {
+                const converted = originalAmount * rate;
+                totalHourlyRate.textContent = `${newCurrency} ${converted.toLocaleString('es-AR', {
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 0
+                })}`;
+            }
+            
+        }
+        if (monthHourlyRate) {
+            const originalAmount = parseFloat(monthHourlyRate.dataset.originalAmount);
+            const originalCurrency = monthHourlyRate.dataset.originalCurrency || 'USD';
+
+            if (newCurrency === originalCurrency) {
+                monthHourlyRate.textContent = `${originalCurrency} ${originalAmount.toLocaleString('es-AR', {
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 0
+                })}`;
+                // return;
+            }
+
+            const rate = await getExchangeRate(originalCurrency, newCurrency);
+            
+            if (rate !== null) {
+                const converted = originalAmount * rate;
+                monthHourlyRate.textContent = `${newCurrency} ${converted.toLocaleString('es-AR', {
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 0
+                })}`;
+            }
+        }
+
+    }
+
+    // --- Listener del selector ---
+    document.getElementById('currencySelector')?.addEventListener('change', async function () {
+        const selected = this.value;
+        setCookie('currency', selected);
+        await updateAllPrices(selected);
+    });
+
+    // --- Inicializar al cargar ---
+    document.addEventListener('DOMContentLoaded', () => {
+        const saved = getCookie('currency');
+        if (saved && saved !== 'USD') {
+            const selector = document.getElementById('currencySelector');
+            if (selector) selector.value = saved;
+            updateAllPrices(saved);
+        }
+    });
+</script>
 </nav>

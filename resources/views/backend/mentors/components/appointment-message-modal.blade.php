@@ -14,6 +14,7 @@
                         <div class="mb-6">
                             <div id="card-element"></div>
                         </div>
+                        <div id="payment-error" style="display: none;" class="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm"></div>
                         
                         <button id="submit" class="px-6 py-3 bg-[#1a0a3e] text-white rounded-lg hover:bg-[#1a0a3ee8] transition-colors font-medium w-full">Pagar</button>
                     </form>

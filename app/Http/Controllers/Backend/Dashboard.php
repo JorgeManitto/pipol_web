@@ -23,7 +23,7 @@ class Dashboard extends Controller
         // $testReviews = Reviews::all();
         $totalReviews = auth()->user()->reviewsReceived()->count();
         $ratingReviews = (auth()->user()->reviewsReceived()->avg('rating')) ? round(auth()->user()->reviewsReceived()->avg('rating'), 2) : 0;
-        
+        $reviewsforRating = auth()->user()->reviewsReceived()->distinct('rating')->get();
         // $totalSessionLast30Days = auth()->user()->sessionsAsMentor()
         //     ->where('status', 'completed')
         //     ->where('completed_at', '>=', now()->subDays(30))
@@ -66,13 +66,15 @@ class Dashboard extends Controller
         $data = [];
 
         for ($i = 29; $i >= 0; $i--) {
-            $date = now()->subDays($i)->format('Y-m-d');
-            $labels[] = now()->subDays($i)->format('d M');
+            $date = now()->subDays($i )->format('Y-m-d');
+            $labels[] = now()->subDays($i )->format('d M');
             $data[] = $sessionsPerDay[$date]->total ?? 0;
         }
         $user = auth()->user();
 
-        // dd($sessionsAsMentor);
+        $totalEarningsAllUsers = \App\Models\Transaction::where('status', 'paid')->sum('amount');
+
+        // dd(auth()->user()->role );
         return view('backend.dashboard.index', compact(
             'sessionsAsMentor',
             'sessionsAsMentee',
@@ -87,7 +89,9 @@ class Dashboard extends Controller
             'sessionsThisMonth',
             'labels',
             'data',
-            'user'
+            'user',
+            'reviewsforRating',
+            'totalEarningsAllUsers'
         ));
     }
 
